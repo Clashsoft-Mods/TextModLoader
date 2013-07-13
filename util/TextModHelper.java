@@ -1,10 +1,11 @@
-package com.chaosdev.textmodloader;
+package com.chaosdev.textmodloader.util;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.chaosdev.textmodloader.TextMod;
 import com.chaosdev.textmodloader.methods.IMethodExecuter;
 
 public class TextModHelper

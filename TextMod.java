@@ -10,9 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import net.minecraft.item.ItemStack;
 import clashsoft.clashsoftapi.util.CSArray;
 
 import com.chaosdev.textmodloader.methods.IMethodExecuter;
+import com.chaosdev.textmodloader.util.Method;
+import com.chaosdev.textmodloader.util.Parser;
+import com.chaosdev.textmodloader.util.TextModHelper;
+import com.chaosdev.textmodloader.util.Variable;
 
 public class TextMod
 {	
@@ -30,6 +35,9 @@ public class TextMod
 	public static final String METHOD_PARAMETERS_END_CHAR = ")";
 	public static final String METHOD_INVOCATION_START_CHAR = ">";
 	public static final String METHOD_INVOCATION_END_CHAR = "<";
+	
+	public static final String NEW_INSTANCE_START_CHAR = "(";
+	public static final String NEW_INSTANCE_END_CHAR = ")";
 	
 	public static final String VARIABLE_INITIALIZATION_CHAR = "+";
 	public static final String VARIABLE_USAGE_CHAR = "%";
@@ -114,19 +122,22 @@ public class TextMod
 		for (int m = 0; m < aparameters.length; m++)
 		{
 			aparameters[m] = aparameters[m].trim();
-			if (aparameters[m].startsWith(VARIABLE_USAGE_CHAR)) //Indicates a variable	
+		}
+		Object[] aparameters2 = Parser.parse(aparameters);
+		for (int m = 0; m < aparameters2.length; m++)
+		{
+			if (((String)aparameters2[m]).startsWith(VARIABLE_USAGE_CHAR)) //Indicates a variable	
 			{
 				//Replace variables with their values
 				String variableName = aparameters[m].substring(1);
-				aparameters[m] = variables.get(variableName);
+				aparameters2[m] = Parser.parse(variables.get(variableName));
 			}
-			if (aparameters[m].startsWith(METHOD_INVOCATION_START_CHAR) && aparameters[m].endsWith(METHOD_INVOCATION_END_CHAR)) //Indicates a method
+			if (((String)aparameters2[m]).startsWith(METHOD_INVOCATION_START_CHAR) && aparameters[m].endsWith(METHOD_INVOCATION_END_CHAR)) //Indicates a method
 			{
 				Method method = getMethod(aparameters[m].substring(1));
-				aparameters[m] = Parser.store(executeMethod(method));
+				aparameters2[m] = executeMethod(method);
 			}
 		}
-		Object[] aparameters2 = Parser.parse(aparameters);
 		return new Method(methodName, aparameters2);
 	}
 	

@@ -1,7 +1,7 @@
 package com.chaosdev.textmodloader.methods;
 
 import com.chaosdev.textmodloader.TextMod;
-import com.chaosdev.textmodloader.TextModHelper;
+import com.chaosdev.textmodloader.util.TextModHelper;
 
 public class MethodHelp implements IMethodExecuter
 {

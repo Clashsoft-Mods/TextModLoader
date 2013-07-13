@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader;
+package com.chaosdev.textmodloader.util;
 
 public class Method
 {

@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.chaosdev.textmodloader.methods.*;
+import com.chaosdev.textmodloader.util.TextModHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.Configuration;

@@ -1,8 +1,12 @@
-package com.chaosdev.textmodloader;
+package com.chaosdev.textmodloader.util;
 
 import java.util.regex.Pattern;
 
+import net.minecraft.item.ItemStack;
+
 import org.objectweb.asm.Type;
+
+import com.chaosdev.textmodloader.TextMod;
 
 public class Parser
 {
@@ -15,7 +19,7 @@ public class Parser
 		}
 		return obj;
 	}
-	
+
 	public static Object parse(String par1)
 	{
 		par1.trim();
@@ -42,10 +46,13 @@ public class Parser
 
 		else if (par1.contains(TextMod.ARRAY_START_CHAR) && par1.endsWith(TextMod.ARRAY_END_CHAR)) //Arrays
 			return parseArray(par1);
+		
+		else if (par1.startsWith("new "))
+			return parseInstance(par1);
 
-		return null;
+		return par1; //Everything else is parsed by the textmod.
 	}
-	
+
 	public static String store(Object par1)
 	{
 		if (par1 instanceof String)
@@ -64,7 +71,7 @@ public class Parser
 			return storeArray(par1);
 		return "";
 	}
-	
+
 	/**
 	 * This will return an array of the specified type instead of an Object[] that needs to be converted.
 	 * @param par1
@@ -79,7 +86,7 @@ public class Parser
 		String[] aparameters = TextModHelper.createParameterList(parameters, TextMod.ARRAY_SPLIT_CHAR.charAt(0));
 		return arrayWithType(type, aparameters);
 	}
-	
+
 	public static String storeArray(Object par1)
 	{
 		String type = "";
@@ -103,7 +110,7 @@ public class Parser
 		}
 		return ret;
 	}
-	
+
 	public static Object arrayWithType(String type, String[] values)
 	{
 		String type1 = type.trim().toLowerCase();
@@ -162,7 +169,16 @@ public class Parser
 			}
 			o = array;
 		}
-		if (type1.endsWith("[]")) //TODO 2-dimensional arrays
+		if (type1.equals("") || type1.equals("object"))
+		{
+			Object[] array = new Object[values.length];
+			for (int i = 0; i < values.length; i++)
+			{
+				array[i] = parse(values[i]);
+			}
+			o = array;
+		}
+		if (type1.endsWith("[]"))
 		{
 			Object[] array = new Object[values.length];
 			for (int i = 0; i < values.length; i++)
@@ -172,5 +188,37 @@ public class Parser
 			o = array;
 		}
 		return o;
+	}
+	
+	public static Object parseInstance(String par1)
+	{
+		String nonew = par1.trim().replaceFirst("new ", "");
+		int brace1Pos = nonew.indexOf(TextMod.NEW_INSTANCE_START_CHAR);
+		int brace2Pos = nonew.indexOf(TextMod.NEW_INSTANCE_END_CHAR);
+		String type = nonew.substring(0, brace1Pos);
+		String par = nonew.substring(brace1Pos + 1, brace2Pos);
+		String[] par2 = TextModHelper.createParameterList(par, TextMod.PARAMETER_SPLIT_CHAR.charAt(0));
+		return createInstance(type, Parser.parse(par2));
+	}
+	
+	public static Object createInstance(String type, Object[] parameters)
+	{
+		type = TextModHelper.changeName(type);
+		if (type.equals("itemstack"))
+		{
+			int id = (Integer) parameters[0];
+			int amount = 1;
+			int damage = 0;
+			if (parameters.length >= 2 && parameters[1] instanceof Integer)
+			{
+				amount = (Integer) parameters[1];
+			}
+			if (parameters.length >= 3 && parameters[2] instanceof Integer)
+			{
+				damage = (Integer) parameters[2];
+			}
+			return  new ItemStack(id, amount, damage);
+		}
+		return null;
 	}
 }
