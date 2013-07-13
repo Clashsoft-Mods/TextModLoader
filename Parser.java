@@ -164,7 +164,12 @@ public class Parser
 		}
 		if (type1.endsWith("[]")) //TODO 2-dimensional arrays
 		{
-			o = arrayWithType(type1.replace("[]", ""), values);
+			Object[] array = new Object[values.length];
+			for (int i = 0; i < values.length; i++)
+			{
+				array[i] = arrayWithType(type1.replace("[]", ""), values);
+			}
+			o = array;
 		}
 		return o;
 	}
