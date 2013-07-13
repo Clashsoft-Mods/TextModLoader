@@ -51,6 +51,13 @@ public class TextMod
 	public static final String CHAR_START_CHAR = "\'";
 	public static final String CHAR_END_CHAR = "\'";
 	
+	public Parser parser;
+	
+	public TextMod()
+	{
+		this.parser = new Parser(this);
+	}
+	
 	public static TextMod fromFile(File modClass) throws IOException
 	{
 		TextMod tm = new TextMod();
@@ -123,14 +130,14 @@ public class TextMod
 		{
 			aparameters[m] = aparameters[m].trim();
 		}
-		Object[] aparameters2 = Parser.parse(aparameters);
+		Object[] aparameters2 = parser.parse(aparameters);
 		for (int m = 0; m < aparameters2.length; m++)
 		{
 			if (((String)aparameters2[m]).startsWith(VARIABLE_USAGE_CHAR)) //Indicates a variable	
 			{
 				//Replace variables with their values
 				String variableName = aparameters[m].substring(1);
-				aparameters2[m] = Parser.parse(variables.get(variableName));
+				aparameters2[m] = parser.parse(variables.get(variableName));
 			}
 			if (((String)aparameters2[m]).startsWith(METHOD_INVOCATION_START_CHAR) && aparameters[m].endsWith(METHOD_INVOCATION_END_CHAR)) //Indicates a method
 			{
@@ -146,11 +153,11 @@ public class TextMod
 		line = line.substring(1).trim();
 		int equalPos = line.indexOf('=');
 		String name = line.substring(0, equalPos).trim();
-		String value = line.substring(equalPos + 1, line.indexOf(";")).trim();
+		String value = line.substring(equalPos + 1, line.indexOf(';')).trim();
 		if (value.startsWith(METHOD_INVOCATION_START_CHAR) && value.endsWith(METHOD_INVOCATION_END_CHAR))
 		{
 			Method method = getMethod(value.substring(1));
-			value = Parser.store(executeMethod(method));
+			value = parser.store(executeMethod(method));
 		}
 		return new Variable(name, value);
 	}

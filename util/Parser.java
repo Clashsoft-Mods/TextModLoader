@@ -10,7 +10,14 @@ import com.chaosdev.textmodloader.TextMod;
 
 public class Parser
 {
-	public static Object[] parse(String[] par)
+	private TextMod mod;
+	
+	public Parser(TextMod mod)
+	{
+		this.mod = mod;
+	}
+	
+	public Object[] parse(String[] par)
 	{
 		Object[] obj = new Object[par.length];
 		for (int i = 0; i < par.length; i++)
@@ -20,7 +27,7 @@ public class Parser
 		return obj;
 	}
 
-	public static Object parse(String par1)
+	public Object parse(String par1)
 	{
 		par1.trim();
 		String normalCase = par1;
@@ -49,11 +56,17 @@ public class Parser
 		
 		else if (par1.startsWith("new "))
 			return parseInstance(par1);
+		
+		else if (par1.startsWith(TextMod.VARIABLE_USAGE_CHAR)) //Indicates a variable	
+			return this.parse(mod.variables.get(par1.substring(1)));
+		
+		if (par1.startsWith(TextMod.METHOD_INVOCATION_START_CHAR) && par1.endsWith(TextMod.METHOD_INVOCATION_END_CHAR)) //Indicates a method
+			return mod.executeMethod(mod.getMethod(par1.substring(1)));
 
 		return par1; //Everything else is parsed by the textmod.
 	}
 
-	public static String store(Object par1)
+	public String store(Object par1)
 	{
 		if (par1 instanceof String)
 			return TextMod.STRING_START_CHAR + (String)par1 + TextMod.STRING_END_CHAR;
@@ -77,7 +90,7 @@ public class Parser
 	 * @param par1
 	 * @return
 	 */
-	public static Object parseArray(String par1)
+	public Object parseArray(String par1)
 	{
 		int brace1Pos = par1.indexOf("{");
 		int brace2Pos = par1.indexOf("}");
@@ -87,7 +100,7 @@ public class Parser
 		return arrayWithType(type, aparameters);
 	}
 
-	public static String storeArray(Object par1)
+	public String storeArray(Object par1)
 	{
 		String type = "";
 		if (par1 instanceof int[])
@@ -111,7 +124,7 @@ public class Parser
 		return ret;
 	}
 
-	public static Object arrayWithType(String type, String[] values)
+	public Object arrayWithType(String type, String[] values)
 	{
 		String type1 = type.trim().toLowerCase();
 		Object o = new Object[values.length];
@@ -190,7 +203,7 @@ public class Parser
 		return o;
 	}
 	
-	public static Object parseInstance(String par1)
+	public Object parseInstance(String par1)
 	{
 		String nonew = par1.trim().replaceFirst("new ", "");
 		int brace1Pos = nonew.indexOf(TextMod.NEW_INSTANCE_START_CHAR);
@@ -198,10 +211,10 @@ public class Parser
 		String type = nonew.substring(0, brace1Pos);
 		String par = nonew.substring(brace1Pos + 1, brace2Pos);
 		String[] par2 = TextModHelper.createParameterList(par, TextMod.PARAMETER_SPLIT_CHAR.charAt(0));
-		return createInstance(type, Parser.parse(par2));
+		return createInstance(type, parse(par2));
 	}
 	
-	public static Object createInstance(String type, Object[] parameters)
+	public Object createInstance(String type, Object[] parameters)
 	{
 		type = TextModHelper.changeName(type);
 		if (type.equals("itemstack"))
@@ -217,7 +230,7 @@ public class Parser
 			{
 				damage = (Integer) parameters[2];
 			}
-			return  new ItemStack(id, amount, damage);
+			return new ItemStack(id, amount, damage);
 		}
 		return null;
 	}

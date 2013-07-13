@@ -54,6 +54,7 @@ public class TextModLoader
 		TextModHelper.registerMethodExecuter(new MethodHelp());
 		TextModHelper.registerMethodExecuter(new MethodToString());
 		TextModHelper.registerMethodExecuter(new MethodMath());
+		TextModHelper.registerMethodExecuter(new MethodCrafting());
 		
 		List<File> files = getTextModDirectories(new File(Minecraft.getMinecraft().mcDataDir.getPath(), "mods"));
 		for (File f : files)
