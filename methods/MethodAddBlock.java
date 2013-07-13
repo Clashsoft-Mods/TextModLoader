@@ -1,5 +1,6 @@
 package com.chaosdev.textmodloader.methods;
 
+import com.chaosdev.textmodloader.TextMod;
 import com.chaosdev.textmodloader.TextModHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -9,12 +10,13 @@ import net.minecraft.block.StepSound;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import clashsoft.clashsoftapi.CustomBlock;
+import clashsoft.clashsoftapi.ItemCustomBlock;
 
-public class MethodAddBlock implements MethodExecuter
+public class MethodAddBlock implements IMethodExecuter
 {
 
 	@Override
-	public void execute(Object... par1)
+	public Object execute(Object... par1)
 	{
 		if (par1.length >= 5 && par1[0] instanceof Integer && par1[1] instanceof String && par1[2] instanceof String && par1[3] instanceof Integer && par1[4] instanceof String)
 		{
@@ -25,9 +27,10 @@ public class MethodAddBlock implements MethodExecuter
 			String creativetab = (String) par1[4];
 			
 			Block block = new CustomBlock(blockID, getMaterial(material), name, icon, getCreativeTab(creativetab)).setStepSound(getStepSound(material));
-			LanguageRegistry.addName(block, name);
 			GameRegistry.registerBlock(block, name);
+			LanguageRegistry.addName(block, name);
 			System.out.println("  Block added.");
+			return blockID;
 		}
 		else if (par1.length >= 5 && par1[0] instanceof Integer && par1[1] instanceof String[] && par1[2] instanceof String[] && par1[3] instanceof Integer && par1[4] instanceof String[])
 		{
@@ -37,20 +40,16 @@ public class MethodAddBlock implements MethodExecuter
 			int material = (Integer) par1[3];
 			String[] creativetab = (String[]) par1[4];
 			
-			CreativeTabs[] tabs = new CreativeTabs[creativetab.length];
-			for (int i = 0; i < creativetab.length; i++)
-			{
-				tabs[i] 
-			}
-			
-			Block block = new CustomBlock(blockID, getMaterial(material), name, icon, getCreativeTab(creativetab)).setStepSound(getStepSound(material));
-			LanguageRegistry.addName(block, name);
-			GameRegistry.registerBlock(block, name);
+			CustomBlock block = (CustomBlock) new CustomBlock(blockID, getMaterial(material), name, icon, getCreativeTabs(creativetab)).setStepSound(getStepSound(material));
+			GameRegistry.registerBlock(block, ItemCustomBlock.class, name[0]);
+			block.addNames();
 			System.out.println("  Block added.");
+			return blockID;
 		}
 		else
 		{
 			System.out.println("  Failed to add block: Invalid arguments.");
+			return -1;
 		}
 	}
 	
@@ -101,6 +100,16 @@ public class MethodAddBlock implements MethodExecuter
 		}
 		return CreativeTabs.tabBlock;
 	}
+	
+	public static CreativeTabs[] getCreativeTabs(String[] names)
+	{
+		CreativeTabs[] tabs = new CreativeTabs[names.length];
+		for (int i = 0; i < names.length; i++)
+		{
+			tabs[i] = getCreativeTab(names[i]);
+		}
+		return tabs;
+	}
 
 	@Override
 	public String getName()
@@ -110,7 +119,7 @@ public class MethodAddBlock implements MethodExecuter
 	
 	public String getUsage()
 	{
-		return "addBlock([blockID]i, \"[blockName]\", \"[iconName]\", [material]i, \"[creativetab]\") OR "
-				+ "addBlock([blockID]i, {\"blockName1\", ...}, {\"iconName1\", ...}, [material]i, {\"creativetab1\", ...}";
+		return ">addBlock([blockID]i, \"[blockName]\", \"[iconName]\", [material]i, \"[creativetab]\") OR "
+				+ ">addBlock([blockID]i, {\"blockName1\", ...}, {\"iconName1\", ...}, [material]i, {\"creativetab1\", ...}";
 	}
 }

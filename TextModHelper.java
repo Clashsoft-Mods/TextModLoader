@@ -1,55 +1,29 @@
 package com.chaosdev.textmodloader;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.IMethodExecuter;
 
 public class TextModHelper
 {
-	public static class Method
-	{
-		public String name;
-		public Object[] parameters;
+	private static Map<String, IMethodExecuter> methods = new HashMap<String, IMethodExecuter>();
 
-		public Method(String name, Object... parameters)
-		{
-			this.name = name;
-			this.parameters = parameters;
-		}
-	}
-
-	private static Map<String, MethodExecuter> methods = new HashMap<String, MethodExecuter>();
-	
-	public static void registerMethodExecuter(MethodExecuter executer)
+	public static void registerMethodExecuter(IMethodExecuter executer)
 	{
 		if (executer == null)
 			throw new IllegalArgumentException("Method Executer cant be null!");
 		String name = changeName(executer.getName());
 		methods.put(name, executer);
 	}
-	
-	public static MethodExecuter getMethodExecuterFromName(String name)
+
+	public static IMethodExecuter getMethodExecuterFromName(String name)
 	{
-		return methods.get(changeName(name));
+		return methods.get(changeName(name.replaceFirst(">", "")));
 	}
 
-	public static void executeLine(String line)
-	{
-		if (line != null && line != "" && !line.startsWith("#") && !line.startsWith("//")) //Comment Lines
-		{
-			System.out.println("  Executing line: " + line);
-			Method method = splitLine(line);
-			String methodname = changeName(method.name);
-			MethodExecuter executer = methods.get(methodname);
-			if (executer != null)
-				executer.execute(method.parameters);
-			else
-				System.out.println("  No valid executer found for method name " + methodname);
-		}
-	}
-	
 	public static String changeName(String name)
 	{
 		if (name != null)
@@ -57,58 +31,67 @@ public class TextModHelper
 		return "";
 	}
 
-	public static Method splitLine(String line)
+	public static boolean isLineValid(String line)
 	{
-		int i = line.indexOf('(');
-		int j = line.indexOf(')');
-		line = line.trim();
-		String methodName = line.substring(0, i);
-		String parameters = line.substring(i + 1, j);
-		String[] aparameters = parameters.split(", ");
-		Object[] aparameters2 = parseParameters(aparameters);
-		return new Method(methodName, aparameters2);
+		return line != null && line != "" && line != "\n" && !line.startsWith("#") && !line.startsWith("//") && line.endsWith(";");
 	}
 
-	public static Object[] parseParameters(String[] par)
+	public static String[] createParameterList(String par1, char splitChar)
 	{
-		Object[] obj = new Object[par.length];
-		for (int i = 0; i < par.length; i++)
+		List<String> strings = new LinkedList<String>();
+
+		String curString = "";
+		char block = ' ';
+		int length = par1.toCharArray().length;
+		
+		for (int i = 0; i < length; i++)
 		{
-			obj[i] = parseParameter(par[i]);
+			char c = par1.charAt(i);
+			if (block == ' ')
+			{
+				if (isBlockStartChar(c))
+					block = c;
+				else if (isValidBlock(block, c))
+					block = ' ';
+			}
+			else
+			{
+				if (isValidBlock(block, c))
+					block = ' ';
+			}
+			
+			if (block == ' ' && (c == splitChar || i == par1.length() - 1))
+			{
+				if (i == par1.length() - 1)
+					curString += c;
+				curString = curString.trim();
+				strings.add(curString);
+ 				curString = "";
+			}
+			else
+				curString += c;
 		}
-		return obj;
+		String[] ret = new String[strings.size()];
+		for (int i = 0; i < strings.size(); i++)
+		{
+			ret[i] = strings.get(i).trim();
+		}
+		return ret;
 	}
 
-	public static Object parseParameter(String par1)
+	public static boolean isBlockStartChar(char c)
 	{
-		String normalCase = par1;
-		String lowerCase = par1.toLowerCase();
-
-		if (par1.startsWith("\"") && par1.endsWith("\"")) //String
-			return (String)par1.substring(1, par1.length() - 1);
-
-		else if (par1.startsWith("\'") && par1.endsWith("\'") && par1.length() <= 3) //Character
-			return (char)par1.substring(1, par1.length() - 1).charAt(0);
-
-		else if (lowerCase.endsWith("i")) //Integer
-			return Integer.parseInt(lowerCase.replace("i", ""));
-
-		else if (lowerCase.endsWith("f")) //Float
-			return Float.parseFloat(lowerCase.replace("f", ""));
-
-		else if (lowerCase.endsWith("d")) //Double
-			return Double.parseDouble(lowerCase.replace("d", ""));
-
-		else if (par1 == "true" || par1 == "false") //Boolean
-			return (boolean)(par1 == "true" ? true : false);
-
-		else if (par1.startsWith("{") && par1.endsWith("}")) //Arrays
-		{
-			String parameters = par1.substring(1, par1.length() - 1);
-			String[] aparameters = parameters.split(", ");
-			return parseParameters(aparameters);
-		}
-
-		return null;
+		return c == TextMod.CHAR_START_CHAR.charAt(0) ||
+				c == TextMod.STRING_START_CHAR.charAt(0) ||
+				c == TextMod.METHOD_INVOCATION_START_CHAR.charAt(0) ||
+				c == TextMod.ARRAY_START_CHAR.charAt(0);
+	}
+	
+	public static boolean isValidBlock(char s, char e)
+	{
+		return (s == TextMod.CHAR_START_CHAR.charAt(0) && e == TextMod.CHAR_END_CHAR.charAt(0)) ||
+				(s == TextMod.STRING_START_CHAR.charAt(0) && e == TextMod.STRING_END_CHAR.charAt(0)) ||
+				(s == TextMod.METHOD_INVOCATION_START_CHAR.charAt(0) && e == TextMod.METHOD_INVOCATION_END_CHAR.charAt(0)) ||
+				(s == TextMod.ARRAY_START_CHAR.charAt(0) && e == TextMod.ARRAY_END_CHAR.charAt(0));
 	}
 }

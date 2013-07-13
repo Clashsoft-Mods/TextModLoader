@@ -1,8 +1,8 @@
 package com.chaosdev.textmodloader.methods;
 
-public interface MethodExecuter
+public interface IMethodExecuter
 {
-	public void execute(Object... parameters);
+	public Object execute(Object... parameters);
 	public String getName();
 	public String getUsage();
 }

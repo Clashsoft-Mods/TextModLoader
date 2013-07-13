@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.chaosdev.textmodloader.methods.MethodAddBlock;
+import com.chaosdev.textmodloader.methods.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.Configuration;
@@ -33,6 +33,8 @@ public class TextModLoader
 
 	public static final String MOD_CLASS_SUFFIX = ".textmod";
 	
+	public static List<TextMod> loadedTextMods = new LinkedList<TextMod>();
+	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -48,6 +50,9 @@ public class TextModLoader
 		System.out.println("Loading TextModLoader");
 		
 		TextModHelper.registerMethodExecuter(new MethodAddBlock());
+		TextModHelper.registerMethodExecuter(new MethodHelp());
+		TextModHelper.registerMethodExecuter(new MethodToString());
+		TextModHelper.registerMethodExecuter(new MethodMath());
 		
 		List<File> files = getTextModDirectories(new File(Minecraft.getMinecraft().mcDataDir.getPath(), "mods"));
 		for (File f : files)
@@ -78,20 +83,9 @@ public class TextModLoader
 			System.out.println("  Reading Mod Class: " + modClass);
 			try
 			{
-				BufferedReader br = new BufferedReader(new FileReader(modClass));
-				String line;
-				while ((line = br.readLine()) != null)
-				{
-					try
-					{
-						TextModHelper.executeLine(line);
-					}
-					catch (Exception ex)
-					{
-						ex.printStackTrace();
-					}
-				}
-				br.close();
+				TextMod tm = TextMod.fromFile(modClass);
+				tm.init();
+				loadedTextMods.add(tm);
 			}
 			catch (Exception ex)
 			{
