@@ -22,6 +22,7 @@ import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = "TextModLoader", name = "Text Mod Loader", version = CSUtil.CURRENT_VERION)
 @NetworkMod(channels = { "TextModLoader" }, serverSideRequired = false, clientSideRequired = true)
@@ -29,9 +30,6 @@ public class TextModLoader
 {
 	@Instance("TextModLoader")
 	public static TextModLoader instance;
-	
-	//@SidedProxy(clientSide = Reference.CLIENT_PROXY_LOCATION, serverSide = Reference.COMMON_PROXY_LOCATION)
-	//public static CommonProxy proxy;
 
 	public static final String MOD_CLASS_SUFFIX = ".textmod";
 	
@@ -51,9 +49,13 @@ public class TextModLoader
 	{	
 		System.out.println("Loading TextModLoader");
 		
+		GameRegistry.registerFuelHandler(new MethodAddFuel());
+		
 		TextModHelper.registerMethodExecuter(new MethodAddBlock());
 		TextModHelper.registerMethodExecuter(new MethodAddItem());
 		TextModHelper.registerMethodExecuter(new MethodCrafting());
+		TextModHelper.registerMethodExecuter(new MethodSmelting());
+		TextModHelper.registerMethodExecuter(new MethodAddFuel());
 		TextModHelper.registerMethodExecuter(new MethodHelp());
 		TextModHelper.registerMethodExecuter(new MethodGetID());
 		TextModHelper.registerMethodExecuter(new MethodMath());

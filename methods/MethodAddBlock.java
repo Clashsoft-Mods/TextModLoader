@@ -58,11 +58,7 @@ public class MethodAddBlock implements IMethodExecuter
 			System.out.println("  Block added.");
 			return block.blockID;
 		}
-		else
-		{
-			System.out.println("  Failed to add block: Invalid arguments.");
-			return -1;
-		}
+		return -1;
 	}
 	
 	public static Material getMaterial(int id)

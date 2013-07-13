@@ -9,9 +9,12 @@ public class MethodCrafting implements IMethodExecuter
 	@Override
 	public Object execute(Object... parameters)
 	{
+		int inputArrayPos = 1;
+		
+		ItemStack output = null;
+		
 		if (parameters[0] instanceof Integer)
 		{
-			int inputArrayPos = 1;
 			int id = (Integer) parameters[0];
 			int amount = 1;
 			int damage = 0;
@@ -25,15 +28,19 @@ public class MethodCrafting implements IMethodExecuter
 				damage = (Integer) parameters[2];
 				inputArrayPos++;
 			}
-			ItemStack output = new ItemStack(id, amount, damage);
-			Object[] inputs = (Object[]) parameters[inputArrayPos];
-			
-			GameRegistry.addRecipe(output, inputs);
-			
-			System.out.println("  Recipe added");
-			return output;
+			output = new ItemStack(id, amount, damage);
 		}
-		return null;
+		else if (parameters[0] instanceof ItemStack)
+		{
+			output = (ItemStack) parameters[0];
+		}
+		
+		Object[] inputs = (Object[]) parameters[inputArrayPos];
+		
+		GameRegistry.addRecipe(output, inputs);
+		
+		System.out.println("  Recipe added");
+		return output;
 	}
 
 	@Override
@@ -45,7 +52,7 @@ public class MethodCrafting implements IMethodExecuter
 	@Override
 	public String getUsage()
 	{
-		return ">addRecipe([id]i, <[amount]i>, <[damage]i>, object{...}) //Note: See MinecraftForge addRecipe for array items.//";
+		return ">addRecipe([id]i, <[amount]i>, <[damage]i>, object{...}) OR >addRecipe(new ItemStack([id]i, [amount]i, [damage]i), object{...}) //Note: See MinecraftForge addRecipe for array items.//";
 	}
 
 }
