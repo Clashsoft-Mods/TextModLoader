@@ -29,6 +29,9 @@ public class MethodCrafting implements IMethodExecuter
 			Object[] inputs = (Object[]) parameters[inputArrayPos];
 			
 			GameRegistry.addRecipe(output, inputs);
+			
+			System.out.println("  Recipe added");
+			return output;
 		}
 		return null;
 	}

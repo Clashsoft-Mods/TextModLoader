@@ -85,7 +85,8 @@ public class TextModHelper
 		return c == TextMod.CHAR_START_CHAR.charAt(0) ||
 				c == TextMod.STRING_START_CHAR.charAt(0) ||
 				c == TextMod.METHOD_INVOCATION_START_CHAR.charAt(0) ||
-				c == TextMod.ARRAY_START_CHAR.charAt(0);
+				c == TextMod.ARRAY_START_CHAR.charAt(0) ||
+				c == TextMod.NEW_INSTANCE_START_CHAR.charAt(0);
 	}
 	
 	public static boolean isValidBlock(char s, char e)
@@ -93,6 +94,7 @@ public class TextModHelper
 		return (s == TextMod.CHAR_START_CHAR.charAt(0) && e == TextMod.CHAR_END_CHAR.charAt(0)) ||
 				(s == TextMod.STRING_START_CHAR.charAt(0) && e == TextMod.STRING_END_CHAR.charAt(0)) ||
 				(s == TextMod.METHOD_INVOCATION_START_CHAR.charAt(0) && e == TextMod.METHOD_INVOCATION_END_CHAR.charAt(0)) ||
-				(s == TextMod.ARRAY_START_CHAR.charAt(0) && e == TextMod.ARRAY_END_CHAR.charAt(0));
+				(s == TextMod.ARRAY_START_CHAR.charAt(0) && e == TextMod.ARRAY_END_CHAR.charAt(0)) ||
+				(s == TextMod.NEW_INSTANCE_START_CHAR.charAt(0) && e == TextMod.NEW_INSTANCE_END_CHAR.charAt(0));
 	}
 }

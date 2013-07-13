@@ -1,5 +1,6 @@
 package com.chaosdev.textmodloader.util;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import net.minecraft.item.ItemStack;
@@ -17,6 +18,11 @@ public class Parser
 		this.mod = mod;
 	}
 	
+	public void update(Map<String, String> variables)
+	{
+		this.mod.variables = variables;
+	}
+	
 	public Object[] parse(String[] par)
 	{
 		Object[] obj = new Object[par.length];
@@ -32,8 +38,17 @@ public class Parser
 		par1.trim();
 		String normalCase = par1;
 		String lowerCase = par1.toLowerCase();
+		
+		if (par1.startsWith("new "))
+			return parseInstance(par1);
+		
+		else if (par1.startsWith(TextMod.VARIABLE_USAGE_CHAR)) //Indicates a variable
+			return parseVariable(par1);
+		
+		else if (par1.startsWith(TextMod.METHOD_INVOCATION_START_CHAR) && par1.endsWith(TextMod.METHOD_INVOCATION_END_CHAR)) //Indicates a method
+			return mod.executeMethod(mod.getMethod(par1.substring(1)));
 
-		if (par1.startsWith(TextMod.STRING_START_CHAR) && par1.endsWith(TextMod.STRING_END_CHAR)) //String
+		else if (par1.startsWith(TextMod.STRING_START_CHAR) && par1.endsWith(TextMod.STRING_END_CHAR)) //String
 			return (String)par1.substring(1, par1.length() - 1);
 
 		else if (par1.startsWith(TextMod.CHAR_START_CHAR) && par1.endsWith(TextMod.CHAR_END_CHAR) && par1.length() <= 3) //Character
@@ -53,15 +68,6 @@ public class Parser
 
 		else if (par1.contains(TextMod.ARRAY_START_CHAR) && par1.endsWith(TextMod.ARRAY_END_CHAR)) //Arrays
 			return parseArray(par1);
-		
-		else if (par1.startsWith("new "))
-			return parseInstance(par1);
-		
-		else if (par1.startsWith(TextMod.VARIABLE_USAGE_CHAR)) //Indicates a variable	
-			return this.parse(mod.variables.get(par1.substring(1)));
-		
-		if (par1.startsWith(TextMod.METHOD_INVOCATION_START_CHAR) && par1.endsWith(TextMod.METHOD_INVOCATION_END_CHAR)) //Indicates a method
-			return mod.executeMethod(mod.getMethod(par1.substring(1)));
 
 		return par1; //Everything else is parsed by the textmod.
 	}
@@ -233,5 +239,11 @@ public class Parser
 			return new ItemStack(id, amount, damage);
 		}
 		return null;
+	}
+	
+	public Object parseVariable(String par1)
+	{
+		String varname = par1.substring(1);
+		return this.parse(mod.variables.get(varname));
 	}
 }

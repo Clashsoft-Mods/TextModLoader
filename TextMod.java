@@ -100,6 +100,7 @@ public class TextMod
 				line.replace(";", "");
 				Variable v = getVariable(line);
 				this.variables.put(v.name, v.value);
+				this.parser.update(this.variables);
 				System.out.println("  Variable \'" + v.name + "\' added with value \'" + v.value + "\'.");
 			}
 		}
@@ -131,20 +132,6 @@ public class TextMod
 			aparameters[m] = aparameters[m].trim();
 		}
 		Object[] aparameters2 = parser.parse(aparameters);
-		for (int m = 0; m < aparameters2.length; m++)
-		{
-			if (((String)aparameters2[m]).startsWith(VARIABLE_USAGE_CHAR)) //Indicates a variable	
-			{
-				//Replace variables with their values
-				String variableName = aparameters[m].substring(1);
-				aparameters2[m] = parser.parse(variables.get(variableName));
-			}
-			if (((String)aparameters2[m]).startsWith(METHOD_INVOCATION_START_CHAR) && aparameters[m].endsWith(METHOD_INVOCATION_END_CHAR)) //Indicates a method
-			{
-				Method method = getMethod(aparameters[m].substring(1));
-				aparameters2[m] = executeMethod(method);
-			}
-		}
 		return new Method(methodName, aparameters2);
 	}
 	

@@ -11,13 +11,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import clashsoft.clashsoftapi.CustomBlock;
 import clashsoft.clashsoftapi.ItemCustomBlock;
+import clashsoft.clashsoftapi.util.CSArray;
+import clashsoft.clashsoftapi.util.CSUtil;
 
 public class MethodAddBlock implements IMethodExecuter
 {
 
 	@Override
 	public Object execute(Object... par1)
-	{
+	{	
 		CustomBlock block = null;
 		String name = "";
 		if (par1.length >= 5 && par1[0] instanceof Integer &&
@@ -51,8 +53,8 @@ public class MethodAddBlock implements IMethodExecuter
 		}
 		if (block != null)
 		{
-			GameRegistry.registerBlock(block, name);
-			LanguageRegistry.addName(block, name);
+			GameRegistry.registerBlock(block, ItemCustomBlock.class, name);
+			block.addNames();
 			System.out.println("  Block added.");
 			return block.blockID;
 		}

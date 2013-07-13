@@ -12,6 +12,7 @@ import com.chaosdev.textmodloader.methods.*;
 import com.chaosdev.textmodloader.util.TextModHelper;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.Configuration;
 import clashsoft.clashsoftapi.util.CSUtil;
 import cpw.mods.fml.common.Mod;
@@ -51,10 +52,12 @@ public class TextModLoader
 		System.out.println("Loading TextModLoader");
 		
 		TextModHelper.registerMethodExecuter(new MethodAddBlock());
-		TextModHelper.registerMethodExecuter(new MethodHelp());
-		TextModHelper.registerMethodExecuter(new MethodToString());
-		TextModHelper.registerMethodExecuter(new MethodMath());
+		TextModHelper.registerMethodExecuter(new MethodAddItem());
 		TextModHelper.registerMethodExecuter(new MethodCrafting());
+		TextModHelper.registerMethodExecuter(new MethodHelp());
+		TextModHelper.registerMethodExecuter(new MethodGetID());
+		TextModHelper.registerMethodExecuter(new MethodMath());
+		TextModHelper.registerMethodExecuter(new MethodToString());
 		
 		List<File> files = getTextModDirectories(new File(Minecraft.getMinecraft().mcDataDir.getPath(), "mods"));
 		for (File f : files)

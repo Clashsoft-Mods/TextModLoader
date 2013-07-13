@@ -59,6 +59,7 @@ public class MethodAddItem implements IMethodExecuter
 		{
 			LanguageRegistry.addName(item, name);
 			GameRegistry.registerItem(item, name);
+			System.out.println("  Item added.");
 			return item.itemID;
 		}
 		return -1;
