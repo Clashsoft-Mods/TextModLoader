@@ -33,7 +33,7 @@ public class MethodAddBlock implements IMethodExecuter
 			String icon = (String) par1[2];
 			int material = (Integer) par1[3];
 			String creativetab = (String) par1[4];
-			
+
 			block = (CustomBlock) new CustomBlock(blockID, getMaterial(material), name, icon, getCreativeTab(creativetab)).setStepSound(getStepSound(material));
 		}
 		else if (par1.length >= 5 &&
@@ -48,7 +48,7 @@ public class MethodAddBlock implements IMethodExecuter
 			String[] icons = (String[]) par1[2];
 			int material = (Integer) par1[3];
 			String[] creativetab = (String[]) par1[4];
-			
+
 			block = (CustomBlock) new CustomBlock(blockID, getMaterial(material), names, icons, getCreativeTabs(creativetab)).setStepSound(getStepSound(material));
 		}
 		if (block != null)
@@ -60,7 +60,7 @@ public class MethodAddBlock implements IMethodExecuter
 		}
 		return -1;
 	}
-	
+
 	public static Material getMaterial(int id)
 	{
 		if (id == 0)
@@ -79,7 +79,7 @@ public class MethodAddBlock implements IMethodExecuter
 			return Material.iron;
 		return Material.rock;
 	}
-	
+
 	public static StepSound getStepSound(int id)
 	{
 		if (id == 0)
@@ -98,17 +98,24 @@ public class MethodAddBlock implements IMethodExecuter
 			return Block.soundMetalFootstep;
 		return Block.soundStoneFootstep;
 	}
-	
+
 	public static CreativeTabs getCreativeTab(String name)
 	{
-		for (CreativeTabs ct : CreativeTabs.creativeTabArray)
+		try
 		{
-			if (TextModHelper.changeName(ct.getTabLabel()) == TextModHelper.changeName(name))
-				return ct;
+			for (CreativeTabs ct : CreativeTabs.creativeTabArray)
+			{
+				if (TextModHelper.changeName(ct.getTabLabel()) == TextModHelper.changeName(name))
+					return ct;
+			}
+		}
+		catch (Throwable t)
+		{
+			;
 		}
 		return CreativeTabs.tabBlock;
 	}
-	
+
 	public static CreativeTabs[] getCreativeTabs(String[] names)
 	{
 		CreativeTabs[] tabs = new CreativeTabs[names.length];
@@ -124,7 +131,7 @@ public class MethodAddBlock implements IMethodExecuter
 	{
 		return "addblock";
 	}
-	
+
 	public String getUsage()
 	{
 		return ">addBlock([blockID]i, \"[blockName]\", \"[iconName]\", [material]i, \"[creativetab]\") OR "

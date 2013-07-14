@@ -13,8 +13,10 @@ import com.chaosdev.textmodloader.util.TextModHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
 import clashsoft.clashsoftapi.util.CSUtil;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -23,6 +25,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = "TextModLoader", name = "Text Mod Loader", version = CSUtil.CURRENT_VERION)
 @NetworkMod(channels = { "TextModLoader" }, serverSideRequired = false, clientSideRequired = true)
@@ -60,11 +63,15 @@ public class TextModLoader
 		TextModHelper.registerMethodExecuter(new MethodGetID());
 		TextModHelper.registerMethodExecuter(new MethodMath());
 		TextModHelper.registerMethodExecuter(new MethodToString());
-
+		
 		try
 		{
-
-			List<File> files = getTextModDirectories(new File(Minecraft.getMinecraft().mcDataDir.getPath(), "mods"));
+			File file;
+			if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+				file = new File(Minecraft.getMinecraft().mcDataDir.getPath(), "mods");
+			else
+				file = new File(MinecraftServer.getServer().getFolderName(), "mods");
+			List<File> files = getTextModDirectories(file);
 			for (File f : files)
 			{
 				for (File g : f.listFiles())
@@ -76,7 +83,7 @@ public class TextModLoader
 		}
 		catch (NoClassDefFoundError error)
 		{
-			;
+			error.printStackTrace();
 		}
 	}
 
