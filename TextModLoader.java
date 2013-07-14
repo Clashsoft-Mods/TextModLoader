@@ -32,25 +32,25 @@ public class TextModLoader
 	public static TextModLoader instance;
 
 	public static final String MOD_CLASS_SUFFIX = ".textmod";
-	
+
 	public static List<TextMod> loadedTextMods = new LinkedList<TextMod>();
-	
+
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
-		
+
 		config.save();
 	}
-	
+
 	@Init
 	public void init(FMLInitializationEvent event)
 	{	
 		System.out.println("Loading TextModLoader");
-		
+
 		GameRegistry.registerFuelHandler(new MethodAddFuel());
-		
+
 		TextModHelper.registerMethodExecuter(new MethodAddBlock());
 		TextModHelper.registerMethodExecuter(new MethodAddItem());
 		TextModHelper.registerMethodExecuter(new MethodCrafting());
@@ -60,18 +60,26 @@ public class TextModLoader
 		TextModHelper.registerMethodExecuter(new MethodGetID());
 		TextModHelper.registerMethodExecuter(new MethodMath());
 		TextModHelper.registerMethodExecuter(new MethodToString());
-		
-		List<File> files = getTextModDirectories(new File(Minecraft.getMinecraft().mcDataDir.getPath(), "mods"));
-		for (File f : files)
+
+		try
 		{
-			for (File g : f.listFiles())
+
+			List<File> files = getTextModDirectories(new File(Minecraft.getMinecraft().mcDataDir.getPath(), "mods"));
+			for (File f : files)
 			{
-				loadModClass(g);
+				for (File g : f.listFiles())
+				{
+					loadModClass(g);
+				}
 			}
+			System.out.println(files.size() + " TextMods loaded.");
 		}
-		System.out.println(files.size() + " TextMods loaded.");
+		catch (NoClassDefFoundError error)
+		{
+			;
+		}
 	}
-	
+
 	private List<File> getTextModDirectories(File path)
 	{
 		List<File> files = new LinkedList<File>();
@@ -82,7 +90,7 @@ public class TextModLoader
 		}
 		return files;
 	}
-	
+
 	private void loadModClass(File modClass)
 	{
 		if (modClass.getName().endsWith(MOD_CLASS_SUFFIX))
