@@ -1,0 +1,53 @@
+package com.chaosdev.textmodloader.methods;
+
+import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraft.item.ItemStack;
+
+public class MethodAddLocalization implements IMethodExecuter
+{
+
+	@Override
+	public Object execute(Object... parameters)
+	{
+		if (parameters.length >= 2 && parameters[0] instanceof ItemStack && parameters[1] instanceof String)
+		{
+			String langFile = "en_US";
+			String localization = (String) parameters[1];
+			if (parameters.length >= 3 && parameters[1] instanceof String && parameters[2] instanceof String)
+			{
+				langFile = (String) parameters[1];
+				localization = (String) parameters[2];
+			}
+			LanguageRegistry.instance().addNameForObject(parameters[0], langFile, localization);
+			System.out.println("  Localization Added.");
+			return localization;
+		}
+		else if (parameters.length >= 2 && parameters[0] instanceof String && parameters[1] instanceof String)
+		{
+			String langFile = "en_US";
+			String localization = (String) parameters[1];
+			if (parameters.length >= 3 && parameters[1] instanceof String && parameters[2] instanceof String)
+			{
+				langFile = (String) parameters[1];
+				localization = (String) parameters[2];
+			}
+			LanguageRegistry.instance().addNameForObject(parameters[0], langFile, localization);
+			System.out.println("  Localization Added.");
+			return localization;
+		}
+		return "";
+	}
+
+	@Override
+	public String getName()
+	{
+		return "addname|addlocalization";
+	}
+
+	@Override
+	public String getUsage()
+	{
+		return "[>addlocalization OR >addname]([new ItemStack([id]i, [amount]i, [damage]i) OR \"[name]\"], <\"[langfile]\">, \"[localization]\"";
+	}
+
+}

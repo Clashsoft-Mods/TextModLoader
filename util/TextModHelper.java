@@ -16,8 +16,19 @@ public class TextModHelper
 	{
 		if (executer == null)
 			throw new IllegalArgumentException("Method Executer cant be null!");
-		String name = changeName(executer.getName());
-		methods.put(name, executer);
+		if (executer.getName().contains("|"))
+		{
+			String[] names = executer.getName().split("|");
+			for (String name : names)
+			{
+				name = changeName(name);
+				methods.put(name, executer);
+			}
+		}
+		else
+		{
+			methods.put(changeName(executer.getName()), executer);
+		}
 	}
 
 	public static IMethodExecuter getMethodExecuterFromName(String name)
@@ -44,7 +55,7 @@ public class TextModHelper
 		String curString = "";
 		char block = ' ';
 		int length = par1.toCharArray().length;
-		
+
 		for (int i = 0; i < length; i++)
 		{
 			char c = par1.charAt(i);
@@ -60,14 +71,14 @@ public class TextModHelper
 				if (isValidBlock(block, c))
 					block = ' ';
 			}
-			
+
 			if (block == ' ' && (c == splitChar || i == par1.length() - 1))
 			{
 				if (i == par1.length() - 1)
 					curString += c;
 				curString = curString.trim();
 				strings.add(curString);
- 				curString = "";
+				curString = "";
 			}
 			else
 				curString += c;
@@ -88,7 +99,7 @@ public class TextModHelper
 				c == TextMod.ARRAY_START_CHAR.charAt(0) ||
 				c == TextMod.NEW_INSTANCE_START_CHAR.charAt(0);
 	}
-	
+
 	public static boolean isValidBlock(char s, char e)
 	{
 		return (s == TextMod.CHAR_START_CHAR.charAt(0) && e == TextMod.CHAR_END_CHAR.charAt(0)) ||

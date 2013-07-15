@@ -40,7 +40,7 @@ public class TextModLoader
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
-	{
+	{	
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
 
@@ -102,16 +102,17 @@ public class TextModLoader
 	{
 		if (modClass.getName().endsWith(MOD_CLASS_SUFFIX))
 		{
-			System.out.println("  Reading Mod Class: " + modClass);
+			System.out.println(" Loading TextMod: " + modClass);
 			try
 			{
 				TextMod tm = TextMod.fromFile(modClass);
 				tm.init();
 				loadedTextMods.add(tm);
+				System.out.println(" TextMod " + modClass + " loaded.");
 			}
 			catch (Exception ex)
 			{
-				System.out.println("  Unable to load TextMod: " + ex.getMessage());
+				System.out.println(" Unable to load TextMod: " + ex.getMessage());
 			}
 		}
 	}
