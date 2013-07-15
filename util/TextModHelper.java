@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.chaosdev.textmodloader.TextMod;
-import com.chaosdev.textmodloader.methods.IMethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 public class TextModHelper
 {
-	private static Map<String, IMethodExecuter> methods = new HashMap<String, IMethodExecuter>();
+	private static Map<String, MethodExecuter> methods = new HashMap<String, MethodExecuter>();
 
-	public static void registerMethodExecuter(IMethodExecuter executer)
+	public static void registerMethodExecuter(MethodExecuter executer)
 	{
 		if (executer == null)
 			throw new IllegalArgumentException("Method Executer cant be null!");
@@ -31,7 +31,7 @@ public class TextModHelper
 		}
 	}
 
-	public static IMethodExecuter getMethodExecuterFromName(String name)
+	public static MethodExecuter getMethodExecuterFromName(String name)
 	{
 		return methods.get(changeName(name.replaceFirst(">", "")));
 	}

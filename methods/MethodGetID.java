@@ -3,7 +3,7 @@ package com.chaosdev.textmodloader.methods;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
-public class MethodGetID implements IMethodExecuter
+public class MethodGetID extends MethodExecuter
 {
 	@Override
 	public Object execute(Object... parameters)

@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import net.minecraft.item.ItemStack;
 import clashsoft.clashsoftapi.util.CSArray;
 
-import com.chaosdev.textmodloader.methods.IMethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecuter;
 import com.chaosdev.textmodloader.util.Method;
 import com.chaosdev.textmodloader.util.Parser;
 import com.chaosdev.textmodloader.util.TextModHelper;
@@ -23,7 +23,7 @@ public class TextMod
 {	
 	public static List<String> lines = new LinkedList<String>();
 	
-	public static Map<String, String> variables = new HashMap<String, String>();
+	public static Map<String, Object> variables = new HashMap<String, Object>();
 	
 	public static final String PARAMETER_SPLIT_CHAR = ",";
 	public static final String ARRAY_SPLIT_CHAR = ",";
@@ -108,7 +108,7 @@ public class TextMod
 	
 	public Object executeMethod(Method method)
 	{
-		IMethodExecuter executer = TextModHelper.getMethodExecuterFromName(method.name);
+		MethodExecuter executer = TextModHelper.getMethodExecuterFromName(method.name);
 		if (executer != null)
 			return executer.execute(method.parameters);
 		else
@@ -140,12 +140,13 @@ public class TextMod
 		line = line.substring(1).trim();
 		int equalPos = line.indexOf('=');
 		String name = line.substring(0, equalPos).trim();
-		String value = line.substring(equalPos + 1, line.indexOf(';')).trim();
-		if (value.startsWith(METHOD_INVOCATION_START_CHAR) && value.endsWith(METHOD_INVOCATION_END_CHAR))
+		String value1 = line.substring(equalPos + 1, line.indexOf(';')).trim();
+		Object value2 = parser.parse(value1);
+		if (value1.startsWith(METHOD_INVOCATION_START_CHAR) && value1.endsWith(METHOD_INVOCATION_END_CHAR))
 		{
-			Method method = getMethod(value.substring(1));
-			value = parser.store(executeMethod(method));
+			Method method = getMethod(value1.substring(1));
+			value2 = executeMethod(method);
 		}
-		return new Variable(name, value);
+		return new Variable(name, value2);
 	}
 }

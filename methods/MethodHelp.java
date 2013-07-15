@@ -3,7 +3,7 @@ package com.chaosdev.textmodloader.methods;
 import com.chaosdev.textmodloader.TextMod;
 import com.chaosdev.textmodloader.util.TextModHelper;
 
-public class MethodHelp implements IMethodExecuter
+public class MethodHelp extends MethodExecuter
 {
 	@Override
 	public Object execute(Object... parameters)

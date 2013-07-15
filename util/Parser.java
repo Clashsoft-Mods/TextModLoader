@@ -18,7 +18,7 @@ public class Parser
 		this.mod = mod;
 	}
 	
-	public void update(Map<String, String> variables)
+	public void update(Map<String, Object> variables)
 	{
 		this.mod.variables = variables;
 	}
@@ -244,6 +244,6 @@ public class Parser
 	public Object parseVariable(String par1)
 	{
 		String varname = par1.substring(1);
-		return this.parse(mod.variables.get(varname));
+		return mod.variables.get(varname);
 	}
 }

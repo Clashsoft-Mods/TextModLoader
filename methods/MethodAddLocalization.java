@@ -3,7 +3,7 @@ package com.chaosdev.textmodloader.methods;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.item.ItemStack;
 
-public class MethodAddLocalization implements IMethodExecuter
+public class MethodAddLocalization extends MethodExecuter
 {
 
 	@Override

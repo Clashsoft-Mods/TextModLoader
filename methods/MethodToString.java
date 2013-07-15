@@ -1,8 +1,7 @@
 package com.chaosdev.textmodloader.methods;
 
-public class MethodToString implements IMethodExecuter
+public class MethodToString extends MethodExecuter
 {
-
 	@Override
 	public Object execute(Object... parameters)
 	{

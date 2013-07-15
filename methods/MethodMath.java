@@ -2,7 +2,7 @@ package com.chaosdev.textmodloader.methods;
 
 import clashsoft.clashsoftapi.util.CSUtil;
 
-public class MethodMath implements IMethodExecuter
+public class MethodMath extends MethodExecuter
 {
 
 	@Override

@@ -59,6 +59,7 @@ public class TextModLoader
 		TextModHelper.registerMethodExecuter(new MethodCrafting());
 		TextModHelper.registerMethodExecuter(new MethodSmelting());
 		TextModHelper.registerMethodExecuter(new MethodAddFuel());
+		TextModHelper.registerMethodExecuter(new MethodAddLocalization());
 		TextModHelper.registerMethodExecuter(new MethodHelp());
 		TextModHelper.registerMethodExecuter(new MethodGetID());
 		TextModHelper.registerMethodExecuter(new MethodMath());

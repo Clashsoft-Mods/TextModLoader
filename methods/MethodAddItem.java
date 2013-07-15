@@ -4,7 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import clashsoft.clashsoftapi.CustomItem;
 
-public class MethodAddItem implements IMethodExecuter
+public class MethodAddItem extends MethodExecuter
 {
 
 	@Override
@@ -12,19 +12,19 @@ public class MethodAddItem implements IMethodExecuter
 	{
 		CustomItem item = null;
 		String name = "";
+		int itemID = -1;
 		if (parameters.length >= 4 && parameters[0] instanceof Integer && parameters[1] instanceof String && parameters[2] instanceof String && parameters[3] instanceof String)
 		{
-			int itemID = (Integer) parameters[0];
+			itemID = (Integer) parameters[0];
 			name = (String) parameters[1];
 			String icon = (String) parameters[2];
 			String creativetab = (String) parameters[3];
 
 			item = (CustomItem) new CustomItem(itemID, name, icon).setCreativeTab(MethodAddBlock.getCreativeTab(creativetab));
-
 		}
 		else if (parameters.length >= 5 && parameters[0] instanceof Integer && parameters[1] instanceof String && parameters[2] instanceof String && parameters[3] instanceof String && parameters[4] instanceof String)
 		{
-			int itemID = (Integer) parameters[0];
+			itemID = (Integer) parameters[0];
 			name = (String) parameters[1];
 			String icon = (String) parameters[2];
 			String desc = (String) parameters[3];
@@ -34,7 +34,7 @@ public class MethodAddItem implements IMethodExecuter
 		}
 		else if (parameters.length >= 4 && parameters[0] instanceof Integer && parameters[1] instanceof String[] && parameters[2] instanceof String[] && parameters[3] instanceof String)
 		{
-			int itemID = (Integer) parameters[0];
+			itemID = (Integer) parameters[0];
 			String[] names = (String[]) parameters[1];
 			name = names[0];
 			String[] icons = (String[]) parameters[2];
@@ -45,7 +45,7 @@ public class MethodAddItem implements IMethodExecuter
 		}
 		else if (parameters.length >= 5 && parameters[0] instanceof Integer && parameters[1] instanceof String[] && parameters[2] instanceof String[] && parameters[3] instanceof String[] && parameters[4] instanceof String)
 		{
-			int itemID = (Integer) parameters[0];
+			itemID = (Integer) parameters[0];
 			String[] names = (String[]) parameters[1];
 			name = names[0];
 			String[] icons = (String[]) parameters[2];

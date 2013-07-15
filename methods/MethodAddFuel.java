@@ -8,7 +8,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
-public class MethodAddFuel implements IMethodExecuter, IFuelHandler
+public class MethodAddFuel extends MethodExecuter implements IFuelHandler
 {
 	public static Map<ItemStack, Integer> fuelValues = new HashMap<ItemStack, Integer>();
 

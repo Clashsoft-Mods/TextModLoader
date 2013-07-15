@@ -3,7 +3,7 @@ package com.chaosdev.textmodloader.methods;
 import clashsoft.clashsoftapi.util.CSCrafting;
 import net.minecraft.item.ItemStack;
 
-public class MethodSmelting implements IMethodExecuter
+public class MethodSmelting extends MethodExecuter
 {
 
 	@Override
