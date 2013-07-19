@@ -1,4 +1,6 @@
-package com.chaosdev.textmodloader.methods;
+package com.chaosdev.textmodloader.methods.crafting;
+
+import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 import clashsoft.clashsoftapi.util.CSCrafting;
 import net.minecraft.item.ItemStack;

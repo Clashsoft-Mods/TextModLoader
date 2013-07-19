@@ -1,4 +1,6 @@
-package com.chaosdev.textmodloader.methods;
+package com.chaosdev.textmodloader.methods.util;
+
+import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.item.ItemStack;

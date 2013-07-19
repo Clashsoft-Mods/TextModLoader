@@ -1,4 +1,7 @@
-package com.chaosdev.textmodloader.methods;
+package com.chaosdev.textmodloader.methods.item;
+
+import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.block.MethodAddBlock;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -57,8 +60,8 @@ public class MethodAddItem extends MethodExecuter
 		
 		if (item != null)
 		{
+			GameRegistry.registerItem(item, name.toUpperCase().replace(" ", ""));
 			LanguageRegistry.addName(item, name);
-			GameRegistry.registerItem(item, name);
 			System.out.println("  Item added.");
 			return item.itemID;
 		}

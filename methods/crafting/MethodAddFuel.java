@@ -1,7 +1,9 @@
-package com.chaosdev.textmodloader.methods;
+package com.chaosdev.textmodloader.methods.crafting;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;

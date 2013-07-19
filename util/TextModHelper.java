@@ -10,7 +10,7 @@ import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 public class TextModHelper
 {
-	private static Map<String, MethodExecuter> methods = new HashMap<String, MethodExecuter>();
+	public static Map<String, MethodExecuter> methods = new HashMap<String, MethodExecuter>();
 
 	public static void registerMethodExecuter(MethodExecuter executer)
 	{
@@ -33,7 +33,8 @@ public class TextModHelper
 
 	public static MethodExecuter getMethodExecuterFromName(String name)
 	{
-		return methods.get(changeName(name.replaceFirst(">", "")));
+		String changedName = changeName(name.replaceFirst(">", ""));
+		return methods.get(changedName);
 	}
 
 	public static String changeName(String name)

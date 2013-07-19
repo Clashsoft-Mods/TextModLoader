@@ -4,13 +4,14 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import net.minecraft.item.ItemStack;
-
-import org.objectweb.asm.Type;
+import clashsoft.clashsoftapi.util.CSArray;
 
 import com.chaosdev.textmodloader.TextMod;
+import com.chaosdev.textmodloader.util.types.*;
 
 public class Parser
 {
+	
 	private TextMod mod;
 	
 	public Parser(TextMod mod)
@@ -18,7 +19,7 @@ public class Parser
 		this.mod = mod;
 	}
 	
-	public void update(Map<String, Object> variables)
+	public void update(Map<String, Variable> variables)
 	{
 		this.mod.variables = variables;
 	}
@@ -30,6 +31,7 @@ public class Parser
 		{
 			obj[i] = parse(par[i]);
 		}
+		System.out.println("   Parsed list as " + CSArray.printTypes(obj));
 		return obj;
 	}
 
@@ -39,14 +41,17 @@ public class Parser
 		String normalCase = par1;
 		String lowerCase = par1.toLowerCase();
 		
-		if (par1.startsWith("new "))
+		if (par1.startsWith("new ")) //New-Instance-Directives
 			return parseInstance(par1);
 		
-		else if (par1.startsWith(TextMod.VARIABLE_USAGE_CHAR)) //Indicates a variable
-			return parseVariable(par1);
+		else if (mod.isVariable(lowerCase)) //Indicates a variable
+			return mod.variables.get(par1);
 		
-		else if (par1.startsWith(TextMod.METHOD_INVOCATION_START_CHAR) && par1.endsWith(TextMod.METHOD_INVOCATION_END_CHAR)) //Indicates a method
-			return mod.executeMethod(mod.getMethod(par1.substring(1)));
+		else if (mod.isMethod(lowerCase)) //Indicates a method
+			return mod.executeMethod(mod.getMethod(par1));
+		
+		else if (lowerCase.equals("true") || lowerCase.equals("false")) //Boolean
+			return (boolean)(lowerCase.equals("true") ? true : false);
 
 		else if (par1.startsWith(TextMod.STRING_START_CHAR) && par1.endsWith(TextMod.STRING_END_CHAR)) //String
 			return (String)par1.substring(1, par1.length() - 1);
@@ -54,7 +59,7 @@ public class Parser
 		else if (par1.startsWith(TextMod.CHAR_START_CHAR) && par1.endsWith(TextMod.CHAR_END_CHAR) && par1.length() <= 3) //Character
 			return (char)par1.substring(1, par1.length() - 1).charAt(0);
 
-		else if (lowerCase.endsWith(TextMod.INTEGER_CHAR)) //Integer
+		else if (Pattern.matches("\\d", lowerCase)) //Integer
 			return Integer.parseInt(lowerCase.replace(TextMod.INTEGER_CHAR, ""));
 
 		else if (lowerCase.endsWith(TextMod.FLOAT_CHAR)) //Float
@@ -62,9 +67,6 @@ public class Parser
 
 		else if (lowerCase.endsWith(TextMod.DOUBLE_CHAR)) //Double
 			return Double.parseDouble(lowerCase.replace(TextMod.DOUBLE_CHAR, ""));
-
-		else if (par1 == "true" || par1 == "false") //Boolean
-			return (boolean)(par1 == "true" ? true : false);
 
 		else if (par1.contains(TextMod.ARRAY_START_CHAR) && par1.endsWith(TextMod.ARRAY_END_CHAR)) //Arrays
 			return parseArray(par1);
@@ -241,9 +243,8 @@ public class Parser
 		return null;
 	}
 	
-	public Object parseVariable(String par1)
+	public Type getType(String par1)
 	{
-		String varname = par1.substring(1);
-		return mod.variables.get(varname);
+		return Type.getTypeFromName(TextModHelper.changeName(par1));
 	}
 }

@@ -9,6 +9,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.chaosdev.textmodloader.methods.*;
+import com.chaosdev.textmodloader.methods.block.MethodAddBlock;
+import com.chaosdev.textmodloader.methods.block.MethodAddSpecialBlock;
+import com.chaosdev.textmodloader.methods.crafting.MethodAddFuel;
+import com.chaosdev.textmodloader.methods.crafting.MethodCrafting;
+import com.chaosdev.textmodloader.methods.crafting.MethodCraftingShapeless;
+import com.chaosdev.textmodloader.methods.crafting.MethodSmelting;
+import com.chaosdev.textmodloader.methods.item.MethodAddItem;
+import com.chaosdev.textmodloader.methods.item.MethodAddSpecialItem;
+import com.chaosdev.textmodloader.methods.util.MethodAddLocalization;
+import com.chaosdev.textmodloader.methods.util.MethodGetID;
+import com.chaosdev.textmodloader.methods.util.MethodHelp;
+import com.chaosdev.textmodloader.methods.util.MethodMath;
+import com.chaosdev.textmodloader.methods.util.MethodToString;
 import com.chaosdev.textmodloader.util.TextModHelper;
 
 import net.minecraft.client.Minecraft;
@@ -51,19 +64,27 @@ public class TextModLoader
 	public void init(FMLInitializationEvent event)
 	{	
 		System.out.println("Loading TextModLoader");
+		System.out.println("Registering Method Executers");
 
 		GameRegistry.registerFuelHandler(new MethodAddFuel());
 
 		TextModHelper.registerMethodExecuter(new MethodAddBlock());
+		TextModHelper.registerMethodExecuter(new MethodAddSpecialBlock());
 		TextModHelper.registerMethodExecuter(new MethodAddItem());
+		TextModHelper.registerMethodExecuter(new MethodAddSpecialItem());
+		
 		TextModHelper.registerMethodExecuter(new MethodCrafting());
+		TextModHelper.registerMethodExecuter(new MethodCraftingShapeless());
 		TextModHelper.registerMethodExecuter(new MethodSmelting());
 		TextModHelper.registerMethodExecuter(new MethodAddFuel());
+		
 		TextModHelper.registerMethodExecuter(new MethodAddLocalization());
 		TextModHelper.registerMethodExecuter(new MethodHelp());
 		TextModHelper.registerMethodExecuter(new MethodGetID());
 		TextModHelper.registerMethodExecuter(new MethodMath());
 		TextModHelper.registerMethodExecuter(new MethodToString());
+		
+		System.out.println(TextModHelper.methods.size() + " Method Executers registered.");
 		
 		try
 		{
@@ -75,12 +96,13 @@ public class TextModLoader
 			List<File> files = getTextModDirectories(file);
 			for (File f : files)
 			{
+				loadModClass(f);
 				for (File g : f.listFiles())
 				{
 					loadModClass(g);
 				}
 			}
-			System.out.println(files.size() + " TextMods loaded.");
+			System.out.println(files.size() + " TextMod" + (files.size() == 1 ? "" : "s") + " loaded.");
 		}
 		catch (NoClassDefFoundError error)
 		{

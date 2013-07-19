@@ -1,6 +1,7 @@
-package com.chaosdev.textmodloader.methods;
+package com.chaosdev.textmodloader.methods.block;
 
 import com.chaosdev.textmodloader.TextMod;
+import com.chaosdev.textmodloader.methods.MethodExecuter;
 import com.chaosdev.textmodloader.util.TextModHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -53,7 +54,7 @@ public class MethodAddBlock extends MethodExecuter
 		}
 		if (block != null)
 		{
-			GameRegistry.registerBlock(block, ItemCustomBlock.class, name);
+			GameRegistry.registerBlock(block, ItemCustomBlock.class, name.toUpperCase().replace(" ", ""));
 			block.addNames();
 			System.out.println("  Block added.");
 			return block.blockID;
