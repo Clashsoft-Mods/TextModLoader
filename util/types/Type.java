@@ -1,5 +1,6 @@
 package com.chaosdev.textmodloader.util.types;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,6 +44,12 @@ public class Type
 					return t;
 			}
 		}
-		return Type.OBJECT;
+		return null;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Type[names=" + Arrays.toString(names) + ", type=" + type + "]";
 	}
 }

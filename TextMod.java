@@ -14,13 +14,14 @@ import net.minecraft.item.ItemStack;
 import clashsoft.clashsoftapi.util.CSArray;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.util.CodeBlock;
 import com.chaosdev.textmodloader.util.Method;
 import com.chaosdev.textmodloader.util.Parser;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.Variable;
 import com.chaosdev.textmodloader.util.types.Type;
 
-public class TextMod
+public class TextMod extends CodeBlock
 {	
 	public static List<String> lines = new LinkedList<String>();
 
@@ -87,6 +88,11 @@ public class TextMod
 		}
 	}
 
+	private boolean isBlockStart(String line)
+	{
+		return false;
+	}
+
 	public void executeLine(String line)
 	{
 		if (TextModHelper.isLineValid(line))
@@ -102,7 +108,7 @@ public class TextMod
 				Variable v = getVariable(line);
 				this.variables.put(v.name, v);
 				this.parser.update(this.variables);
-				System.out.println("  Variable \'" + v.name + "\' added with value \'" + v.value.toString() + "\'.");
+				System.out.println("  Variable \'" + v.name + "\' of type \'" + v.type.toString() + "\' added with value \'" + v.value.toString() + "\'.");
 			}
 		}
 	}
@@ -162,7 +168,7 @@ public class TextMod
 		String first = par1;
 		if (par1.contains(" "))
 			first = par1.substring(0, par1.indexOf(" "));
-		if (variables.get(first) != null) //Already existing Variable
+		if (variables.get(TextModHelper.changeName(first)) != null) //Already existing Variable
 			return true;
 		else if (isType(first))
 			return true;
@@ -182,7 +188,7 @@ public class TextMod
 
 	public boolean isType(String par1)
 	{
-		return false; //Parser.isType(par1);
+		return parser.getType(par1) != null;
 	}
 
 	public Variable operate(Variable var1, String operator, Object value)

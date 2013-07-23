@@ -31,7 +31,6 @@ public class Parser
 		{
 			obj[i] = parse(par[i]);
 		}
-		System.out.println("   Parsed list as " + CSArray.printTypes(obj));
 		return obj;
 	}
 
@@ -44,8 +43,8 @@ public class Parser
 		if (par1.startsWith("new ")) //New-Instance-Directives
 			return parseInstance(par1);
 		
-		else if (mod.isVariable(lowerCase)) //Indicates a variable
-			return mod.variables.get(par1);
+		else if (mod.variables.get(normalCase) != null) //Indicates a variable
+			return mod.variables.get(normalCase).value;
 		
 		else if (mod.isMethod(lowerCase)) //Indicates a method
 			return mod.executeMethod(mod.getMethod(par1));
@@ -59,13 +58,13 @@ public class Parser
 		else if (par1.startsWith(TextMod.CHAR_START_CHAR) && par1.endsWith(TextMod.CHAR_END_CHAR) && par1.length() <= 3) //Character
 			return (char)par1.substring(1, par1.length() - 1).charAt(0);
 
-		else if (Pattern.matches("\\d", lowerCase)) //Integer
+		else if (lowerCase.matches("-?\\d+(\\.\\d+)?")) //Integer
 			return Integer.parseInt(lowerCase.replace(TextMod.INTEGER_CHAR, ""));
 
-		else if (lowerCase.endsWith(TextMod.FLOAT_CHAR)) //Float
+		else if (lowerCase.endsWith(TextMod.FLOAT_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) //Float
 			return Float.parseFloat(lowerCase.replace(TextMod.FLOAT_CHAR, ""));
 
-		else if (lowerCase.endsWith(TextMod.DOUBLE_CHAR)) //Double
+		else if (lowerCase.endsWith(TextMod.DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) //Double
 			return Double.parseDouble(lowerCase.replace(TextMod.DOUBLE_CHAR, ""));
 
 		else if (par1.contains(TextMod.ARRAY_START_CHAR) && par1.endsWith(TextMod.ARRAY_END_CHAR)) //Arrays
