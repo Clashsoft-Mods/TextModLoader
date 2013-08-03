@@ -59,6 +59,11 @@ public class TextMod extends CodeBlock
 	{		
 		super.execute();
 	}
+	
+	public long getTotalLoadingTime()
+	{
+		return executedTime - loadTime;
+	}
 
 	public static TextMod fromFile(File modClass) throws IOException
 	{
@@ -81,7 +86,7 @@ public class TextMod extends CodeBlock
 			TextMod tm = fromFile(modClass);
 			tm.execute();
 			tm.executedTime = System.currentTimeMillis();
-			System.out.println(" TextMod " + modClass + " loaded. (" + (tm.executedTime - tm.loadTime) + " Milliseconds)");
+			System.out.println(" TextMod " + modClass + " loaded. (" + tm.getTotalLoadingTime() + " Milliseconds)");
 			TextModLoader.loadedTextMods.add(tm);
 		}
 		catch (Exception ex)

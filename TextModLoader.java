@@ -47,28 +47,28 @@ public class TextModLoader
 {
 	@Instance("TextModLoader")
 	public static TextModLoader instance;
-
+	
 	public static final String MOD_CLASS_SUFFIX = ".textmod";
-
+	
 	public static List<TextMod> loadedTextMods = new LinkedList<TextMod>();
-
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{	
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
-
+		
 		config.save();
 	}
-
+	
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{	
 		System.out.println("Loading TextModLoader");
 		System.out.println("Registering Method Executers");
-
+		
 		GameRegistry.registerFuelHandler(new MethodAddFuel());
-
+		
 		TextModHelper.registerMethodExecuter(new MethodAddBlock());
 		TextModHelper.registerMethodExecuter(new MethodAddSpecialBlock());
 		TextModHelper.registerMethodExecuter(new MethodAddItem());
@@ -103,14 +103,21 @@ public class TextModLoader
 					loadModClass(g);
 				}
 			}
-			System.out.println(files.size() + " TextMod" + (files.size() == 1 ? "" : "s") + " loaded.");
+			float averageLoadTime = 0L;
+			if (loadedTextMods.size() > 0)
+			{
+				for (TextMod tm : loadedTextMods)
+					averageLoadTime += tm.getTotalLoadingTime();
+				averageLoadTime /= loadedTextMods.size();
+			}
+			System.out.println(files.size() + " TextMod" + (files.size() == 1 ? "" : "s") + " loaded. Average loading time: " + averageLoadTime);
 		}
 		catch (NoClassDefFoundError error)
 		{
 			error.printStackTrace();
 		}
 	}
-
+	
 	private List<File> getTextModDirectories(File path)
 	{
 		List<File> files = new LinkedList<File>();
@@ -121,7 +128,7 @@ public class TextModLoader
 		}
 		return files;
 	}
-
+	
 	private void loadModClass(File modClass)
 	{
 		if (modClass.getName().endsWith(MOD_CLASS_SUFFIX))
