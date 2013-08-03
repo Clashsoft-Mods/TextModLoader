@@ -18,7 +18,7 @@ import com.chaosdev.textmodloader.util.Parser;
 import com.chaosdev.textmodloader.util.Variable;
 
 public class TextMod extends CodeBlock
-{	
+{
 	public static final String PARAMETER_SPLIT_CHAR = ",";
 	public static final String ARRAY_SPLIT_CHAR = ",";
 	
@@ -45,9 +45,13 @@ public class TextMod extends CodeBlock
 	public static final String CHAR_START_CHAR = "\'";
 	public static final String CHAR_END_CHAR = "\'";
 	
+	public long loadTime = -1L;
+	public long executedTime = -1L;
+	
 	public TextMod()
 	{
 		super(null);
+		loadTime = System.currentTimeMillis();
 	}
 	
 	@Override
@@ -67,5 +71,22 @@ public class TextMod extends CodeBlock
 		}
 		br.close();
 		return tm;
+	}
+	
+	public static void load(File modClass)
+	{
+		System.out.println(" Loading TextMod: " + modClass);
+		try
+		{
+			TextMod tm = fromFile(modClass);
+			tm.execute();
+			tm.executedTime = System.currentTimeMillis();
+			System.out.println(" TextMod " + modClass + " loaded. (" + (tm.executedTime - tm.loadTime) + " Milliseconds)");
+			TextModLoader.loadedTextMods.add(tm);
+		}
+		catch (Exception ex)
+		{
+			System.out.println(" Unable to load TextMod: " + ex.getMessage());
+		}
 	}
 }

@@ -126,18 +126,7 @@ public class TextModLoader
 	{
 		if (modClass.getName().endsWith(MOD_CLASS_SUFFIX))
 		{
-			System.out.println(" Loading TextMod: " + modClass);
-			try
-			{
-				TextMod tm = TextMod.fromFile(modClass);
-				tm.execute();
-				loadedTextMods.add(tm);
-				System.out.println(" TextMod " + modClass + " loaded.");
-			}
-			catch (Exception ex)
-			{
-				System.out.println(" Unable to load TextMod: " + ex.getMessage());
-			}
+			TextMod.load(modClass);
 		}
 	}
 }
