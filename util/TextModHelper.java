@@ -46,7 +46,7 @@ public class TextModHelper
 
 	public static boolean isLineValid(String line)
 	{
-		return line != null && line != "" && line != "\n" && !line.startsWith("#") && !line.startsWith("//") && line.endsWith(";");
+		return line != null && !line.equals("") && !line.equals("\n") && !(new CodeBlock(null)).isComment(line);
 	}
 
 	public static String[] createParameterList(String par1, char splitChar)

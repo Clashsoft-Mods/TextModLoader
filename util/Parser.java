@@ -11,17 +11,16 @@ import com.chaosdev.textmodloader.util.types.*;
 
 public class Parser
 {
+	private CodeBlock codeblock;
 	
-	private TextMod mod;
-	
-	public Parser(TextMod mod)
+	public Parser(CodeBlock codeblock)
 	{
-		this.mod = mod;
+		this.codeblock = codeblock;
 	}
 	
-	public void update(Map<String, Variable> variables)
+	public void update(CodeBlock codeblock)
 	{
-		this.mod.variables = variables;
+		this.codeblock = codeblock;
 	}
 	
 	public Object[] parse(String[] par)
@@ -43,11 +42,11 @@ public class Parser
 		if (par1.startsWith("new ")) //New-Instance-Directives
 			return parseInstance(par1);
 		
-		else if (mod.variables.get(normalCase) != null) //Indicates a variable
-			return mod.variables.get(normalCase).value;
+		else if (codeblock.getVariables().get(normalCase) != null) //Indicates a variable
+			return codeblock.getVariables().get(normalCase).value;
 		
-		else if (mod.isMethod(lowerCase)) //Indicates a method
-			return mod.executeMethod(mod.getMethod(par1));
+		else if (codeblock.isMethod(lowerCase)) //Indicates a method
+			return codeblock.executeMethod(codeblock.getMethod(par1));
 		
 		else if (lowerCase.equals("true") || lowerCase.equals("false")) //Boolean
 			return (boolean)(lowerCase.equals("true") ? true : false);

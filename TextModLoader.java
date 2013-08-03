@@ -31,6 +31,7 @@ import net.minecraftforge.common.Configuration;
 import clashsoft.clashsoftapi.util.CSUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PreInit;
@@ -51,7 +52,7 @@ public class TextModLoader
 
 	public static List<TextMod> loadedTextMods = new LinkedList<TextMod>();
 
-	@PreInit
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{	
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -60,7 +61,7 @@ public class TextModLoader
 		config.save();
 	}
 
-	@Init
+	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{	
 		System.out.println("Loading TextModLoader");
@@ -129,7 +130,7 @@ public class TextModLoader
 			try
 			{
 				TextMod tm = TextMod.fromFile(modClass);
-				tm.init();
+				tm.execute();
 				loadedTextMods.add(tm);
 				System.out.println(" TextMod " + modClass + " loaded.");
 			}
