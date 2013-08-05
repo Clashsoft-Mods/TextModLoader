@@ -73,8 +73,7 @@ public class CodeBlock
 			try
 			{
 				if (superCodeBlock != null && superCodeBlock instanceof SpecialCodeBlock && ((SpecialCodeBlock) superCodeBlock).getCodeBlockType().isBreakable() && line.equals("break;"))
-					;
-				cb = null;
+					cb = null;
 				
 				if (cb != null && !isBlockStart(line) && !line.startsWith("{") && !isBlockEnd(line))
 					cb.lines.add(line);
@@ -82,7 +81,6 @@ public class CodeBlock
 				if (isBlockStart(line))
 				{
 					cb = new SpecialCodeBlock(line, this);
-					cb = cb;
 				}
 				else if (line.startsWith("{") && cb == null)
 				{
