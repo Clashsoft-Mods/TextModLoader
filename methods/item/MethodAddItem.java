@@ -9,7 +9,7 @@ import clashsoft.clashsoftapi.CustomItem;
 
 public class MethodAddItem extends MethodExecuter
 {
-
+	
 	@Override
 	public Object execute(Object... parameters)
 	{
@@ -22,8 +22,8 @@ public class MethodAddItem extends MethodExecuter
 			name = (String) parameters[1];
 			String icon = (String) parameters[2];
 			String creativetab = (String) parameters[3];
-
-			item = (CustomItem) new CustomItem(itemID, name, icon).setCreativeTab(MethodAddBlock.getCreativeTab(creativetab));
+			
+			item = (CustomItem) new CustomItem(itemID, name, icon).setCreativeTab(MethodExecuter.getCreativeTab(creativetab));
 		}
 		else if (parameters.length >= 5 && parameters[0] instanceof Integer && parameters[1] instanceof String && parameters[2] instanceof String && parameters[3] instanceof String && parameters[4] instanceof String)
 		{
@@ -32,8 +32,8 @@ public class MethodAddItem extends MethodExecuter
 			String icon = (String) parameters[2];
 			String desc = (String) parameters[3];
 			String creativetab = (String) parameters[4];
-
-			item = (CustomItem) new CustomItem(itemID, name, icon, desc).setCreativeTab(MethodAddBlock.getCreativeTab(creativetab));
+			
+			item = (CustomItem) new CustomItem(itemID, name, icon, desc).setCreativeTab(MethodExecuter.getCreativeTab(creativetab));
 		}
 		else if (parameters.length >= 4 && parameters[0] instanceof Integer && parameters[1] instanceof String[] && parameters[2] instanceof String[] && parameters[3] instanceof String)
 		{
@@ -42,9 +42,9 @@ public class MethodAddItem extends MethodExecuter
 			name = names[0];
 			String[] icons = (String[]) parameters[2];
 			String creativetab = (String) parameters[3];
-
-			item = (CustomItem) new CustomItem(itemID, names, icons).setCreativeTab(MethodAddBlock.getCreativeTab(creativetab));
-
+			
+			item = (CustomItem) new CustomItem(itemID, names, icons).setCreativeTab(MethodExecuter.getCreativeTab(creativetab));
+			
 		}
 		else if (parameters.length >= 5 && parameters[0] instanceof Integer && parameters[1] instanceof String[] && parameters[2] instanceof String[] && parameters[3] instanceof String[] && parameters[4] instanceof String)
 		{
@@ -54,8 +54,8 @@ public class MethodAddItem extends MethodExecuter
 			String[] icons = (String[]) parameters[2];
 			String[] descs = (String[]) parameters[3];
 			String creativetab = (String) parameters[4];
-
-			item = (CustomItem) new CustomItem(itemID, names, icons, descs).setCreativeTab(MethodAddBlock.getCreativeTab(creativetab));
+			
+			item = (CustomItem) new CustomItem(itemID, names, icons, descs).setCreativeTab(MethodExecuter.getCreativeTab(creativetab));
 		}
 		
 		if (item != null)
@@ -67,18 +67,17 @@ public class MethodAddItem extends MethodExecuter
 		}
 		return -1;
 	}
-
+	
 	@Override
 	public String getName()
 	{
 		return "additem";
 	}
-
+	
 	@Override
 	public String getUsage()
 	{
-		return ">addItem([itemID]i, \"[name]\", \"[icon]\", <\"[lore]\">, \"[creativetab]\") OR "
-				+ ">addItem([itemID]i, string{\"[name1]\", \"[name2]\", ...}, string{\"[icon1]\", \"[icon2]\", ...}, <string{\"[lore1]\", \"[lore2]\", ...}>, \"[creativetab]\")";
+		return ">addItem([itemID]i, \"[name]\", \"[icon]\", <\"[lore]\">, \"[creativetab]\") OR " + ">addItem([itemID]i, string{\"[name1]\", \"[name2]\", ...}, string{\"[icon1]\", \"[icon2]\", ...}, <string{\"[lore1]\", \"[lore2]\", ...}>, \"[creativetab]\")";
 	}
-
+	
 }

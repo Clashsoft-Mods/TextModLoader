@@ -1,6 +1,5 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
-import com.chaosdev.textmodloader.TextMod;
 import com.chaosdev.textmodloader.util.CodeBlock;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.Variable;
@@ -57,6 +56,7 @@ public class CodeBlockTypeForeach extends CodeBlockType
 		return 0;
 	}
 	
+	@Override
 	public boolean isBreakable()
 	{
 		return true;

@@ -1,14 +1,9 @@
 package com.chaosdev.textmodloader;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.chaosdev.textmodloader.methods.*;
 import com.chaosdev.textmodloader.methods.block.MethodAddBlock;
 import com.chaosdev.textmodloader.methods.block.MethodAddSpecialBlock;
 import com.chaosdev.textmodloader.methods.crafting.MethodAddFuel;
@@ -25,16 +20,13 @@ import com.chaosdev.textmodloader.methods.util.MethodToString;
 import com.chaosdev.textmodloader.util.TextModHelper;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
 import clashsoft.clashsoftapi.util.CSUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;

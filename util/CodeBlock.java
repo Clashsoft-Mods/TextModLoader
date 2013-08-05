@@ -12,14 +12,14 @@ import com.chaosdev.textmodloader.util.types.Type;
 
 public class CodeBlock
 {
-	public boolean blockComment = false;
+	public boolean					blockComment	= false;
 	
-	public CodeBlock superCodeBlock;
-	public List<CodeBlock> codeBlocks;
-	public List<String> lines;
-	public Map<String, Variable> variables = new HashMap<String, Variable>();
+	public CodeBlock				superCodeBlock;
+	public List<CodeBlock>			codeBlocks;
+	public List<String>				lines;
+	public Map<String, Variable>	variables		= new HashMap<String, Variable>();
 	
-	public Parser parser;
+	public Parser					parser;
 	
 	public CodeBlock(CodeBlock superBlock)
 	{
@@ -72,8 +72,9 @@ public class CodeBlock
 			
 			try
 			{
-				if (superCodeBlock != null && superCodeBlock instanceof SpecialCodeBlock && ((SpecialCodeBlock)superCodeBlock).getCodeBlockType().isBreakable())
-					cb = null;
+				if (superCodeBlock != null && superCodeBlock instanceof SpecialCodeBlock && ((SpecialCodeBlock) superCodeBlock).getCodeBlockType().isBreakable() && line.equals("break;"))
+					;
+				cb = null;
 				
 				if (cb != null && !isBlockStart(line) && !line.startsWith("{") && !isBlockEnd(line))
 					cb.lines.add(line);
@@ -81,7 +82,7 @@ public class CodeBlock
 				if (isBlockStart(line))
 				{
 					cb = new SpecialCodeBlock(line, this);
-					cb = (SpecialCodeBlock)cb;
+					cb = cb;
 				}
 				else if (line.startsWith("{") && cb == null)
 				{
@@ -113,12 +114,12 @@ public class CodeBlock
 		if (TextModHelper.isLineValid(line))
 		{
 			System.out.println("  Reading line: " + line);
-			if (isMethod(line)) //Methods
+			if (isMethod(line)) // Methods
 			{
 				Method method = getMethod(line);
 				executeMethod(method);
 			}
-			else if (isVariable(line)) //Variables
+			else if (isVariable(line)) // Variables
 			{
 				Variable v = getVariable(line);
 				this.variables.put(v.name, v);
@@ -140,7 +141,7 @@ public class CodeBlock
 	
 	public Method getMethod(String line)
 	{
-		//Replaces the method identifier
+		// Replaces the method identifier
 		line = line.replaceFirst("[>]", "").trim();
 		int i = line.indexOf(TextMod.METHOD_PARAMETERS_START_CHAR);
 		int j = line.lastIndexOf(TextMod.METHOD_PARAMETERS_END_CHAR);
@@ -161,14 +162,15 @@ public class CodeBlock
 	{
 		String[] split = TextModHelper.createParameterList(line.replace(";", ""), ' ');
 		Variable var = null;
-		if (isType(split[0])) //First part is a type declaration
+		if (isType(split[0])) // First part is a type declaration
 		{
 			Type type = parser.getType(split[0]);
 			String name = split[1];
 			Object value = parser.parse(split[3]);
 			var = new Variable(type, name, value);
 		}
-		else //First part is an existing variable name
+		else
+		// First part is an existing variable name
 		{
 			Variable var1 = variables.get(split[0]);
 			String operator = split[1];
@@ -183,7 +185,9 @@ public class CodeBlock
 		String first = par1;
 		if (par1.contains(" "))
 			first = par1.substring(0, par1.indexOf(" "));
-		if (variables.get(TextModHelper.changeName(first)) != null) //Already existing Variable
+		if (variables.get(TextModHelper.changeName(first)) != null) // Already
+																	// existing
+																	// Variable
 			return true;
 		else if (isType(first))
 			return true;
@@ -217,13 +221,13 @@ public class CodeBlock
 		{
 			if (var1.value instanceof String && value instanceof String)
 			{
-				var1.value = (String)var1.value + (String)value;
+				var1.value = (String) var1.value + (String) value;
 				return var1;
 			}
 			try
 			{
-				double i = ((Double)var1.value);
-				double j = ((Double)value);
+				double i = ((Double) var1.value);
+				double j = ((Double) value);
 				i += j;
 				var1.value = i;
 				return var1;
@@ -237,8 +241,8 @@ public class CodeBlock
 		{
 			try
 			{
-				double i = ((Double)var1.value);
-				double j = ((Double)value);
+				double i = ((Double) var1.value);
+				double j = ((Double) value);
 				i -= j;
 				var1.value = i;
 				return var1;
@@ -252,8 +256,8 @@ public class CodeBlock
 		{
 			try
 			{
-				double i = ((Double)var1.value);
-				double j = ((Double)value);
+				double i = ((Double) var1.value);
+				double j = ((Double) value);
 				i *= j;
 				var1.value = i;
 				return var1;
@@ -267,8 +271,8 @@ public class CodeBlock
 		{
 			try
 			{
-				double i = ((Double)var1.value);
-				double j = ((Double)value);
+				double i = ((Double) var1.value);
+				double j = ((Double) value);
 				i /= j;
 				var1.value = i;
 				return var1;
@@ -282,8 +286,8 @@ public class CodeBlock
 		{
 			try
 			{
-				double i = ((Double)var1.value);
-				double j = ((Double)value);
+				double i = ((Double) var1.value);
+				double j = ((Double) value);
 				i %= j;
 				var1.value = i;
 				return var1;
@@ -297,13 +301,13 @@ public class CodeBlock
 		{
 			if (var1.value instanceof Boolean && value instanceof Boolean)
 			{
-				var1.value = (Boolean)var1.value & (Boolean)value;
+				var1.value = (Boolean) var1.value & (Boolean) value;
 				return var1;
 			}
 			try
 			{
-				int i = ((Integer)var1.value);
-				int j = ((Integer)value);
+				int i = ((Integer) var1.value);
+				int j = ((Integer) value);
 				i &= j;
 				var1.value = i;
 				return var1;
@@ -317,13 +321,13 @@ public class CodeBlock
 		{
 			if (var1.value instanceof Boolean && value instanceof Boolean)
 			{
-				var1.value = (Boolean)var1.value | (Boolean)value;
+				var1.value = (Boolean) var1.value | (Boolean) value;
 				return var1;
 			}
 			try
 			{
-				int i = ((Integer)var1.value);
-				int j = ((Integer)value);
+				int i = ((Integer) var1.value);
+				int j = ((Integer) value);
 				i |= j;
 				var1.value = i;
 				return var1;

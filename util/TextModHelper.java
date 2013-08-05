@@ -10,8 +10,8 @@ import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 public class TextModHelper
 {
-	public static Map<String, MethodExecuter> methods = new HashMap<String, MethodExecuter>();
-
+	public static Map<String, MethodExecuter>	methods	= new HashMap<String, MethodExecuter>();
+	
 	public static void registerMethodExecuter(MethodExecuter executer)
 	{
 		if (executer == null)
@@ -30,33 +30,33 @@ public class TextModHelper
 			methods.put(changeName(executer.getName()), executer);
 		}
 	}
-
+	
 	public static MethodExecuter getMethodExecuterFromName(String name)
 	{
 		String changedName = changeName(name.replaceFirst(">", ""));
 		return methods.get(changedName);
 	}
-
+	
 	public static String changeName(String name)
 	{
 		if (name != null)
 			return name.replace(" ", "").toLowerCase().trim();
 		return "";
 	}
-
+	
 	public static boolean isLineValid(String line)
 	{
 		return line != null && !line.equals("") && !line.equals("\n") && !(new CodeBlock(null)).isComment(line);
 	}
-
+	
 	public static String[] createParameterList(String par1, char splitChar)
 	{
 		List<String> strings = new LinkedList<String>();
-
+		
 		String curString = "";
 		char block = ' ';
 		int length = par1.toCharArray().length;
-
+		
 		for (int i = 0; i < length; i++)
 		{
 			char c = par1.charAt(i);
@@ -72,7 +72,7 @@ public class TextModHelper
 				if (isValidBlock(block, c))
 					block = ' ';
 			}
-
+			
 			if (block == ' ' && (c == splitChar || i == par1.length() - 1))
 			{
 				if (i == par1.length() - 1)
@@ -91,22 +91,14 @@ public class TextModHelper
 		}
 		return ret;
 	}
-
+	
 	public static boolean isBlockStartChar(char c)
 	{
-		return c == TextMod.CHAR_START_CHAR.charAt(0) ||
-				c == TextMod.STRING_START_CHAR.charAt(0) ||
-				c == TextMod.METHOD_INVOCATION_START_CHAR.charAt(0) ||
-				c == TextMod.ARRAY_START_CHAR.charAt(0) ||
-				c == TextMod.NEW_INSTANCE_START_CHAR.charAt(0);
+		return c == TextMod.CHAR_START_CHAR.charAt(0) || c == TextMod.STRING_START_CHAR.charAt(0) || c == TextMod.METHOD_INVOCATION_START_CHAR.charAt(0) || c == TextMod.ARRAY_START_CHAR.charAt(0) || c == TextMod.NEW_INSTANCE_START_CHAR.charAt(0);
 	}
-
+	
 	public static boolean isValidBlock(char s, char e)
 	{
-		return (s == TextMod.CHAR_START_CHAR.charAt(0) && e == TextMod.CHAR_END_CHAR.charAt(0)) ||
-				(s == TextMod.STRING_START_CHAR.charAt(0) && e == TextMod.STRING_END_CHAR.charAt(0)) ||
-				(s == TextMod.METHOD_INVOCATION_START_CHAR.charAt(0) && e == TextMod.METHOD_INVOCATION_END_CHAR.charAt(0)) ||
-				(s == TextMod.ARRAY_START_CHAR.charAt(0) && e == TextMod.ARRAY_END_CHAR.charAt(0)) ||
-				(s == TextMod.NEW_INSTANCE_START_CHAR.charAt(0) && e == TextMod.NEW_INSTANCE_END_CHAR.charAt(0));
+		return (s == TextMod.CHAR_START_CHAR.charAt(0) && e == TextMod.CHAR_END_CHAR.charAt(0)) || (s == TextMod.STRING_START_CHAR.charAt(0) && e == TextMod.STRING_END_CHAR.charAt(0)) || (s == TextMod.METHOD_INVOCATION_START_CHAR.charAt(0) && e == TextMod.METHOD_INVOCATION_END_CHAR.charAt(0)) || (s == TextMod.ARRAY_START_CHAR.charAt(0) && e == TextMod.ARRAY_END_CHAR.charAt(0)) || (s == TextMod.NEW_INSTANCE_START_CHAR.charAt(0) && e == TextMod.NEW_INSTANCE_END_CHAR.charAt(0));
 	}
 }

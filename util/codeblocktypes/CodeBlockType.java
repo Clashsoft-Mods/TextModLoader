@@ -3,21 +3,21 @@ package com.chaosdev.textmodloader.util.codeblocktypes;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.chaosdev.textmodloader.TextMod;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 import com.chaosdev.textmodloader.util.CodeBlock;
 import com.chaosdev.textmodloader.util.TextModHelper;
 
 public abstract class CodeBlockType
 {
-	public static List<CodeBlockType> codeBlockTypes = new LinkedList<CodeBlockType>();
+	public static List<CodeBlockType>	codeBlockTypes	= new LinkedList<CodeBlockType>();
 	
-	private String initializer;
-	private Class[] parameters;
+	private String						initializer;
+	private Class[]						parameters;
 	
-	public static CodeBlockType IF = new CodeBlockTypeIf("if");
-	public static CodeBlockType FOR = new CodeBlockTypeFor("for");
-	public static CodeBlockType FOREACH = new CodeBlockTypeForeach("for");
+	public static CodeBlockType			IF				= new CodeBlockTypeIf("if");
+	public static CodeBlockType			FOR				= new CodeBlockTypeFor("for");
+	public static CodeBlockType			FOREACH			= new CodeBlockTypeForeach("for");
+	public static CodeBlockType			WHILE			= new CodeBlockTypeWhile("while");
 	
 	public CodeBlockType(String initializer, Class... parameters)
 	{
@@ -26,8 +26,15 @@ public abstract class CodeBlockType
 		codeBlockTypes.add(this);
 	}
 	
-	public String getInitializer() { return initializer; }
-	public Class[] getParameters() { return parameters; }
+	public String getInitializer()
+	{
+		return initializer;
+	}
+	
+	public Class[] getParameters()
+	{
+		return parameters;
+	}
 	
 	public abstract void setup(CodeBlock codeblock, String line);
 	

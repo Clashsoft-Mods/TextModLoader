@@ -1,19 +1,9 @@
 package com.chaosdev.textmodloader.methods.block;
 
-import com.chaosdev.textmodloader.TextMod;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
-import com.chaosdev.textmodloader.util.TextModHelper;
-
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.StepSound;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import clashsoft.clashsoftapi.CustomBlock;
 import clashsoft.clashsoftapi.ItemCustomBlock;
-import clashsoft.clashsoftapi.util.CSArray;
-import clashsoft.clashsoftapi.util.CSUtil;
 
 public class MethodAddBlock extends MethodExecuter
 {

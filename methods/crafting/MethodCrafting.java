@@ -3,7 +3,6 @@ package com.chaosdev.textmodloader.methods.crafting;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class MethodCrafting extends MethodExecuter

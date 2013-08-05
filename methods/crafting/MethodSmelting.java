@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public class MethodSmelting extends MethodExecuter
 {
-
+	
 	@Override
 	public Object execute(Object... parameters)
 	{
@@ -23,17 +23,17 @@ public class MethodSmelting extends MethodExecuter
 		}
 		return null;
 	}
-
+	
 	@Override
 	public String getName()
 	{
 		return "addsmelting";
 	}
-
+	
 	@Override
 	public String getUsage()
 	{
 		return ">addSmelting(new ItemStack([id]i, [amount]i, [damage]i), new ItemStack([id]i, [amount]i, [damage]i), [exp]f)";
 	}
-
+	
 }

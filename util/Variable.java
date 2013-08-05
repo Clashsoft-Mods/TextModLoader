@@ -4,9 +4,9 @@ import com.chaosdev.textmodloader.util.types.Type;
 
 public class Variable
 {
-	public Type type;
-	public String name;
-	public Object value;
+	public Type		type;
+	public String	name;
+	public Object	value;
 	
 	public Variable(Type type, String name, Object value)
 	{
@@ -14,7 +14,7 @@ public class Variable
 		this.name = name;
 		this.value = value;
 	}
-
+	
 	@Override
 	public String toString()
 	{

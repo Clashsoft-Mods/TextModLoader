@@ -1,17 +1,12 @@
 package com.chaosdev.textmodloader.util;
 
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import net.minecraft.item.ItemStack;
-import clashsoft.clashsoftapi.util.CSArray;
-
 import com.chaosdev.textmodloader.TextMod;
 import com.chaosdev.textmodloader.util.types.*;
 
 public class Parser
 {
-	private CodeBlock codeblock;
+	private CodeBlock	codeblock;
 	
 	public Parser(CodeBlock codeblock)
 	{
@@ -32,67 +27,71 @@ public class Parser
 		}
 		return obj;
 	}
-
+	
 	public Object parse(String par1)
 	{
 		par1.trim();
 		String normalCase = par1;
 		String lowerCase = par1.toLowerCase();
 		
-		if (par1.startsWith("new ")) //New-Instance-Directives
+		if (par1.startsWith("new ")) // New-Instance-Directives
 			return parseInstance(par1);
 		
-		else if (codeblock.getVariables().get(normalCase) != null) //Indicates a variable
+		else if (codeblock.getVariables().get(normalCase) != null) // Indicates
+																	// a
+																	// variable
 			return codeblock.getVariables().get(normalCase).value;
 		
-		else if (codeblock.isMethod(lowerCase)) //Indicates a method
+		else if (codeblock.isMethod(lowerCase)) // Indicates a method
 			return codeblock.executeMethod(codeblock.getMethod(par1));
 		
-		else if (lowerCase.equals("true") || lowerCase.equals("false")) //Boolean
-			return (boolean)(lowerCase.equals("true") ? true : false);
-
-		else if (par1.startsWith(TextMod.STRING_START_CHAR) && par1.endsWith(TextMod.STRING_END_CHAR)) //String
-			return (String)par1.substring(1, par1.length() - 1);
-
-		else if (par1.startsWith(TextMod.CHAR_START_CHAR) && par1.endsWith(TextMod.CHAR_END_CHAR) && par1.length() <= 3) //Character
-			return (char)par1.substring(1, par1.length() - 1).charAt(0);
-
-		else if (lowerCase.matches("-?\\d+(\\.\\d+)?")) //Integer
+		else if (lowerCase.equals("true") || lowerCase.equals("false")) // Boolean
+			return (boolean) (lowerCase.equals("true") ? true : false);
+		
+		else if (par1.startsWith(TextMod.STRING_START_CHAR) && par1.endsWith(TextMod.STRING_END_CHAR)) // String
+			return par1.substring(1, par1.length() - 1);
+		
+		else if (par1.startsWith(TextMod.CHAR_START_CHAR) && par1.endsWith(TextMod.CHAR_END_CHAR) && par1.length() <= 3) // Character
+			return (char) par1.substring(1, par1.length() - 1).charAt(0);
+		
+		else if (lowerCase.matches("-?\\d+(\\.\\d+)?")) // Integer
 			return Integer.parseInt(lowerCase.replace(TextMod.INTEGER_CHAR, ""));
-
-		else if (lowerCase.endsWith(TextMod.FLOAT_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) //Float
+		
+		else if (lowerCase.endsWith(TextMod.FLOAT_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Float
 			return Float.parseFloat(lowerCase.replace(TextMod.FLOAT_CHAR, ""));
-
-		else if (lowerCase.endsWith(TextMod.DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) //Double
+		
+		else if (lowerCase.endsWith(TextMod.DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Double
 			return Double.parseDouble(lowerCase.replace(TextMod.DOUBLE_CHAR, ""));
-
-		else if (par1.contains(TextMod.ARRAY_START_CHAR) && par1.endsWith(TextMod.ARRAY_END_CHAR)) //Arrays
+		
+		else if (par1.contains(TextMod.ARRAY_START_CHAR) && par1.endsWith(TextMod.ARRAY_END_CHAR)) // Arrays
 			return parseArray(par1);
-
-		return par1; //Everything else is parsed by the textmod.
+		
+		return par1; // Everything else is parsed by the textmod.
 	}
-
+	
 	public String store(Object par1)
 	{
 		if (par1 instanceof String)
-			return TextMod.STRING_START_CHAR + (String)par1 + TextMod.STRING_END_CHAR;
+			return TextMod.STRING_START_CHAR + (String) par1 + TextMod.STRING_END_CHAR;
 		else if (par1 instanceof Character)
-			return TextMod.CHAR_START_CHAR + (Character)par1 + TextMod.CHAR_END_CHAR;
+			return TextMod.CHAR_START_CHAR + par1 + TextMod.CHAR_END_CHAR;
 		else if (par1 instanceof Integer)
-			return ((Integer)par1).toString() + TextMod.INTEGER_CHAR;
+			return ((Integer) par1).toString() + TextMod.INTEGER_CHAR;
 		else if (par1 instanceof Float)
-			return ((Float)par1).toString() + TextMod.FLOAT_CHAR;
+			return ((Float) par1).toString() + TextMod.FLOAT_CHAR;
 		else if (par1 instanceof Double)
-			return ((Double)par1).toString() + TextMod.DOUBLE_CHAR;
+			return ((Double) par1).toString() + TextMod.DOUBLE_CHAR;
 		else if (par1 instanceof Boolean)
-			return ((Boolean)par1) ? "true" : "false";
+			return ((Boolean) par1) ? "true" : "false";
 		else if (par1 != null && par1.getClass().isArray())
 			return storeArray(par1);
 		return "";
 	}
-
+	
 	/**
-	 * This will return an array of the specified type instead of an Object[] that needs to be converted.
+	 * This will return an array of the specified type instead of an Object[]
+	 * that needs to be converted.
+	 * 
 	 * @param par1
 	 * @return
 	 */
@@ -105,7 +104,7 @@ public class Parser
 		String[] aparameters = TextModHelper.createParameterList(parameters, TextMod.ARRAY_SPLIT_CHAR.charAt(0));
 		return arrayWithType(type, aparameters);
 	}
-
+	
 	public String storeArray(Object par1)
 	{
 		String type = "";
@@ -122,14 +121,14 @@ public class Parser
 		else if (par1 instanceof boolean[])
 			type = "boolean";
 		String ret = type + "{";
-		for (int i = 0; i < ((Object[])par1).length; i++)
+		for (int i = 0; i < ((Object[]) par1).length; i++)
 		{
-			Object o = ((Object[])par1)[i];
-			ret += store(o) + (i == ((Object[])par1).length - 1 ? "" : ", ");
+			Object o = ((Object[]) par1)[i];
+			ret += store(o) + (i == ((Object[]) par1).length - 1 ? "" : ", ");
 		}
 		return ret;
 	}
-
+	
 	public Object arrayWithType(String type, String[] values)
 	{
 		String type1 = type.trim().toLowerCase();

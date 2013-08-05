@@ -10,16 +10,19 @@ import net.minecraft.creativetab.CreativeTabs;
 public abstract class MethodExecuter
 {
 	public abstract Object execute(Object... parameters);
+	
 	public abstract String getName();
+	
 	public abstract String getUsage();
-
+	
 	public static boolean matches(Object[] parameters, Class... types)
 	{
 		for (int i = 0; i < parameters.length; i++)
 		{
 			if (i < types.length)
 			{
-//				System.out.println("   Trying to match: Existing type: " + parameters[i].getClass() + " Required type: " + types[i]);
+				// System.out.println("   Trying to match: Existing type: " +
+				// parameters[i].getClass() + " Required type: " + types[i]);
 				if (!parameters[i].getClass().equals(types[i]))
 				{
 					return false;
@@ -28,7 +31,7 @@ public abstract class MethodExecuter
 		}
 		return true;
 	}
-
+	
 	public static Material getMaterial(int id)
 	{
 		if (id == 0)
@@ -47,7 +50,7 @@ public abstract class MethodExecuter
 			return Material.iron;
 		return Material.rock;
 	}
-
+	
 	public static StepSound getStepSound(int id)
 	{
 		if (id == 0)
@@ -66,7 +69,7 @@ public abstract class MethodExecuter
 			return Block.soundMetalFootstep;
 		return Block.soundStoneFootstep;
 	}
-
+	
 	public static CreativeTabs getCreativeTab(String name)
 	{
 		try
@@ -83,7 +86,7 @@ public abstract class MethodExecuter
 		}
 		return CreativeTabs.tabBlock;
 	}
-
+	
 	public static CreativeTabs[] getCreativeTabs(String[] names)
 	{
 		CreativeTabs[] tabs = new CreativeTabs[names.length];

@@ -6,9 +6,7 @@ import java.util.Map;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class MethodAddFuel extends MethodExecuter implements IFuelHandler
 {
@@ -17,7 +15,7 @@ public class MethodAddFuel extends MethodExecuter implements IFuelHandler
 	@Override
 	public int getBurnTime(ItemStack fuel)
 	{
-		return fuelValues.get(fuel);
+		return (fuelValues != null && fuelValues.containsKey(fuel)) ? fuelValues.get(fuel) : 0;
 	}
 	
 	@Override

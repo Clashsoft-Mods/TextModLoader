@@ -1,6 +1,5 @@
 package com.chaosdev.textmodloader.methods.item;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
@@ -10,7 +9,6 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
 import clashsoft.clashsoftapi.metatools.ItemMetaAxe;
 import clashsoft.clashsoftapi.metatools.ItemMetaHoe;
 import clashsoft.clashsoftapi.metatools.ItemMetaPickaxe;

@@ -9,13 +9,13 @@ public class MethodToString extends MethodExecuter
 	{
 		return parameters[0];
 	}
-
+	
 	@Override
 	public String getName()
 	{
 		return "tostring";
 	}
-
+	
 	@Override
 	public String getUsage()
 	{

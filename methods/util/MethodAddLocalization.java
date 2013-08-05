@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public class MethodAddLocalization extends MethodExecuter
 {
-
+	
 	@Override
 	public Object execute(Object... parameters)
 	{
@@ -39,17 +39,17 @@ public class MethodAddLocalization extends MethodExecuter
 		}
 		return "";
 	}
-
+	
 	@Override
 	public String getName()
 	{
 		return "addname|addlocalization";
 	}
-
+	
 	@Override
 	public String getUsage()
 	{
 		return "[>addlocalization OR >addname]([new ItemStack([id]i, [amount]i, [damage]i) OR \"[name]\"], <\"[langfile]\">, \"[localization]\"";
 	}
-
+	
 }
