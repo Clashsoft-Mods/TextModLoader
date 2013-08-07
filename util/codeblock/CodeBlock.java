@@ -1,16 +1,24 @@
-package com.chaosdev.textmodloader.util;
+package com.chaosdev.textmodloader.util.codeblock;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.chaosdev.textmodloader.TextMod;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.util.Parser;
+import com.chaosdev.textmodloader.util.TextModConstants;
+import com.chaosdev.textmodloader.util.TextModHelper;
+import com.chaosdev.textmodloader.util.Variable;
+import com.chaosdev.textmodloader.util.annotations.Annotation;
+import com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationType;
+import com.chaosdev.textmodloader.util.annotations.IAnnotable;
 import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
+import com.chaosdev.textmodloader.util.method.Method;
+import com.chaosdev.textmodloader.util.method.PredefinedMethod;
 import com.chaosdev.textmodloader.util.types.Type;
 
-public class CodeBlock
+public class CodeBlock implements IAnnotable
 {
 	public boolean					blockComment	= false;
 	
@@ -32,6 +40,11 @@ public class CodeBlock
 		this.lines = lines;
 		this.codeBlocks = new LinkedList<CodeBlock>();
 		this.parser = new Parser(this);
+	}
+	
+	public ClassCodeBlock getCodeBlockClass()
+	{
+		return superCodeBlock != null ? superCodeBlock.getCodeBlockClass() : null;
 	}
 	
 	public Map<String, Variable> getVariables()
@@ -60,6 +73,7 @@ public class CodeBlock
 	
 	public void execute()
 	{
+		Annotation nextAnnotation;
 		CodeBlock cb = null;
 		for (int i = 0; i < lines.size(); i++)
 		{
@@ -71,7 +85,7 @@ public class CodeBlock
 				blockComment = false;
 			
 			try
-			{
+			{	
 				if (superCodeBlock != null && superCodeBlock instanceof SpecialCodeBlock && ((SpecialCodeBlock) superCodeBlock).getCodeBlockType().isBreakable() && line.equals("break;"))
 					cb = null;
 				
@@ -112,7 +126,7 @@ public class CodeBlock
 		if (TextModHelper.isLineValid(line))
 		{
 			System.out.println("  Reading line: " + line);
-			if (isMethod(line)) // Methods
+			if (isMethod(line)) // Method invokation
 			{
 				Method method = getMethod(line);
 				executeMethod(method);
@@ -127,33 +141,42 @@ public class CodeBlock
 		}
 	}
 	
-	public Object executeMethod(Method method)
+	public Method getMethod(String line)
 	{
-		MethodExecuter executer = TextModHelper.getMethodExecuterFromName(method.name);
-		if (executer != null)
-			return executer.execute(method.parameters);
+		PredefinedMethod method = (PredefinedMethod) readMethod(line);
+		if (method.isValid())
+			return method;
 		else
-			System.out.println("  No valid executer found for method name " + method.name);
-		return null;
+			return getCustomMethod(method.name);
 	}
 	
-	public Method getMethod(String line)
+	public Method getCustomMethod(String name)
+	{
+		return getCodeBlockClass().getCustomMethod(name);
+	}
+	
+	public Method readMethod(String line)
 	{
 		// Replaces the method identifier
 		line = line.replaceFirst("[>]", "").trim();
-		int i = line.indexOf(TextMod.METHOD_PARAMETERS_START_CHAR);
-		int j = line.lastIndexOf(TextMod.METHOD_PARAMETERS_END_CHAR);
+		int i = line.indexOf(TextModConstants.METHOD_PARAMETERS_START_CHAR);
+		int j = line.lastIndexOf(TextModConstants.METHOD_PARAMETERS_END_CHAR);
 		if (i == -1 || j == -1)
 			return null;
 		String methodName = line.substring(0, i);
 		String parameters = line.substring(i + 1, j);
-		String[] aparameters = TextModHelper.createParameterList(parameters, TextMod.PARAMETER_SPLIT_CHAR.charAt(0));
+		String[] aparameters = TextModHelper.createParameterList(parameters, TextModConstants.PARAMETER_SPLIT_CHAR.charAt(0));
 		for (int m = 0; m < aparameters.length; m++)
 		{
 			aparameters[m] = aparameters[m].trim();
 		}
 		Object[] aparameters2 = parser.parse(aparameters);
-		return new Method(methodName, aparameters2);
+		return new PredefinedMethod(methodName, aparameters2);
+	}
+	
+	public Object executeMethod(Method method)
+	{
+		return method.execute(this, method.parameters);
 	}
 	
 	public Variable getVariable(String line)
@@ -162,7 +185,7 @@ public class CodeBlock
 		Variable var = null;
 		if (isType(split[0])) // First part is a type declaration
 		{
-			Type type = parser.getType(split[0]);
+			Type type = Type.getTypeFromName(split[0]);
 			String name = split[1];
 			Object value = parser.parse(split[3]);
 			var = new Variable(type, name, value);
@@ -183,9 +206,7 @@ public class CodeBlock
 		String first = par1;
 		if (par1.contains(" "))
 			first = par1.substring(0, par1.indexOf(" "));
-		if (variables.get(TextModHelper.changeName(first)) != null) // Already
-																	// existing
-																	// Variable
+		if (variables.get(first) != null) // Already existing Variable
 			return true;
 		else if (isType(first))
 			return true;
@@ -195,9 +216,9 @@ public class CodeBlock
 	public boolean isMethod(String par1)
 	{
 		par1 = par1.replace(";", "");
-		if (par1.contains(TextMod.METHOD_PARAMETERS_START_CHAR) && par1.endsWith(TextMod.METHOD_PARAMETERS_END_CHAR))
+		if (par1.contains(TextModConstants.METHOD_PARAMETERS_START_CHAR) && par1.endsWith(TextModConstants.METHOD_PARAMETERS_END_CHAR))
 		{
-			MethodExecuter executer = TextModHelper.getMethodExecuterFromName(par1.substring(0, par1.indexOf(TextMod.METHOD_PARAMETERS_START_CHAR)));
+			MethodExecuter executer = TextModHelper.getMethodExecuterFromName(par1.substring(0, par1.indexOf(TextModConstants.METHOD_PARAMETERS_START_CHAR)));
 			return executer != null;
 		}
 		return false;
@@ -205,7 +226,7 @@ public class CodeBlock
 	
 	public boolean isType(String par1)
 	{
-		return parser.getType(par1) != null;
+		return Type.getTypeFromName(par1) != null;
 	}
 	
 	public Variable operate(Variable var1, String operator, Object value)
@@ -336,5 +357,11 @@ public class CodeBlock
 			}
 		}
 		return var1;
+	}
+
+	@Override
+	public AnnotationType getAnnotationType()
+	{
+		return AnnotationType.NOTHING;
 	}
 }

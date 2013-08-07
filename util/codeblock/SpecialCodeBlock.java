@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util;
+package com.chaosdev.textmodloader.util.codeblock;
 
 import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
 

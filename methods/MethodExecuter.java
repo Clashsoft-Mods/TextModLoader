@@ -76,7 +76,7 @@ public abstract class MethodExecuter
 		{
 			for (CreativeTabs ct : CreativeTabs.creativeTabArray)
 			{
-				if (TextModHelper.changeName(ct.getTabLabel()) == TextModHelper.changeName(name))
+				if (ct.getTabLabel().trim().toLowerCase().equals(name.trim().toLowerCase()))
 					return ct;
 			}
 		}

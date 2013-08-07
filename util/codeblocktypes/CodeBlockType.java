@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
-import com.chaosdev.textmodloader.util.CodeBlock;
 import com.chaosdev.textmodloader.util.TextModHelper;
+import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
 public abstract class CodeBlockType
 {

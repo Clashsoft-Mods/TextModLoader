@@ -12,16 +12,16 @@ public class Type
 {
 	public static List<Type>	types		= new LinkedList<Type>();
 	
-	public static Type			OBJECT		= new Type(Object.class, "object");
+	public static Type			OBJECT		= new Type(Object.class, "Object");
 	
-	public static Type			STRING		= new Type(String.class, "string");
-	public static Type			CHAR		= new Type(Character.class, "char", "character");
-	public static Type			BOOLEAN		= new Type(Boolean.class, "bool", "boolean");
-	public static Type			INT			= new Type(Integer.class, "int", "integer");
-	public static Type			FLOAT		= new Type(Float.class, "float");
-	public static Type			DOUBLE		= new Type(Double.class, "double");
+	public static Type			STRING		= new Type(String.class, "String");
+	public static Type			CHAR		= new Type(Character.class, "char", "Character");
+	public static Type			BOOLEAN		= new Type(Boolean.class, "boolean", "Boolean");
+	public static Type			INT			= new Type(Integer.class, "int", "Integer");
+	public static Type			FLOAT		= new Type(Float.class, "float", "Float");
+	public static Type			DOUBLE		= new Type(Double.class, "double", "Double");
 	
-	public static Type			ITEMSTACK	= new Type(ItemStack.class, "itemstack");
+	public static Type			ITEMSTACK	= new Type(ItemStack.class, "ItemStack");
 	
 	public String[]				names;
 	public Class				type;
@@ -40,7 +40,7 @@ public class Type
 		{
 			for (String s : t.names)
 			{
-				if (TextModHelper.changeName(s).equals(TextModHelper.changeName(name)))
+				if (s.trim().equals(name.trim()))
 					return t;
 			}
 		}

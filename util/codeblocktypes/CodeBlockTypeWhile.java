@@ -1,7 +1,7 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
-import com.chaosdev.textmodloader.util.CodeBlock;
-import com.chaosdev.textmodloader.util.Method;
+import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import com.chaosdev.textmodloader.util.method.Method;
 
 public class CodeBlockTypeWhile extends CodeBlockType
 {
@@ -25,7 +25,7 @@ public class CodeBlockTypeWhile extends CodeBlockType
 	@Override
 	public void setup(CodeBlock codeblock, String line)
 	{
-		Method m = codeblock.getMethod(line);
+		Method m = codeblock.readMethod(line);
 		value = (Boolean) m.parameters[0];
 	}
 	

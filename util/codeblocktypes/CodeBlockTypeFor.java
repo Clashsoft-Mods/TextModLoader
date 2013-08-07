@@ -1,8 +1,8 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
-import com.chaosdev.textmodloader.util.CodeBlock;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.Variable;
+import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
 public class CodeBlockTypeFor extends CodeBlockType
 {

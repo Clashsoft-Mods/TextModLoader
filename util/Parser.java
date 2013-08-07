@@ -1,7 +1,8 @@
 package com.chaosdev.textmodloader.util;
 
 import net.minecraft.item.ItemStack;
-import com.chaosdev.textmodloader.TextMod;
+
+import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 import com.chaosdev.textmodloader.util.types.*;
 
 public class Parser
@@ -30,7 +31,7 @@ public class Parser
 	
 	public Object parse(String par1)
 	{
-		par1.trim();
+		par1 = par1.trim();
 		String normalCase = par1;
 		String lowerCase = par1.toLowerCase();
 		
@@ -42,28 +43,28 @@ public class Parser
 																	// variable
 			return codeblock.getVariables().get(normalCase).value;
 		
-		else if (codeblock.isMethod(lowerCase)) // Indicates a method
-			return codeblock.executeMethod(codeblock.getMethod(par1));
+		else if (codeblock.isMethod(normalCase)) // Indicates a method
+			return codeblock.executeMethod(codeblock.readMethod(par1));
 		
 		else if (lowerCase.equals("true") || lowerCase.equals("false")) // Boolean
 			return (boolean) (lowerCase.equals("true") ? true : false);
 		
-		else if (par1.startsWith(TextMod.STRING_START_CHAR) && par1.endsWith(TextMod.STRING_END_CHAR)) // String
+		else if (par1.startsWith(TextModConstants.STRING_START_CHAR) && par1.endsWith(TextModConstants.STRING_END_CHAR)) // String
 			return par1.substring(1, par1.length() - 1);
 		
-		else if (par1.startsWith(TextMod.CHAR_START_CHAR) && par1.endsWith(TextMod.CHAR_END_CHAR) && par1.length() <= 3) // Character
+		else if (par1.startsWith(TextModConstants.CHAR_START_CHAR) && par1.endsWith(TextModConstants.CHAR_END_CHAR) && par1.length() <= 3) // Character
 			return (char) par1.substring(1, par1.length() - 1).charAt(0);
 		
 		else if (lowerCase.matches("-?\\d+(\\.\\d+)?")) // Integer
-			return Integer.parseInt(lowerCase.replace(TextMod.INTEGER_CHAR, ""));
+			return Integer.parseInt(lowerCase.replace(TextModConstants.INTEGER_CHAR, ""));
 		
-		else if (lowerCase.endsWith(TextMod.FLOAT_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Float
-			return Float.parseFloat(lowerCase.replace(TextMod.FLOAT_CHAR, ""));
+		else if (lowerCase.endsWith(TextModConstants.FLOAT_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Float
+			return Float.parseFloat(lowerCase.replace(TextModConstants.FLOAT_CHAR, ""));
 		
-		else if (lowerCase.endsWith(TextMod.DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Double
-			return Double.parseDouble(lowerCase.replace(TextMod.DOUBLE_CHAR, ""));
+		else if (lowerCase.endsWith(TextModConstants.DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Double
+			return Double.parseDouble(lowerCase.replace(TextModConstants.DOUBLE_CHAR, ""));
 		
-		else if (par1.contains(TextMod.ARRAY_START_CHAR) && par1.endsWith(TextMod.ARRAY_END_CHAR)) // Arrays
+		else if (par1.contains(TextModConstants.ARRAY_START_CHAR) && par1.endsWith(TextModConstants.ARRAY_END_CHAR)) // Arrays
 			return parseArray(par1);
 		
 		return par1; // Everything else is parsed by the textmod.
@@ -72,15 +73,15 @@ public class Parser
 	public String store(Object par1)
 	{
 		if (par1 instanceof String)
-			return TextMod.STRING_START_CHAR + (String) par1 + TextMod.STRING_END_CHAR;
+			return TextModConstants.STRING_START_CHAR + (String) par1 + TextModConstants.STRING_END_CHAR;
 		else if (par1 instanceof Character)
-			return TextMod.CHAR_START_CHAR + par1 + TextMod.CHAR_END_CHAR;
+			return TextModConstants.CHAR_START_CHAR + par1 + TextModConstants.CHAR_END_CHAR;
 		else if (par1 instanceof Integer)
-			return ((Integer) par1).toString() + TextMod.INTEGER_CHAR;
+			return ((Integer) par1).toString() + TextModConstants.INTEGER_CHAR;
 		else if (par1 instanceof Float)
-			return ((Float) par1).toString() + TextMod.FLOAT_CHAR;
+			return ((Float) par1).toString() + TextModConstants.FLOAT_CHAR;
 		else if (par1 instanceof Double)
-			return ((Double) par1).toString() + TextMod.DOUBLE_CHAR;
+			return ((Double) par1).toString() + TextModConstants.DOUBLE_CHAR;
 		else if (par1 instanceof Boolean)
 			return ((Boolean) par1) ? "true" : "false";
 		else if (par1 != null && par1.getClass().isArray())
@@ -101,7 +102,7 @@ public class Parser
 		int brace2Pos = par1.indexOf("}");
 		String type = par1.substring(0, brace1Pos).trim();
 		String parameters = par1.substring(brace1Pos + 1, brace2Pos).trim();
-		String[] aparameters = TextModHelper.createParameterList(parameters, TextMod.ARRAY_SPLIT_CHAR.charAt(0));
+		String[] aparameters = TextModHelper.createParameterList(parameters, TextModConstants.ARRAY_SPLIT_CHAR.charAt(0));
 		return arrayWithType(type, aparameters);
 	}
 	
@@ -211,18 +212,17 @@ public class Parser
 	public Object parseInstance(String par1)
 	{
 		String nonew = par1.trim().replaceFirst("new ", "");
-		int brace1Pos = nonew.indexOf(TextMod.NEW_INSTANCE_START_CHAR);
-		int brace2Pos = nonew.indexOf(TextMod.NEW_INSTANCE_END_CHAR);
+		int brace1Pos = nonew.indexOf(TextModConstants.NEW_INSTANCE_START_CHAR);
+		int brace2Pos = nonew.indexOf(TextModConstants.NEW_INSTANCE_END_CHAR);
 		String type = nonew.substring(0, brace1Pos);
 		String par = nonew.substring(brace1Pos + 1, brace2Pos);
-		String[] par2 = TextModHelper.createParameterList(par, TextMod.PARAMETER_SPLIT_CHAR.charAt(0));
+		String[] par2 = TextModHelper.createParameterList(par, TextModConstants.PARAMETER_SPLIT_CHAR.charAt(0));
 		return createInstance(type, parse(par2));
 	}
 	
 	public Object createInstance(String type, Object[] parameters)
 	{
-		type = TextModHelper.changeName(type);
-		if (type.equals("itemstack"))
+		if (Type.getTypeFromName(type).getClass().equals(ItemStack.class))
 		{
 			int id = (Integer) parameters[0];
 			int amount = 1;
@@ -238,10 +238,5 @@ public class Parser
 			return new ItemStack(id, amount, damage);
 		}
 		return null;
-	}
-	
-	public Type getType(String par1)
-	{
-		return Type.getTypeFromName(TextModHelper.changeName(par1));
 	}
 }

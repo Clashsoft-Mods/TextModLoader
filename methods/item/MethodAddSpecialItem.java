@@ -99,7 +99,7 @@ public class MethodAddSpecialItem extends MethodExecuter
 
 	public EnumToolMaterial getToolMaterial(String name)
 	{
-		name = TextModHelper.changeName(name);
+		name = name.trim().toLowerCase();
 		if (name.equals("wood"))
 			return EnumToolMaterial.WOOD;
 		else if (name.equals("stone"))
@@ -116,7 +116,7 @@ public class MethodAddSpecialItem extends MethodExecuter
 
 	public EnumArmorMaterial getArmorMaterial(String name)
 	{
-		name = TextModHelper.changeName(name);
+		name = name.trim().toLowerCase();
 		if (name.equals("leather") || name.equals("cloth"))
 			return EnumArmorMaterial.CLOTH;
 		else if (name.equals("chain"))
