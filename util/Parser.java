@@ -1,6 +1,7 @@
 package com.chaosdev.textmodloader.util;
 
 import java.lang.reflect.Array;
+import java.util.regex.Pattern;
 
 import clashsoft.clashsoftapi.util.CSUtil;
 
@@ -66,7 +67,7 @@ public class Parser implements TextModConstants
 		else if (lowerCase.endsWith(DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Double
 			return (double)parseNumber(par1);
 		
-		else if (par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
+		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
 			return parseArray(par1);
 		
 		return par1; // Everything else is parsed by the textmod.
@@ -106,8 +107,11 @@ public class Parser implements TextModConstants
 	 */
 	public Object parseArray(String par1)
 	{
+		par1.replaceFirst(Pattern.quote("new "), "");
 		int brace1Pos = par1.indexOf("{");
 		int brace2Pos = par1.indexOf("}");
+		if (brace1Pos == -1 || brace2Pos == -1)
+			return null;
 		String type = par1.substring(0, brace1Pos).trim();
 		String parameters = par1.substring(brace1Pos + 1, brace2Pos).trim();
 		String[] aparameters = TextModHelper.createParameterList(parameters, TextModConstants.ARRAY_SPLIT_CHAR.charAt(0));
