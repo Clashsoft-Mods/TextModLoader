@@ -12,6 +12,7 @@ public class Type
 {
 	public static List<Type>	types		= new LinkedList<Type>();
 	
+	public static Type			VOID		= new Type(null, "void");
 	public static Type			OBJECT		= new Type(Object.class, "Object");
 	
 	public static Type			STRING		= new Type(String.class, "String");
