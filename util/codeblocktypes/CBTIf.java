@@ -3,11 +3,11 @@ package com.chaosdev.textmodloader.util.codeblocktypes;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 import com.chaosdev.textmodloader.util.method.Method;
 
-public class CodeBlockTypeWhile extends CodeBlockType
+public class CBTIf extends CodeBlockType
 {
 	private boolean value = false;
 	
-	public CodeBlockTypeWhile(String initializer)
+	public CBTIf(String initializer)
 	{
 		super(initializer, Boolean.class);
 	}
@@ -29,9 +29,4 @@ public class CodeBlockTypeWhile extends CodeBlockType
 		value = (Boolean) m.parameters[0];
 	}
 	
-	@Override
-	public boolean isBreakable()
-	{
-		return true;
-	}
 }

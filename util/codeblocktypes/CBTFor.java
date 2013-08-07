@@ -4,13 +4,13 @@ import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.Variable;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
-public class CodeBlockTypeFor extends CodeBlockType
+public class CBTFor extends CodeBlockType
 {
 	private Variable var;
 	private boolean end;
 	private int step;
 	
-	public CodeBlockTypeFor(String initializer)
+	public CBTFor(String initializer)
 	{
 		super(initializer, new Class[] {});
 	}

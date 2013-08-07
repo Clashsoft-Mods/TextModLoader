@@ -39,4 +39,9 @@ public class ClassCodeBlock extends CodeBlock
 	{
 		return customMethods.get(name);
 	}
+	
+	public void registerMethod(Method method)
+	{
+		this.customMethods.put(method.name, method);
+	}
 }

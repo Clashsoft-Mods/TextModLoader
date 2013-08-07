@@ -18,10 +18,10 @@ public class SpecialCodeBlock extends CodeBlock
 	}
 
 	@Override
-	public void execute()
+	public Object execute()
 	{
 		CodeBlockType cbt = getCodeBlockType();
 		cbt.setup(this, executionLine);
-		cbt.execute(new CodeBlock(this.superCodeBlock, this.lines));
+		return cbt.execute(new CodeBlock(this.superCodeBlock, this.lines));
 	}
 }

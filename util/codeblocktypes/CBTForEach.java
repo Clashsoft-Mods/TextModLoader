@@ -5,13 +5,13 @@ import com.chaosdev.textmodloader.util.Variable;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 import com.chaosdev.textmodloader.util.types.Type;
 
-public class CodeBlockTypeForeach extends CodeBlockType
+public class CBTForEach extends CodeBlockType
 {
 	public Type type = Type.OBJECT;
 	public String name = "";
 	public Object field = null;
 	
-	public CodeBlockTypeForeach(String initializer)
+	public CBTForEach(String initializer)
 	{
 		super(initializer, new Class[] {});
 	}

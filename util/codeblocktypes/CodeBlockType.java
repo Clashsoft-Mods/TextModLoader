@@ -4,20 +4,22 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.util.TextModConstants;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
-public abstract class CodeBlockType
+public abstract class CodeBlockType implements TextModConstants
 {
 	public static List<CodeBlockType>	codeBlockTypes	= new LinkedList<CodeBlockType>();
 	
 	private String						initializer;
 	private Class[]						parameters;
 	
-	public static CodeBlockType			IF				= new CodeBlockTypeIf("if");
-	public static CodeBlockType			FOR				= new CodeBlockTypeFor("for");
-	public static CodeBlockType			FOREACH			= new CodeBlockTypeForeach("for");
-	public static CodeBlockType			WHILE			= new CodeBlockTypeWhile("while");
+	public static CodeBlockType			IF				= new CBTIf("if");
+	public static CodeBlockType			FOR				= new CBTFor("for");
+	public static CodeBlockType			FOREACH			= new CBTForEach("for");
+	public static CodeBlockType			WHILE			= new CBTWhile("while");
+	public static CodeBlockType			METHOD			= new CBTMethod();
 	
 	public CodeBlockType(String initializer, Class... parameters)
 	{

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 import com.chaosdev.textmodloader.util.Parser;
@@ -71,7 +72,7 @@ public class CodeBlock implements IAnnotable
 		return blockComment || line.startsWith("//");
 	}
 	
-	public void execute()
+	public Object execute()
 	{
 		Annotation nextAnnotation;
 		CodeBlock cb = null;
@@ -86,20 +87,21 @@ public class CodeBlock implements IAnnotable
 			
 			try
 			{	
-				if (superCodeBlock != null && superCodeBlock instanceof SpecialCodeBlock && ((SpecialCodeBlock) superCodeBlock).getCodeBlockType().isBreakable() && line.equals("break;"))
+				if (cb instanceof SpecialCodeBlock && ((SpecialCodeBlock) cb).getCodeBlockType().isBreakable() && line.equals("break;"))
 					cb = null;
+				
+				if (line.startsWith("return "))
+					return parser.parse(line.replaceFirst(Pattern.quote("return "), ""));
 				
 				if (cb != null && !isBlockStart(line) && !line.startsWith("{") && !isBlockEnd(line))
 					cb.lines.add(line);
 				
 				if (isBlockStart(line))
-				{
 					cb = new SpecialCodeBlock(line, this);
-				}
+				
 				else if (line.startsWith("{") && cb == null)
-				{
 					cb = new CodeBlock(this);
-				}
+				
 				else if (isBlockEnd(line))
 				{
 					cb.lines.add(line.replace("}", "").trim());
@@ -109,9 +111,7 @@ public class CodeBlock implements IAnnotable
 				}
 				
 				if (cb == null)
-				{
 					this.executeLine(line);
-				}
 			}
 			catch (Exception ex)
 			{
@@ -119,6 +119,7 @@ public class CodeBlock implements IAnnotable
 				ex.printStackTrace();
 			}
 		}
+		return null;
 	}
 	
 	public void executeLine(String line)
