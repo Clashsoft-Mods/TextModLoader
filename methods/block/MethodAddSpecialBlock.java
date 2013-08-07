@@ -57,12 +57,12 @@ public class MethodAddSpecialBlock extends MethodExecuter
 	@Override
 	public String getName()
 	{
-		return "addspecialblock";
+		return "addSpecialBlock";
 	}
 	
 	@Override
 	public String getUsage()
 	{
-		return ">addSpecialBlock(\"[blocktype]\", [id]i, [parameters]...)";
+		return "addSpecialBlock(\"[blocktype]\", [id]i, [parameters]...)";
 	}
 }

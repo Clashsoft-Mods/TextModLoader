@@ -43,13 +43,13 @@ public class MethodAddLocalization extends MethodExecuter
 	@Override
 	public String getName()
 	{
-		return "addname|addlocalization";
+		return "addName|addLocalization";
 	}
 	
 	@Override
 	public String getUsage()
 	{
-		return "[>addlocalization OR >addname]([new ItemStack([id]i, [amount]i, [damage]i) OR \"[name]\"], <\"[langfile]\">, \"[localization]\"";
+		return "[addLocalization OR addName]([new ItemStack([id]i, [amount]i, [damage]i) OR \"[name]\"], <\"[langfile]\">, \"[localization]\"";
 	}
 	
 }

@@ -134,12 +134,12 @@ public class MethodAddSpecialItem extends MethodExecuter
 	@Override
 	public String getName()
 	{
-		return "addspecialitem";
+		return "addSpecialItem";
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return ">addSpecialItem(\"[itemtype]\", [id]i, [parameters]...)";
+		return "addSpecialItem(\"[itemtype]\", [id]i, [parameters]...)";
 	}
 }

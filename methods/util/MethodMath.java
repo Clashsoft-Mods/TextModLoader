@@ -30,7 +30,7 @@ public class MethodMath extends MethodExecuter
 	@Override
 	public String getUsage()
 	{
-		return ">math(\"[type]\", \"[calculation]\")";
+		return "math(\"[type]\", \"[calculation]\")";
 	}
 	
 }

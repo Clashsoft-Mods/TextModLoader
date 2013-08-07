@@ -29,13 +29,13 @@ public class MethodCraftingShapeless extends MethodExecuter
 	@Override
 	public String getName()
 	{
-		return "addshapelessrecipe";
+		return "addShapelessRecipe";
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return ">addShapelessRecipe([ItemStack], object{...}) //Note: See MinecraftForge addShapelessRecipe for array items.//";
+		return "addShapelessRecipe([ItemStack], object{...}) //Note: See MinecraftForge addShapelessRecipe for array items.//";
 	}
 
 }

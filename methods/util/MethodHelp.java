@@ -23,7 +23,7 @@ public class MethodHelp extends MethodExecuter
 	@Override
 	public String getUsage()
 	{
-		return ">help(\"methodname\")";
+		return "help(\"methodname\")";
 	}
 	
 }

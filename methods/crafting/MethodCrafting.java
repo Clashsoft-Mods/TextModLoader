@@ -27,13 +27,13 @@ public class MethodCrafting extends MethodExecuter
 	@Override
 	public String getName()
 	{
-		return "addrecipe";
+		return "addRecipe";
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return ">addRecipe([ItemStack], object{...}) //Note: See MinecraftForge addRecipe for array items.//";
+		return "addRecipe([ItemStack], object{...}) //Note: See MinecraftForge addRecipe for array items.//";
 	}
 
 }

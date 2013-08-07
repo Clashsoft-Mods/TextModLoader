@@ -71,13 +71,13 @@ public class MethodAddItem extends MethodExecuter
 	@Override
 	public String getName()
 	{
-		return "additem";
+		return "addItem";
 	}
 	
 	@Override
 	public String getUsage()
 	{
-		return ">addItem([itemID]i, \"[name]\", \"[icon]\", <\"[lore]\">, \"[creativetab]\") OR " + ">addItem([itemID]i, string{\"[name1]\", \"[name2]\", ...}, string{\"[icon1]\", \"[icon2]\", ...}, <string{\"[lore1]\", \"[lore2]\", ...}>, \"[creativetab]\")";
+		return "addItem([itemID]i, \"[name]\", \"[icon]\", <\"[lore]\">, \"[creativetab]\") OR " + "addItem([itemID]i, string{\"[name1]\", \"[name2]\", ...}, string{\"[icon1]\", \"[icon2]\", ...}, <string{\"[lore1]\", \"[lore2]\", ...}>, \"[creativetab]\")";
 	}
 	
 }

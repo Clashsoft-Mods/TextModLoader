@@ -36,7 +36,7 @@ public class MethodAddFuel extends MethodExecuter implements IFuelHandler
 	@Override
 	public String getName()
 	{
-		return "addfuel";
+		return "addFuel";
 	}
 
 	@Override

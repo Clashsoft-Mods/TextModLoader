@@ -27,13 +27,13 @@ public class MethodSmelting extends MethodExecuter
 	@Override
 	public String getName()
 	{
-		return "addsmelting";
+		return "addSmelting";
 	}
 	
 	@Override
 	public String getUsage()
 	{
-		return ">addSmelting(new ItemStack([id]i, [amount]i, [damage]i), new ItemStack([id]i, [amount]i, [damage]i), [exp]f)";
+		return "addSmelting(new ItemStack([id]i, [amount]i, [damage]i), new ItemStack([id]i, [amount]i, [damage]i), [exp]f)";
 	}
 	
 }

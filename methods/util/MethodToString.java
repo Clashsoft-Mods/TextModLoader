@@ -7,19 +7,19 @@ public class MethodToString extends MethodExecuter
 	@Override
 	public Object execute(Object... parameters)
 	{
-		return parameters[0];
+		return parameters[0].toString();
 	}
 	
 	@Override
 	public String getName()
 	{
-		return "tostring";
+		return "toString";
 	}
 	
 	@Override
 	public String getUsage()
 	{
-		return ">toString(...)";
+		return "toString(...)";
 	}
 	
 }

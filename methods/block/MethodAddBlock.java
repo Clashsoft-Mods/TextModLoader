@@ -60,7 +60,7 @@ public class MethodAddBlock extends MethodExecuter
 
 	public String getUsage()
 	{
-		return ">addBlock([blockID]i, \"[blockName]\", \"[iconName]\", [material]i, \"[creativetab]\") OR "
-				+ ">addBlock([blockID]i, string{\"blockName1\", ...}, string{\"iconName1\", ...}, [material]i, string{\"creativetab1\", ...})";
+		return "addBlock([blockID]i, \"[blockName]\", \"[iconName]\", [material]i, \"[creativetab]\") OR "
+				+ "addBlock([blockID]i, string{\"blockName1\", ...}, string{\"iconName1\", ...}, [material]i, string{\"creativetab1\", ...})";
 	}
 }

@@ -29,13 +29,13 @@ public class MethodGetID extends MethodExecuter
 	@Override
 	public String getName()
 	{
-		return "getid";
+		return "getID|getId";
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return ">getID(\"[block]\") OR >getID(\"[item]\"";
+		return "getID(\"[block]\") OR getID(\"[item]\")";
 	}
 
 }
