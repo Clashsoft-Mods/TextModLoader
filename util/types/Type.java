@@ -4,22 +4,22 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.chaosdev.textmodloader.util.TextModHelper;
-
 import net.minecraft.item.ItemStack;
 
 public class Type
 {
 	public static List<Type>	types		= new LinkedList<Type>();
 	
-	public static Type			VOID		= new Type(null, "void");
+	public static Type			VOID		= new Type(Void.class, "void");
 	public static Type			OBJECT		= new Type(Object.class, "Object");
 	
 	public static Type			STRING		= new Type(String.class, "String");
 	public static Type			CHAR		= new Type(Character.class, "char", "Character");
 	public static Type			BOOLEAN		= new Type(Boolean.class, "boolean", "Boolean");
 	public static Type			BYTE		= new Type(Byte.class, "byte", "Byte");
+	public static Type			SHORT		= new Type(Short.class, "short", "Short");
 	public static Type			INT			= new Type(Integer.class, "int", "Integer");
+	public static Type			LONG		= new Type(Long.class, "long", "Long");
 	public static Type			FLOAT		= new Type(Float.class, "float", "Float");
 	public static Type			DOUBLE		= new Type(Double.class, "double", "Double");
 	
@@ -43,7 +43,7 @@ public class Type
 	
 	public static boolean isInteger(Type type)
 	{
-		return type == INT || type == BYTE || type == CHAR;
+		return type == BYTE || type == SHORT || type == INT || type == LONG|| type == CHAR;
 	}
 	
 	public static boolean isBoolean(Type type)

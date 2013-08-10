@@ -245,7 +245,8 @@ public class Parser implements TextModConstants
 	 */
 	public Object createInstance(String type, Object... parameters)
 	{
-		if (Type.getTypeFromName(type).getClass().equals(ItemStack.class))
+		Type type1 = Type.getTypeFromName(type);
+		if (type1.type.equals(ItemStack.class))
 		{
 			int id = (Integer) parameters[0];
 			int amount = 1;
