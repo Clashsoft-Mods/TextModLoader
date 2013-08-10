@@ -1,5 +1,6 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
+import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 import com.chaosdev.textmodloader.util.method.Method;
 
@@ -23,7 +24,7 @@ public class CBTIf extends CodeBlockType
 	}
 
 	@Override
-	public void setup(CodeBlock codeblock, String line)
+	public void setup(CodeBlock codeblock, String line) throws ParserException
 	{
 		Method m = codeblock.readMethod(line);
 		value = (Boolean) m.parameters[0];

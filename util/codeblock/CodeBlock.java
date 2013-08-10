@@ -7,10 +7,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
-import com.chaosdev.textmodloader.util.Parser;
-import com.chaosdev.textmodloader.util.TextModConstants;
-import com.chaosdev.textmodloader.util.TextModHelper;
-import com.chaosdev.textmodloader.util.Variable;
+import com.chaosdev.textmodloader.util.*;
 import com.chaosdev.textmodloader.util.annotations.Annotation;
 import com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationType;
 import com.chaosdev.textmodloader.util.annotations.IAnnotable;
@@ -58,7 +55,7 @@ public class CodeBlock implements IAnnotable
 		return var;
 	}
 	
-	public boolean isBlockStart(String line)
+	public boolean isBlockStart(String line) throws ParserException
 	{
 		return !line.isEmpty() && !line.equals("\n") && !isComment(line) && !isMethod(line) && !isVariable(line) && CodeBlockType.getCodeBlockType(this, line) != null;
 	}
@@ -92,7 +89,7 @@ public class CodeBlock implements IAnnotable
 					cb = null;
 				
 				if (line.startsWith("return "))
-					return parser.parse(line.replaceFirst(Pattern.quote("return "), ""));
+					return parser.directParse(line.replaceFirst(Pattern.quote("return "), ""));
 				
 				if (cb != null && !isBlockStart(line) && !line.startsWith("{") && !isBlockEnd(line))
 					cb.lines.add(line);
@@ -114,16 +111,21 @@ public class CodeBlock implements IAnnotable
 				if (cb == null)
 					this.executeLine(line);
 			}
+			catch (ParserException pex)
+			{
+				System.out.println("  Syntax error while executing line " + i + ": ");
+				throw new RuntimeException(pex);
+			}
 			catch (Exception ex)
 			{
 				System.out.println("  Exception while executing line " + i + ": ");
-				ex.printStackTrace();
+				throw new RuntimeException(ex);
 			}
 		}
 		return null;
 	}
 	
-	public void executeLine(String line)
+	public void executeLine(String line) throws ParserException
 	{
 		if (TextModHelper.isLineValid(line))
 		{
@@ -140,10 +142,14 @@ public class CodeBlock implements IAnnotable
 				this.parser.update(this);
 				System.out.println("  Variable \'" + v.name + "\' of type \'" + v.type.toString() + "\' added with value \'" + v.value.toString() + "\'.");
 			}
+			else
+			{
+				throw new ParserException("Invalid line '" + line + "'");
+			}
 		}
 	}
 	
-	public Method getMethod(String line)
+	public Method getMethod(String line) throws ParserException
 	{
 		PredefinedMethod method = (PredefinedMethod) readMethod(line);
 		if (method.isValid())
@@ -157,7 +163,7 @@ public class CodeBlock implements IAnnotable
 		return getCodeBlockClass().getCustomMethod(name);
 	}
 	
-	public Method readMethod(String line)
+	public Method readMethod(String line) throws ParserException
 	{
 		// Replaces the method identifier
 		line = line.replaceFirst("[>]", "").trim();
@@ -181,7 +187,7 @@ public class CodeBlock implements IAnnotable
 		return method.execute(this, method.parameters);
 	}
 	
-	public Variable getVariable(String line)
+	public Variable getVariable(String line) throws ParserException
 	{
 		String[] split = TextModHelper.createParameterList(line.replace(";", ""), ' ');
 		Variable var = null;
@@ -189,14 +195,14 @@ public class CodeBlock implements IAnnotable
 		{
 			Type type = Type.getTypeFromName(split[0]);
 			String name = split[1];
-			Object value = parser.parse(split[3]);
+			Object value = parser.directParse(split[3]);
 			var = new Variable(type, name, value);
 		}
 		else // First part is an existing variable name
 		{
 			Variable var1 = variables.get(split[0]);
 			String operator = split[1];
-			Object value = parser.parse(split[2]);
+			Object value = parser.directParse(split[2]);
 			var = operate(var1, operator, value);
 		}
 		return var;

@@ -3,6 +3,7 @@ package com.chaosdev.textmodloader.util.annotations;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.codeblock.ClassCodeBlock;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 import com.chaosdev.textmodloader.util.method.Method;
@@ -41,7 +42,7 @@ public abstract class Annotation
 		annotations.put(name, this);
 	}
 	
-	public static Annotation fromLine(CodeBlock codeblock, String line, String nextLine)
+	public static Annotation fromLine(CodeBlock codeblock, String line, String nextLine) throws ParserException
 	{
 		Method m = codeblock.readMethod(line);
 		return annotations.get(m.name);

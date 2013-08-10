@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.TextModConstants;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
@@ -38,7 +39,7 @@ public abstract class CodeBlockType implements TextModConstants
 		return parameters;
 	}
 	
-	public abstract void setup(CodeBlock codeblock, String line);
+	public abstract void setup(CodeBlock codeblock, String line) throws ParserException;
 	
 	public abstract Object execute(CodeBlock codeblock);
 	
@@ -47,7 +48,7 @@ public abstract class CodeBlockType implements TextModConstants
 		return ',';
 	}
 	
-	public boolean lineMatches(CodeBlock codeblock, String line)
+	public boolean lineMatches(CodeBlock codeblock, String line) throws ParserException
 	{
 		int brace1Pos = line.indexOf("(");
 		int brace2Pos = line.indexOf(")");
@@ -63,7 +64,7 @@ public abstract class CodeBlockType implements TextModConstants
 		return false;
 	}
 	
-	public boolean matches(CodeBlock codeblock, String init, Object... par)
+	public boolean matches(CodeBlock codeblock, String init, Object... par) throws ParserException
 	{
 		return (initMatches(codeblock, init) && parameterMatches(codeblock, par));
 	}
@@ -73,12 +74,12 @@ public abstract class CodeBlockType implements TextModConstants
 		return this.getInitializer().equals(init);
 	}
 	
-	public boolean parameterMatches(CodeBlock codeblock, Object... par)
+	public boolean parameterMatches(CodeBlock codeblock, Object... par) throws ParserException
 	{
 		return MethodExecuter.matches(par, this.getParameters());
 	}
 	
-	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, String line)
+	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, String line) throws ParserException
 	{
 		for (CodeBlockType type : codeBlockTypes)
 		{
@@ -88,7 +89,7 @@ public abstract class CodeBlockType implements TextModConstants
 		return null;
 	}
 	
-	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, String init, Object... par)
+	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, String init, Object... par) throws ParserException
 	{
 		for (CodeBlockType type : codeBlockTypes)
 		{

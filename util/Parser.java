@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import clashsoft.clashsoftapi.util.CSUtil;
 
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import com.chaosdev.textmodloader.util.operator.Operator;
 import com.chaosdev.textmodloader.util.types.Type;
 
 import net.minecraft.item.ItemStack;
@@ -19,12 +20,22 @@ public class Parser implements TextModConstants
 		this.codeblock = codeblock;
 	}
 	
+	/**
+	 * Helper method to update the sync the codeblock variables
+	 * @param codeblock
+	 */
 	public void update(CodeBlock codeblock)
 	{
 		this.codeblock = codeblock;
 	}
 	
-	public Object[] parse(String[] par)
+	/**
+	 * Parses a list of parsable objects
+	 * @param par
+	 * @return
+	 * @throws ParserException
+	 */
+	public Object[] parse(String... par) throws ParserException
 	{
 		Object[] obj = new Object[par.length];
 		for (int i = 0; i < par.length; i++)
@@ -34,7 +45,61 @@ public class Parser implements TextModConstants
 		return obj;
 	}
 	
-	public Object parse(String par1)
+	/**
+	 * Parses a String, even if it has operators in it
+	 * <p>
+	 * Example:
+	 * <p>
+	 * <code>
+	 * Object o = parse("\"Hello \" + 1")
+	 * </code>
+	 * <p>
+	 * would be the string
+	 * <p>
+	 * <code>
+	 * "Hello"1
+	 * </code>
+	 * @param par1
+	 * @return
+	 * @throws ParserException
+	 */
+	public Object parse(String par1) throws ParserException
+	{
+		String[] split = TextModHelper.createParameterList(par1, ' ');
+		
+		Object value = null;
+		for (int i = 0; i < split.length; i++)
+		{
+			String s = split[i];
+			Operator op = Operator.fromString(s);
+			Object o = parse(s);
+			if (op == null)
+				value = o;
+			else if (value != null && op.canOperate(Type.getTypeFromClass(value.getClass()), Type.getTypeFromClass(o.getClass())))
+				value = op.operate(value, o);
+			else
+				throw new ParserException("Invalid operator '" + s + "'");
+		}
+		return value;
+	}
+	
+	/**
+	 * Directly parses a string, ignores operators.
+	 * <p>
+	 * Example:
+	 * <p>
+	 * <code>
+	 * Object o = parser.directParse("\"Hello \"" + 1")
+	 * </code>
+	 * <p>
+	 * would cause a ParserException, because operators are not supported by this method.
+	 * <p>
+	 * Use parse(String) instead.
+	 * @param par1 String to parse
+	 * @return Parsed object
+	 * @throws ParserException
+	 */
+	public Object directParse(String par1) throws ParserException
 	{
 		par1 = par1.trim();
 		String normalCase = par1;
@@ -70,20 +135,38 @@ public class Parser implements TextModConstants
 		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
 			return parseArray(par1);
 		
-		return par1; // Everything else is parsed by the textmod.
+		throw new ParserException("Unable to parse: " + par1);
 	}
 	
-	public double parseNumber(String par1)
+	/**
+	 * Parses a number, using JavaScript for operators
+	 * @param par1
+	 * @return
+	 * @throws ParserException
+	 */
+	public double parseNumber(String par1) throws ParserException
 	{
 		return CSUtil.calculateFromString(normalize(par1));
 	}
 	
-	public boolean parseBoolean(String par1)
+	/**
+	 * Parses a boolean, using JavaScript for operators
+	 * @param par1
+	 * @return
+	 * @throws ParserException
+	 */
+	public boolean parseBoolean(String par1) throws ParserException
 	{
 		return CSUtil.createBoolean(normalize(par1));
 	}
 	
-	public String normalize(String par1)
+	/**
+	 * Normalizes a string for use in JavaScript evaluation
+	 * @param par1
+	 * @return
+	 * @throws ParserException
+	 */
+	public String normalize(String par1) throws ParserException
 	{
 		String[] split = TextModHelper.createParameterList(par1, ' ');
 		for (int i = 0; i < split.length; i++)
@@ -104,8 +187,9 @@ public class Parser implements TextModConstants
 	 * 
 	 * @param par1
 	 * @return
+	 * @throws ParserException 
 	 */
-	public Object parseArray(String par1)
+	public Object parseArray(String par1) throws ParserException
 	{
 		par1.replaceFirst(Pattern.quote("new "), "");
 		int brace1Pos = par1.indexOf("{");
@@ -119,7 +203,13 @@ public class Parser implements TextModConstants
 		return arrayWithType(type, aparameters2);
 	}
 	
-	public Object arrayWithType(String type, Object[] values)
+	/**
+	 * Creates an array of the type
+	 * @param type
+	 * @param values
+	 * @return
+	 */
+	public Object arrayWithType(String type, Object... values)
 	{
 		type = type.trim().toLowerCase();
 		Type type1 = Type.getTypeFromName(type);
@@ -130,7 +220,13 @@ public class Parser implements TextModConstants
 		return array;
 	}
 	
-	public Object parseInstance(String par1)
+	/**
+	 * Parses a new-instance-directive
+	 * @param par1
+	 * @return
+	 * @throws ParserException
+	 */
+	public Object parseInstance(String par1) throws ParserException
 	{
 		String nonew = par1.trim().replaceFirst("new ", "");
 		int brace1Pos = nonew.indexOf(TextModConstants.NEW_INSTANCE_START_CHAR);
@@ -141,7 +237,13 @@ public class Parser implements TextModConstants
 		return createInstance(type, parse(par2));
 	}
 	
-	public Object createInstance(String type, Object[] parameters)
+	/**
+	 * Creates a new Object of type <i> type </i> using the parameters <i> parameters </i>.
+	 * @param type
+	 * @param parameters
+	 * @return
+	 */
+	public Object createInstance(String type, Object... parameters)
 	{
 		if (Type.getTypeFromName(type).getClass().equals(ItemStack.class))
 		{

@@ -1,5 +1,6 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
+import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.Variable;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
@@ -16,13 +17,13 @@ public class CBTFor extends CodeBlockType
 	}
 
 	@Override
-	public void setup(CodeBlock codeblock, String line)
+	public void setup(CodeBlock codeblock, String line) throws ParserException
 	{
 		String[] parts = TextModHelper.createParameterList(line, ';');
 		
 		var = codeblock.getVariable(parts[0]);
-		end = (Boolean) codeblock.parser.parse(parts[1]);
-		step = (Integer) codeblock.parser.parse(parts[2]);
+		end = (Boolean) codeblock.parser.directParse(parts[1]);
+		step = (Integer) codeblock.parser.directParse(parts[2]);
 	}
 	
 	@Override
