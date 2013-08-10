@@ -51,7 +51,7 @@ public class CBTMethod extends CodeBlockType
 	@Override
 	public boolean initMatches(CodeBlock codeblock, String init)
 	{
-		return Type.getTypeFromName(init.substring(0, init.indexOf(" ")).trim()) != null;
+		return init.indexOf(" ") != -1 && Type.getTypeFromName(init.substring(0, init.indexOf(" ")).trim()) != null;
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import com.chaosdev.textmodloader.util.annotations.IAnnotable;
 import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
 import com.chaosdev.textmodloader.util.method.Method;
 import com.chaosdev.textmodloader.util.method.PredefinedMethod;
+import com.chaosdev.textmodloader.util.operator.Operator;
 import com.chaosdev.textmodloader.util.types.Type;
 
 public class CodeBlock implements IAnnotable
@@ -127,7 +128,7 @@ public class CodeBlock implements IAnnotable
 		if (TextModHelper.isLineValid(line))
 		{
 			System.out.println("  Reading line: " + line);
-			if (isMethod(line)) // Method invokation
+			if (isMethod(line)) // Method invocation
 			{
 				Method method = getMethod(line);
 				executeMethod(method);
@@ -191,8 +192,7 @@ public class CodeBlock implements IAnnotable
 			Object value = parser.parse(split[3]);
 			var = new Variable(type, name, value);
 		}
-		else
-		// First part is an existing variable name
+		else // First part is an existing variable name
 		{
 			Variable var1 = variables.get(split[0]);
 			String operator = split[1];
@@ -233,129 +233,12 @@ public class CodeBlock implements IAnnotable
 	public Variable operate(Variable var1, String operator, Object value)
 	{
 		if (operator.equals("="))
-		{
 			var1.value = value;
-			return var1;
-		}
-		else if (operator.equals("+="))
+		else
 		{
-			if (var1.value instanceof String && value instanceof String)
-			{
-				var1.value = (String) var1.value + (String) value;
-				return var1;
-			}
-			try
-			{
-				double i = ((Double) var1.value);
-				double j = ((Double) value);
-				i += j;
-				var1.value = i;
-				return var1;
-			}
-			catch (ClassCastException cce)
-			{
-				return var1;
-			}
-		}
-		else if (operator.equals("-="))
-		{
-			try
-			{
-				double i = ((Double) var1.value);
-				double j = ((Double) value);
-				i -= j;
-				var1.value = i;
-				return var1;
-			}
-			catch (ClassCastException cce)
-			{
-				return var1;
-			}
-		}
-		else if (operator.equals("*="))
-		{
-			try
-			{
-				double i = ((Double) var1.value);
-				double j = ((Double) value);
-				i *= j;
-				var1.value = i;
-				return var1;
-			}
-			catch (ClassCastException cce)
-			{
-				return var1;
-			}
-		}
-		else if (operator.equals("/="))
-		{
-			try
-			{
-				double i = ((Double) var1.value);
-				double j = ((Double) value);
-				i /= j;
-				var1.value = i;
-				return var1;
-			}
-			catch (ClassCastException cce)
-			{
-				return var1;
-			}
-		}
-		else if (operator.equals("%="))
-		{
-			try
-			{
-				double i = ((Double) var1.value);
-				double j = ((Double) value);
-				i %= j;
-				var1.value = i;
-				return var1;
-			}
-			catch (ClassCastException cce)
-			{
-				return var1;
-			}
-		}
-		else if (operator.equals("&="))
-		{
-			if (var1.value instanceof Boolean && value instanceof Boolean)
-			{
-				var1.value = (Boolean) var1.value & (Boolean) value;
-				return var1;
-			}
-			try
-			{
-				int i = ((Integer) var1.value);
-				int j = ((Integer) value);
-				i &= j;
-				var1.value = i;
-				return var1;
-			}
-			catch (ClassCastException cce)
-			{
-				return var1;
-			}
-		}
-		else if (operator.equals("|="))
-		{
-			if (var1.value instanceof Boolean && value instanceof Boolean)
-			{
-				var1.value = (Boolean) var1.value | (Boolean) value;
-				return var1;
-			}
-			try
-			{
-				int i = ((Integer) var1.value);
-				int j = ((Integer) value);
-				i |= j;
-				var1.value = i;
-				return var1;
-			}
-			catch (ClassCastException cce)
-			{
-				return var1;
-			}
+			Operator op = Operator.fromString(operator);
+			if (op.canOperate(var1.type, Type.getTypeFromClass(value.getClass())))
+				var1.value = op.operate(var1.value, value);
 		}
 		return var1;
 	}

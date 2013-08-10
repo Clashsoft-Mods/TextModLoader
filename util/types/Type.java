@@ -18,6 +18,7 @@ public class Type
 	public static Type			STRING		= new Type(String.class, "String");
 	public static Type			CHAR		= new Type(Character.class, "char", "Character");
 	public static Type			BOOLEAN		= new Type(Boolean.class, "boolean", "Boolean");
+	public static Type			BYTE		= new Type(Byte.class, "byte", "Byte");
 	public static Type			INT			= new Type(Integer.class, "int", "Integer");
 	public static Type			FLOAT		= new Type(Float.class, "float", "Float");
 	public static Type			DOUBLE		= new Type(Double.class, "double", "Double");
@@ -35,6 +36,21 @@ public class Type
 		types.add(this);
 	}
 	
+	public static boolean isNumeric(Type type)
+	{
+		return isInteger(type) || type == FLOAT || type == DOUBLE;
+	}
+	
+	public static boolean isInteger(Type type)
+	{
+		return type == INT || type == BYTE || type == CHAR;
+	}
+	
+	public static boolean isBoolean(Type type)
+	{
+		return type == BOOLEAN;
+	}
+	
 	public static Type getTypeFromName(String name)
 	{
 		for (Type t : types)
@@ -45,7 +61,17 @@ public class Type
 					return t;
 			}
 		}
-		return null;
+		return VOID;
+	}
+	
+	public static Type getTypeFromClass(Class c)
+	{
+		for (Type t : types)
+		{
+			if (t.type != null && t.type.equals(c))
+				return t;
+		}
+		return VOID;
 	}
 	
 	@Override
