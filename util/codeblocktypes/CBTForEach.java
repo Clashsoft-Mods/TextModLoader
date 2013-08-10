@@ -8,9 +8,9 @@ import com.chaosdev.textmodloader.util.types.Type;
 
 public class CBTForEach extends CodeBlockType
 {
-	public Type type = Type.OBJECT;
-	public String name = "";
-	public Object field = null;
+	public Type		type	= Type.OBJECT;
+	public String	name	= "";
+	public Object	field	= null;
 	
 	public CBTForEach(String initializer)
 	{
@@ -22,7 +22,7 @@ public class CBTForEach extends CodeBlockType
 	{
 		if (field.getClass().isArray())
 		{
-			for (Object o : (Object[])field)
+			for (Object o : (Object[]) field)
 			{
 				codeblock.variables.put(name, new Variable(type, name, o));
 				codeblock.execute();
@@ -31,7 +31,7 @@ public class CBTForEach extends CodeBlockType
 		}
 		else if (field instanceof Iterable)
 		{
-			for (Object o : (Iterable)field)
+			for (Object o : (Iterable) field)
 			{
 				codeblock.variables.put(name, new Variable(type, name, o));
 				codeblock.execute();

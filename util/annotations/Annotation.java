@@ -1,5 +1,7 @@
 package com.chaosdev.textmodloader.util.annotations;
 
+import static com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationType.NOTHING;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,31 +10,27 @@ import com.chaosdev.textmodloader.util.codeblock.ClassCodeBlock;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 import com.chaosdev.textmodloader.util.method.Method;
 
-import static com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationType.*;
-
 public abstract class Annotation
 {
 	public static enum AnnotationType
 	{
-		NOTHING,
-		VARIABLE,
-		METHOD
+		NOTHING, VARIABLE, METHOD
 	}
 	
-	public static Map<String, Annotation> annotations = new HashMap<String, Annotation>();
+	public static Map<String, Annotation>	annotations	= new HashMap<String, Annotation>();
 	
-	public static Annotation AUTHOR = new Annotation("author", NOTHING)
-	{
-		@Override
-		public void apply(String annotLine, CodeBlock codeblock, IAnnotable object)
-		{
-			if (object instanceof ClassCodeBlock)
-				((ClassCodeBlock)codeblock).author = annotLine;
-		} 
-	};
+	public static Annotation				AUTHOR		= new Annotation("author", NOTHING)
+														{
+															@Override
+															public void apply(String annotLine, CodeBlock codeblock, IAnnotable object)
+															{
+																if (object instanceof ClassCodeBlock)
+																	((ClassCodeBlock) codeblock).author = annotLine;
+															}
+														};
 	
-	public String name;
-	public AnnotationType type;
+	public String							name;
+	public AnnotationType					type;
 	
 	public Annotation(String name, AnnotationType type)
 	{

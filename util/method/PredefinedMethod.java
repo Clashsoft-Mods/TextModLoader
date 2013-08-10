@@ -15,7 +15,7 @@ public class PredefinedMethod extends Method
 	{
 		return TextModHelper.getMethodExecuterFromName(name);
 	}
-
+	
 	@Override
 	public Object execute(CodeBlock superCodeBlock, Object... parameters)
 	{

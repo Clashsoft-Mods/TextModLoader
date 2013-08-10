@@ -1,7 +1,5 @@
 package com.chaosdev.textmodloader.methods;
 
-import com.chaosdev.textmodloader.util.TextModHelper;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.StepSound;
 import net.minecraft.block.material.Material;

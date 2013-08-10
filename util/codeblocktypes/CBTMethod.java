@@ -8,12 +8,12 @@ import com.chaosdev.textmodloader.util.method.CustomMethod;
 import com.chaosdev.textmodloader.util.types.Type;
 
 public class CBTMethod extends CodeBlockType
-{	
+{
 	public CBTMethod()
 	{
 		super("");
 	}
-
+	
 	@Override
 	public void setup(CodeBlock codeblock, String line)
 	{
@@ -41,19 +41,19 @@ public class CBTMethod extends CodeBlockType
 		}
 		return new CustomMethod(methodName, new Object[] {}, vars, codeblock);
 	}
-
+	
 	@Override
 	public Object execute(CodeBlock codeblock)
 	{
 		return null;
 	}
-
+	
 	@Override
 	public boolean initMatches(CodeBlock codeblock, String init)
 	{
 		return init.indexOf(" ") != -1 && Type.getTypeFromName(init.substring(0, init.indexOf(" ")).trim()) != null;
 	}
-
+	
 	@Override
 	public boolean parameterMatches(CodeBlock codeblock, Object... par)
 	{

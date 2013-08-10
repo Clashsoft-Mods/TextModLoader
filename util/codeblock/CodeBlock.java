@@ -17,7 +17,7 @@ import com.chaosdev.textmodloader.util.method.PredefinedMethod;
 import com.chaosdev.textmodloader.util.operator.Operator;
 import com.chaosdev.textmodloader.util.types.Type;
 
-public class CodeBlock implements IAnnotable
+public class CodeBlock implements IAnnotable, TextModConstants
 {
 	public boolean					blockComment	= false;
 	
@@ -84,8 +84,8 @@ public class CodeBlock implements IAnnotable
 				blockComment = false;
 			
 			try
-			{	
-				if (cb instanceof SpecialCodeBlock && ((SpecialCodeBlock) cb).getCodeBlockType().isBreakable() && line.equals("break;"))
+			{
+				if (cb instanceof HeaderCodeBlock && ((HeaderCodeBlock) cb).getCodeBlockType().isBreakable() && line.equals("break;"))
 					cb = null;
 				
 				if (line.startsWith("return "))
@@ -95,7 +95,7 @@ public class CodeBlock implements IAnnotable
 					cb.lines.add(line);
 				
 				if (isBlockStart(line))
-					cb = new SpecialCodeBlock(line, this);
+					cb = new HeaderCodeBlock(line, this);
 				
 				else if (line.startsWith("{") && cb == null)
 					cb = new CodeBlock(this);
@@ -166,14 +166,14 @@ public class CodeBlock implements IAnnotable
 	public Method readMethod(String line) throws ParserException
 	{
 		// Replaces the method identifier
-		line = line.replaceFirst("[>]", "").trim();
-		int i = line.indexOf(TextModConstants.METHOD_PARAMETERS_START_CHAR);
-		int j = line.lastIndexOf(TextModConstants.METHOD_PARAMETERS_END_CHAR);
-		if (i == -1 || j == -1)
+		int parametersStart = line.indexOf(METHOD_PARAMETERS_START_CHAR);
+		int parametersEnd = line.lastIndexOf(METHOD_PARAMETERS_END_CHAR);
+		if (parametersStart == -1 || parametersEnd == -1)
 			return null;
-		String methodName = line.substring(0, i);
-		String parameters = line.substring(i + 1, j);
-		String[] aparameters = TextModHelper.createParameterList(parameters, TextModConstants.PARAMETER_SPLIT_CHAR.charAt(0));
+		
+		String methodName = line.substring(0, parametersStart);
+		String parameters = line.substring(parametersStart + 1, parametersEnd);
+		String[] aparameters = TextModHelper.createParameterList(parameters, PARAMETER_SPLIT_CHAR.charAt(0));
 		for (int m = 0; m < aparameters.length; m++)
 		{
 			aparameters[m] = aparameters[m].trim();
@@ -198,7 +198,8 @@ public class CodeBlock implements IAnnotable
 			Object value = parser.directParse(split[3]);
 			var = new Variable(type, name, value);
 		}
-		else // First part is an existing variable name
+		else
+		// First part is an existing variable name
 		{
 			Variable var1 = variables.get(split[0]);
 			String operator = split[1];
@@ -248,7 +249,7 @@ public class CodeBlock implements IAnnotable
 		}
 		return var1;
 	}
-
+	
 	@Override
 	public AnnotationType getAnnotationType()
 	{

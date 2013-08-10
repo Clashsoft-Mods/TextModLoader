@@ -6,13 +6,13 @@ import com.chaosdev.textmodloader.util.method.Method;
 
 public class CBTIf extends CodeBlockType
 {
-	private boolean value = false;
+	private boolean	value	= false;
 	
 	public CBTIf(String initializer)
 	{
 		super(initializer, Boolean.class);
 	}
-
+	
 	@Override
 	public Object execute(CodeBlock codeblock)
 	{
@@ -22,7 +22,7 @@ public class CBTIf extends CodeBlockType
 		
 		return value;
 	}
-
+	
 	@Override
 	public void setup(CodeBlock codeblock, String line) throws ParserException
 	{

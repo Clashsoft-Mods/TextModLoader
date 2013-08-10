@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import clashsoft.clashsoftapi.util.CSUtil;
+
 import com.chaosdev.textmodloader.methods.block.MethodAddBlock;
 import com.chaosdev.textmodloader.methods.block.MethodAddSpecialBlock;
 import com.chaosdev.textmodloader.methods.crafting.MethodAddFuel;
@@ -12,17 +14,9 @@ import com.chaosdev.textmodloader.methods.crafting.MethodCraftingShapeless;
 import com.chaosdev.textmodloader.methods.crafting.MethodSmelting;
 import com.chaosdev.textmodloader.methods.item.MethodAddItem;
 import com.chaosdev.textmodloader.methods.item.MethodAddSpecialItem;
-import com.chaosdev.textmodloader.methods.util.MethodAddLocalization;
-import com.chaosdev.textmodloader.methods.util.MethodGetID;
-import com.chaosdev.textmodloader.methods.util.MethodHelp;
-import com.chaosdev.textmodloader.methods.util.MethodMath;
-import com.chaosdev.textmodloader.methods.util.MethodToString;
+import com.chaosdev.textmodloader.methods.util.*;
 import com.chaosdev.textmodloader.util.TextModHelper;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.Configuration;
-import clashsoft.clashsoftapi.util.CSUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -33,20 +27,24 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.Configuration;
+
 @Mod(modid = "TextModLoader", name = "Text Mod Loader", version = CSUtil.CURRENT_VERION)
 @NetworkMod(channels = { "TextModLoader" }, serverSideRequired = false, clientSideRequired = true)
 public class TextModLoader
 {
 	@Instance("TextModLoader")
-	public static TextModLoader instance;
+	public static TextModLoader	instance;
 	
-	public static final String MOD_CLASS_SUFFIX = ".textmod";
+	public static final String	MOD_CLASS_SUFFIX	= ".textmod";
 	
-	public static List<TextMod> loadedTextMods = new LinkedList<TextMod>();
+	public static List<TextMod>	loadedTextMods		= new LinkedList<TextMod>();
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
-	{	
+	{
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
 		
@@ -55,7 +53,7 @@ public class TextModLoader
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event)
-	{	
+	{
 		System.out.println("Loading TextModLoader");
 		System.out.println("Registering Method Executers");
 		

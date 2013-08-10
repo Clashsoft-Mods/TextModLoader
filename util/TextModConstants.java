@@ -2,7 +2,8 @@ package com.chaosdev.textmodloader.util;
 
 public interface TextModConstants
 {
-
+	public static final String	TML_CLASS_NAME					= "TextModLoader";
+	
 	public static final String	PARAMETER_SPLIT_CHAR			= ",";
 	public static final String	ARRAY_SPLIT_CHAR				= ",";
 	public static final String	ARRAY_START_CHAR				= "{";

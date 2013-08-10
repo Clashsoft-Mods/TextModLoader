@@ -43,7 +43,7 @@ public class Type
 	
 	public static boolean isInteger(Type type)
 	{
-		return type == BYTE || type == SHORT || type == INT || type == LONG|| type == CHAR;
+		return type == BYTE || type == SHORT || type == INT || type == LONG || type == CHAR;
 	}
 	
 	public static boolean isBoolean(Type type)

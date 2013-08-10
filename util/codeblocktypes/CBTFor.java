@@ -7,15 +7,15 @@ import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
 public class CBTFor extends CodeBlockType
 {
-	private Variable var;
-	private boolean end;
-	private int step;
+	private Variable	var;
+	private boolean		end;
+	private int			step;
 	
 	public CBTFor(String initializer)
 	{
 		super(initializer, new Class[] {});
 	}
-
+	
 	@Override
 	public void setup(CodeBlock codeblock, String line) throws ParserException
 	{
@@ -30,7 +30,7 @@ public class CBTFor extends CodeBlockType
 	public Object execute(CodeBlock codeblock)
 	{
 		int var1 = (Integer) var.value;
-		for (int i = var1; end; i += step) //TODO
+		for (int i = var1; end; i += step) // TODO
 		{
 			codeblock.variables.put(var.name, var);
 			codeblock.execute();
@@ -39,6 +39,7 @@ public class CBTFor extends CodeBlockType
 		return null;
 	}
 	
+	@Override
 	public boolean isBreakable()
 	{
 		return true;

@@ -9,9 +9,9 @@ import com.chaosdev.textmodloader.util.method.Method;
 
 public class ClassCodeBlock extends CodeBlock
 {
-	public String	author			= "";
+	public String				author			= "";
 	
-	public Map<String, Method> customMethods = new HashMap<String, Method>();
+	public Map<String, Method>	customMethods	= new HashMap<String, Method>();
 	
 	public ClassCodeBlock()
 	{

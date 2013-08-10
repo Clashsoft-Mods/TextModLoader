@@ -22,6 +22,7 @@ public class Parser implements TextModConstants
 	
 	/**
 	 * Helper method to update the sync the codeblock variables
+	 * 
 	 * @param codeblock
 	 */
 	public void update(CodeBlock codeblock)
@@ -31,6 +32,7 @@ public class Parser implements TextModConstants
 	
 	/**
 	 * Parses a list of parsable objects
+	 * 
 	 * @param par
 	 * @return
 	 * @throws ParserException
@@ -59,6 +61,7 @@ public class Parser implements TextModConstants
 	 * <code>
 	 * "Hello"1
 	 * </code>
+	 * 
 	 * @param par1
 	 * @return
 	 * @throws ParserException
@@ -92,10 +95,13 @@ public class Parser implements TextModConstants
 	 * Object o = parser.directParse("\"Hello \"" + 1")
 	 * </code>
 	 * <p>
-	 * would cause a ParserException, because operators are not supported by this method.
+	 * would cause a ParserException, because operators are not supported by
+	 * this method.
 	 * <p>
 	 * Use parse(String) instead.
-	 * @param par1 String to parse
+	 * 
+	 * @param par1
+	 *            String to parse
 	 * @return Parsed object
 	 * @throws ParserException
 	 */
@@ -108,7 +114,9 @@ public class Parser implements TextModConstants
 		if (par1.startsWith("new ")) // New-Instance-Directives
 			return parseInstance(par1);
 		
-		else if (codeblock.getVariables().get(normalCase) != null) // Indicates a variable
+		else if (codeblock.getVariables().get(normalCase) != null) // Indicates
+																	// a
+																	// variable
 			return codeblock.getVariables().get(normalCase).value;
 		
 		else if (codeblock.isMethod(normalCase)) // Indicates a method
@@ -124,13 +132,13 @@ public class Parser implements TextModConstants
 			return (char) par1.substring(1, par1.length() - 1).charAt(0);
 		
 		else if (lowerCase.matches("-?\\d+(\\.\\d+)?")) // Integer
-			return (int)parseNumber(par1);
+			return (int) parseNumber(par1);
 		
 		else if (lowerCase.endsWith(FLOAT_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Float
-			return (float)parseNumber(par1);
+			return (float) parseNumber(par1);
 		
 		else if (lowerCase.endsWith(DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Double
-			return (double)parseNumber(par1);
+			return (double) parseNumber(par1);
 		
 		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
 			return parseArray(par1);
@@ -140,6 +148,7 @@ public class Parser implements TextModConstants
 	
 	/**
 	 * Parses a number, using JavaScript for operators
+	 * 
 	 * @param par1
 	 * @return
 	 * @throws ParserException
@@ -151,6 +160,7 @@ public class Parser implements TextModConstants
 	
 	/**
 	 * Parses a boolean, using JavaScript for operators
+	 * 
 	 * @param par1
 	 * @return
 	 * @throws ParserException
@@ -162,6 +172,7 @@ public class Parser implements TextModConstants
 	
 	/**
 	 * Normalizes a string for use in JavaScript evaluation
+	 * 
 	 * @param par1
 	 * @return
 	 * @throws ParserException
@@ -171,8 +182,16 @@ public class Parser implements TextModConstants
 		String[] split = TextModHelper.createParameterList(par1, ' ');
 		for (int i = 0; i < split.length; i++)
 		{
-			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").trim(); //Replaces indicator chars
-			if (codeblock.isMethod(split[i]) || codeblock.isVariable(split[i])) //Replaced methods and variables with their values
+			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").trim(); // Replaces
+																													// indicator
+																													// chars
+			if (codeblock.isMethod(split[i]) || codeblock.isVariable(split[i])) // Replaced
+																				// methods
+																				// and
+																				// variables
+																				// with
+																				// their
+																				// values
 				split[i] = parse(split[i]).toString();
 		}
 		StringBuilder sb = new StringBuilder();
@@ -187,7 +206,7 @@ public class Parser implements TextModConstants
 	 * 
 	 * @param par1
 	 * @return
-	 * @throws ParserException 
+	 * @throws ParserException
 	 */
 	public Object parseArray(String par1) throws ParserException
 	{
@@ -205,6 +224,7 @@ public class Parser implements TextModConstants
 	
 	/**
 	 * Creates an array of the type
+	 * 
 	 * @param type
 	 * @param values
 	 * @return
@@ -222,6 +242,7 @@ public class Parser implements TextModConstants
 	
 	/**
 	 * Parses a new-instance-directive
+	 * 
 	 * @param par1
 	 * @return
 	 * @throws ParserException
@@ -238,7 +259,9 @@ public class Parser implements TextModConstants
 	}
 	
 	/**
-	 * Creates a new Object of type <i> type </i> using the parameters <i> parameters </i>.
+	 * Creates a new Object of type <i> type </i> using the parameters <i>
+	 * parameters </i>.
+	 * 
 	 * @param type
 	 * @param parameters
 	 * @return

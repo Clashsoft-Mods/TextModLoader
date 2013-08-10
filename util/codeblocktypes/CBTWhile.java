@@ -6,13 +6,13 @@ import com.chaosdev.textmodloader.util.method.Method;
 
 public class CBTWhile extends CodeBlockType
 {
-	private boolean value = false;
+	private boolean	value	= false;
 	
 	public CBTWhile(String initializer)
 	{
 		super(initializer, Boolean.class);
 	}
-
+	
 	@Override
 	public Object execute(CodeBlock codeblock)
 	{
@@ -22,7 +22,7 @@ public class CBTWhile extends CodeBlockType
 		
 		return value;
 	}
-
+	
 	@Override
 	public void setup(CodeBlock codeblock, String line) throws ParserException
 	{

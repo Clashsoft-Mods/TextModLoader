@@ -5,8 +5,8 @@ import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
 public class CustomMethod extends Method
 {
-	private Variable[] variables;
-	private CodeBlock codeBlock;
+	private Variable[]	variables;
+	private CodeBlock	codeBlock;
 	
 	public CustomMethod(String name, Object[] parameters, Variable[] variables, CodeBlock codeblock)
 	{
@@ -14,7 +14,7 @@ public class CustomMethod extends Method
 		this.variables = variables;
 		this.codeBlock = codeblock;
 	}
-
+	
 	@Override
 	public Object execute(CodeBlock superCodeBlock, Object... parameters)
 	{

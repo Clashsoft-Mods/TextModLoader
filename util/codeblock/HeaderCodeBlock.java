@@ -3,11 +3,11 @@ package com.chaosdev.textmodloader.util.codeblock;
 import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
 
-public class SpecialCodeBlock extends CodeBlock
+public class HeaderCodeBlock extends CodeBlock
 {
-	public String executionLine;
+	public String	executionLine;
 	
-	public SpecialCodeBlock(String executionLine, CodeBlock superBlock)
+	public HeaderCodeBlock(String executionLine, CodeBlock superBlock)
 	{
 		super(superBlock);
 		this.executionLine = executionLine;
