@@ -86,7 +86,7 @@ public class Parser implements TextModConstants
 		{
 			String s = split[i];
 			Operator op = Operator.fromString(s);
-			Object o = parse(s);
+			Object o = directParse(s);
 			if (op == null)
 				value = o;
 			else if (value != null && op.canOperate(Type.getTypeFromClass(value.getClass()), Type.getTypeFromClass(o.getClass())))
@@ -192,17 +192,9 @@ public class Parser implements TextModConstants
 		String[] split = TextModHelper.createParameterList(par1, ' ');
 		for (int i = 0; i < split.length; i++)
 		{
-			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").trim(); // Replaces
-																													// indicator
-																													// chars
-			if (codeblock.isMethod(split[i]) || codeblock.isVariable(split[i])) // Replaced
-																				// methods
-																				// and
-																				// variables
-																				// with
-																				// their
-																				// values
-				split[i] = parse(split[i]).toString();
+			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").trim(); // Replaces indicator chars
+			if (codeblock.isMethod(split[i]) || codeblock.isVariable(split[i])) // Replaced methods and variables with their values
+				split[i] = directParse(split[i]).toString();
 		}
 		StringBuilder sb = new StringBuilder();
 		for (String s : split)

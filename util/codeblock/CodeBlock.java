@@ -368,7 +368,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public boolean isType(String par1)
 	{
-		return Type.getTypeFromName(par1) != null;
+		return Type.getTypeFromName(par1) != Type.VOID;
 	}
 	
 	/**
