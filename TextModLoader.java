@@ -15,6 +15,7 @@ import com.chaosdev.textmodloader.methods.crafting.MethodSmelting;
 import com.chaosdev.textmodloader.methods.item.MethodAddItem;
 import com.chaosdev.textmodloader.methods.item.MethodAddSpecialItem;
 import com.chaosdev.textmodloader.methods.util.*;
+import com.chaosdev.textmodloader.util.TextModConstants;
 import com.chaosdev.textmodloader.util.TextModHelper;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -33,12 +34,10 @@ import net.minecraftforge.common.Configuration;
 
 @Mod(modid = "TextModLoader", name = "Text Mod Loader", version = CSUtil.CURRENT_VERION)
 @NetworkMod(channels = { "TextModLoader" }, serverSideRequired = false, clientSideRequired = true)
-public class TextModLoader
+public class TextModLoader implements TextModConstants
 {
 	@Instance("TextModLoader")
-	public static TextModLoader	instance;
-	
-	public static final String	MOD_CLASS_SUFFIX	= ".textmod";
+	public static TextModConstants	instance;
 	
 	public static List<TextMod>	loadedTextMods		= new LinkedList<TextMod>();
 	
@@ -119,11 +118,12 @@ public class TextModLoader
 		return files;
 	}
 	
-	private void loadModClass(File modClass)
+	private long loadModClass(File modClass)
 	{
 		if (modClass.getName().endsWith(MOD_CLASS_SUFFIX))
 		{
-			TextMod.load(modClass);
+			return TextMod.load(modClass);
 		}
+		return 0L;
 	}
 }

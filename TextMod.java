@@ -43,7 +43,7 @@ public class TextMod extends ClassCodeBlock implements TextModConstants
 		return tm;
 	}
 	
-	public static void load(File modClass)
+	public static long load(File modClass)
 	{
 		try
 		{
@@ -53,10 +53,12 @@ public class TextMod extends ClassCodeBlock implements TextModConstants
 			tm.executedTime = System.currentTimeMillis();
 			System.out.println(" TextMod " + modClass + " loaded. (" + tm.getTotalLoadingTime() + " Milliseconds)");
 			TextModLoader.loadedTextMods.add(tm);
+			return tm.getTotalLoadingTime();
 		}
 		catch (Exception ex)
 		{
 			System.out.println(" Unable to load TextMod: " + ex.getMessage());
+			return 0L;
 		}
 	}
 }

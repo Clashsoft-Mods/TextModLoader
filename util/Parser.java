@@ -11,19 +11,30 @@ import com.chaosdev.textmodloader.util.types.Type;
 
 import net.minecraft.item.ItemStack;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Parser.
+ */
 public class Parser implements TextModConstants
 {
+	
+	/** The codeblock. */
 	private CodeBlock	codeblock;
 	
+	/**
+	 * Instantiates a new parser.
+	 *
+	 * @param codeblock the codeblock
+	 */
 	public Parser(CodeBlock codeblock)
 	{
 		this.codeblock = codeblock;
 	}
 	
 	/**
-	 * Helper method to update the sync the codeblock variables
-	 * 
-	 * @param codeblock
+	 * Helper method to update the sync the codeblock variables.
+	 *
+	 * @param codeblock the codeblock
 	 */
 	public void update(CodeBlock codeblock)
 	{
@@ -31,11 +42,11 @@ public class Parser implements TextModConstants
 	}
 	
 	/**
-	 * Parses a list of parsable objects
-	 * 
-	 * @param par
-	 * @return
-	 * @throws ParserException
+	 * Parses a list of parsable objects.
+	 *
+	 * @param par the par
+	 * @return the object[]
+	 * @throws ParserException the parser exception
 	 */
 	public Object[] parse(String... par) throws ParserException
 	{
@@ -60,11 +71,11 @@ public class Parser implements TextModConstants
 	 * <p>
 	 * <code>
 	 * "Hello"1
-	 * </code>
-	 * 
-	 * @param par1
-	 * @return
-	 * @throws ParserException
+	 * </code>.
+	 *
+	 * @param par1 the par1
+	 * @return the object
+	 * @throws ParserException the parser exception
 	 */
 	public Object parse(String par1) throws ParserException
 	{
@@ -99,11 +110,10 @@ public class Parser implements TextModConstants
 	 * this method.
 	 * <p>
 	 * Use parse(String) instead.
-	 * 
-	 * @param par1
-	 *            String to parse
+	 *
+	 * @param par1 String to parse
 	 * @return Parsed object
-	 * @throws ParserException
+	 * @throws ParserException the parser exception
 	 */
 	public Object directParse(String par1) throws ParserException
 	{
@@ -147,11 +157,11 @@ public class Parser implements TextModConstants
 	}
 	
 	/**
-	 * Parses a number, using JavaScript for operators
-	 * 
-	 * @param par1
-	 * @return
-	 * @throws ParserException
+	 * Parses a number, using JavaScript for operators.
+	 *
+	 * @param par1 the par1
+	 * @return the double
+	 * @throws ParserException the parser exception
 	 */
 	public double parseNumber(String par1) throws ParserException
 	{
@@ -159,11 +169,11 @@ public class Parser implements TextModConstants
 	}
 	
 	/**
-	 * Parses a boolean, using JavaScript for operators
-	 * 
-	 * @param par1
-	 * @return
-	 * @throws ParserException
+	 * Parses a boolean, using JavaScript for operators.
+	 *
+	 * @param par1 the par1
+	 * @return true, if successful
+	 * @throws ParserException the parser exception
 	 */
 	public boolean parseBoolean(String par1) throws ParserException
 	{
@@ -171,11 +181,11 @@ public class Parser implements TextModConstants
 	}
 	
 	/**
-	 * Normalizes a string for use in JavaScript evaluation
-	 * 
-	 * @param par1
-	 * @return
-	 * @throws ParserException
+	 * Normalizes a string for use in JavaScript evaluation.
+	 *
+	 * @param par1 the par1
+	 * @return the string
+	 * @throws ParserException the parser exception
 	 */
 	public String normalize(String par1) throws ParserException
 	{
@@ -203,10 +213,10 @@ public class Parser implements TextModConstants
 	/**
 	 * This will return an array of the specified type instead of an Object[]
 	 * that needs to be converted.
-	 * 
-	 * @param par1
-	 * @return
-	 * @throws ParserException
+	 *
+	 * @param par1 the par1
+	 * @return the object
+	 * @throws ParserException the parser exception
 	 */
 	public Object parseArray(String par1) throws ParserException
 	{
@@ -223,11 +233,11 @@ public class Parser implements TextModConstants
 	}
 	
 	/**
-	 * Creates an array of the type
-	 * 
-	 * @param type
-	 * @param values
-	 * @return
+	 * Creates an array of the type.
+	 *
+	 * @param type the type
+	 * @param values the values
+	 * @return the object
 	 */
 	public Object arrayWithType(String type, Object... values)
 	{
@@ -241,11 +251,11 @@ public class Parser implements TextModConstants
 	}
 	
 	/**
-	 * Parses a new-instance-directive
-	 * 
-	 * @param par1
-	 * @return
-	 * @throws ParserException
+	 * Parses a new-instance-directive.
+	 *
+	 * @param par1 the par1
+	 * @return the object
+	 * @throws ParserException the parser exception
 	 */
 	public Object parseInstance(String par1) throws ParserException
 	{
@@ -261,10 +271,10 @@ public class Parser implements TextModConstants
 	/**
 	 * Creates a new Object of type <i> type </i> using the parameters <i>
 	 * parameters </i>.
-	 * 
-	 * @param type
-	 * @param parameters
-	 * @return
+	 *
+	 * @param type the type
+	 * @param parameters the parameters
+	 * @return the object
 	 */
 	public Object createInstance(String type, Object... parameters)
 	{

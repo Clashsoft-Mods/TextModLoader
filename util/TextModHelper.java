@@ -8,10 +8,21 @@ import java.util.Map;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TextModHelper.
+ */
 public class TextModHelper implements TextModConstants
 {
+	
+	/** The methods. */
 	public static Map<String, MethodExecuter>	methods	= new HashMap<String, MethodExecuter>();
 	
+	/**
+	 * Register method executer.
+	 *
+	 * @param executer the executer
+	 */
 	public static void registerMethodExecuter(MethodExecuter executer)
 	{
 		if (executer == null)
@@ -30,6 +41,12 @@ public class TextModHelper implements TextModConstants
 		}
 	}
 	
+	/**
+	 * Register method executer.
+	 *
+	 * @param name the name
+	 * @param executer the executer
+	 */
 	private static void registerMethodExecuter(String name, MethodExecuter executer)
 	{
 		if (!name.startsWith(TML_CLASS_NAME + "."))
@@ -37,17 +54,36 @@ public class TextModHelper implements TextModConstants
 		methods.put(name, executer);
 	}
 	
+	/**
+	 * Gets the method executer from name.
+	 *
+	 * @param name the name
+	 * @return the method executer from name
+	 */
 	public static MethodExecuter getMethodExecuterFromName(String name)
 	{
 		String changedName = name.replaceFirst(">", "");
 		return methods.get(changedName);
 	}
 	
+	/**
+	 * Checks if is line valid.
+	 *
+	 * @param line the line
+	 * @return true, if is line valid
+	 */
 	public static boolean isLineValid(String line)
 	{
 		return line != null && !line.equals("") && !line.equals("\n") && !(new CodeBlock(null)).isComment(line);
 	}
 	
+	/**
+	 * Creates the parameter list.
+	 *
+	 * @param par1 the par1
+	 * @param splitChar the split char
+	 * @return the string[]
+	 */
 	public static String[] createParameterList(String par1, char splitChar)
 	{
 		List<String> strings = new LinkedList<String>();
@@ -91,11 +127,24 @@ public class TextModHelper implements TextModConstants
 		return ret;
 	}
 	
+	/**
+	 * Checks if is block start char.
+	 *
+	 * @param c the c
+	 * @return true, if is block start char
+	 */
 	public static boolean isBlockStartChar(char c)
 	{
 		return c == CHAR_START_CHAR.charAt(0) || c == STRING_START_CHAR.charAt(0) || c == METHOD_INVOCATION_START_CHAR.charAt(0) || c == ARRAY_START_CHAR.charAt(0) || c == NEW_INSTANCE_START_CHAR.charAt(0);
 	}
 	
+	/**
+	 * Checks if is valid block.
+	 *
+	 * @param s the s
+	 * @param e the e
+	 * @return true, if is valid block
+	 */
 	public static boolean isValidBlock(char s, char e)
 	{
 		return (s == CHAR_START_CHAR.charAt(0) && e == CHAR_END_CHAR.charAt(0)) || (s == STRING_START_CHAR.charAt(0) && e == STRING_END_CHAR.charAt(0)) || (s == METHOD_INVOCATION_START_CHAR.charAt(0) && e == METHOD_INVOCATION_END_CHAR.charAt(0)) || (s == ARRAY_START_CHAR.charAt(0) && e == ARRAY_END_CHAR.charAt(0)) || (s == NEW_INSTANCE_START_CHAR.charAt(0) && e == NEW_INSTANCE_END_CHAR.charAt(0));
