@@ -1,11 +1,12 @@
 package com.chaosdev.textmodloader.util;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface TextModConstants.
  */
 public interface TextModConstants
 {
+	/** The Constant ENABLE_THREADING **/
+	public static final boolean	ENABLE_THREADING				= false;
 	
 	/** The Constant TML_CLASS_NAME. */
 	public static final String	TML_CLASS_NAME					= "TextModLoader";
@@ -15,6 +16,10 @@ public interface TextModConstants
 	
 	/** The Constant PARAMETER_SPLIT_CHAR. */
 	public static final String	PARAMETER_SPLIT_CHAR			= ",";
+	
+	public static final String	ARRAY_INITIALIZER_START_CHAR	= "[";
+	
+	public static final String	ARRAY_INITIALIZER_END_CHAR		= "]";
 	
 	/** The Constant ARRAY_SPLIT_CHAR. */
 	public static final String	ARRAY_SPLIT_CHAR				= ",";

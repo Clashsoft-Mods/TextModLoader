@@ -122,13 +122,16 @@ public class TextModLoader implements TextModConstants
 	{
 		if (modClass.getName().endsWith(MOD_CLASS_SUFFIX))
 		{
-			new Thread(new Runnable()
-			{
-				public void run()
+			if (ENABLE_THREADING)
+				new Thread(new Runnable()
 				{
-					TextMod.load(modClass);
-				}
-			}).start();
+					public void run()
+					{
+						TextMod.load(modClass);
+					}
+				}).start();
+			else
+				TextMod.load(modClass);
 		}
 	}
 }

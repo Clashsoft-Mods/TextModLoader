@@ -21,7 +21,7 @@ public class CBTFor extends CodeBlockType
 	{
 		String[] parts = TextModHelper.createParameterList(line, ';');
 		
-		var = codeblock.getVariable(parts[0]);
+		var = codeblock.readVariable(parts[0]);
 		end = (Boolean) codeblock.parser.directParse(parts[1]);
 		step = (Integer) codeblock.parser.directParse(parts[2]);
 	}

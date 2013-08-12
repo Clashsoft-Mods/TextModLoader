@@ -172,18 +172,18 @@ public class CodeBlock implements IAnnotable, TextModConstants
 					cb = null;
 				}
 				
-				if (cb == null)
+				if (cb == null && !isBlockEnd(line))
 					this.executeLine(line);
 			}
 			catch (ParserException pex)
 			{
-				System.out.println("  Syntax error while executing line " + i + ": ");
-				throw new RuntimeException(pex);
+				System.out.println("  Syntax error while executing line " + (i + 1) + ": " + pex.getMessage());
+				pex.printStackTrace();
 			}
 			catch (Exception ex)
 			{
-				System.out.println("  Exception while executing line " + i + ": ");
-				throw new RuntimeException(ex);
+				System.out.println("  Exception while executing line " + (i + 1) + ": " + ex.getMessage());
+				ex.printStackTrace();
 			}
 		}
 		return null;
@@ -209,10 +209,10 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			}
 			else if (isVariable(line)) // Variables
 			{
-				Variable v = getVariable(line);
+				Variable v = readVariable(line);
 				this.variables.put(v.name, v);
 				this.parser.update(this);
-				System.out.println("  Variable \'" + v.name + "\' of type \'" + v.type.toString() + "\' added with value \'" + v.value.toString() + "\'.");
+				System.out.println("  Variable \'" + v.name + "\' of type \'" + v.type.toString() + "\' added with value \'" + v.value + "\'.");
 			}
 			else
 			{
@@ -300,26 +300,36 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 * @throws ParserException
 	 *             the parser exception
 	 */
-	public Variable getVariable(String line) throws ParserException
+	public Variable readVariable(String line) throws ParserException
 	{
-		String[] split = TextModHelper.createParameterList(line.replace(";", ""), ' ');
+		line = line.replace(";", "").trim();
+		String[] split = TextModHelper.createParameterList(line, ' ');
 		Variable var = null;
 		if (isType(split[0])) // First part is a type declaration
 		{
 			Type type = Type.getTypeFromName(split[0]);
 			String name = split[1];
-			Object value = parser.directParse(split[3]);
+			Object value = parser.directParse(line.substring(line.indexOf("=") + 1).trim());
 			var = new Variable(type, name, value);
 		}
-		else
-		// First part is an existing variable name
+		else // First part is an existing variable name
 		{
-			Variable var1 = variables.get(split[0]);
+			Variable var1 = getVariable(split[0]);
 			String operator = split[1];
-			Object value = parser.directParse(split[2]);
+			Object value = parser.directParse(line.substring(line.indexOf(operator) + operator.length()).trim());
 			var = operate(var1, operator, value);
 		}
 		return var;
+	}
+	
+	public Variable getVariable(String name)
+	{
+		Variable v = variables.get(name);
+		
+		while (v == null && superCodeBlock != null)
+			v = superCodeBlock.variables.get(name);
+		
+		return v;
 	}
 	
 	/**

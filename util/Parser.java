@@ -121,16 +121,11 @@ public class Parser implements TextModConstants
 		String normalCase = par1;
 		String lowerCase = par1.toLowerCase();
 		
-		if (par1.startsWith("new ")) // New-Instance-Directives
+		if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
+			return parseArray(par1);
+		
+		else if (par1.startsWith("new ")) // New-Instance-Directives
 			return parseInstance(par1);
-		
-		else if (codeblock.getVariables().get(normalCase) != null) // Indicates
-																	// a
-																	// variable
-			return codeblock.getVariables().get(normalCase).value;
-		
-		else if (codeblock.isMethod(normalCase)) // Indicates a method
-			return codeblock.executeMethod(codeblock.getMethod(par1));
 		
 		else if (lowerCase.equals("true") || lowerCase.equals("false")) // Boolean
 			return (boolean) (lowerCase.equals("true") ? true : false);
@@ -150,8 +145,11 @@ public class Parser implements TextModConstants
 		else if (lowerCase.endsWith(DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Double
 			return (double) parseNumber(par1);
 		
-		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
-			return parseArray(par1);
+		else if (codeblock.getVariable(normalCase) != null) // Indicates a variable
+			return codeblock.getVariable(normalCase).value;
+		
+		else if (codeblock.isMethod(normalCase)) // Indicates a method
+			return codeblock.executeMethod(codeblock.getMethod(par1));
 		
 		throw new ParserException("Unable to parse: " + par1);
 	}
@@ -212,7 +210,7 @@ public class Parser implements TextModConstants
 	 */
 	public Object parseArray(String par1) throws ParserException
 	{
-		par1.replaceFirst(Pattern.quote("new "), "");
+		par1 = par1.replaceFirst(Pattern.quote("new "), "");
 		int brace1Pos = par1.indexOf("{");
 		int brace2Pos = par1.indexOf("}");
 		if (brace1Pos == -1 || brace2Pos == -1)
@@ -233,11 +231,14 @@ public class Parser implements TextModConstants
 	 */
 	public Object arrayWithType(String type, Object... values)
 	{
-		type = type.trim().toLowerCase();
+ 		type = type.trim().replaceAll("\\[\\]", "");
 		Type type1 = Type.getTypeFromName(type);
 		
-		Object[] array = (Object[]) Array.newInstance(type1.getClass(), values.length);
-		System.arraycopy(values, 0, array, 0, values.length);
+		Object[] array = (Object[]) Array.newInstance(type1.type, values.length);
+		for (int i = 0; i < values.length; i++)
+		{
+			array[i] = values[i];
+		}
 		
 		return array;
 	}
@@ -252,8 +253,12 @@ public class Parser implements TextModConstants
 	public Object parseInstance(String par1) throws ParserException
 	{
 		String nonew = par1.trim().replaceFirst("new ", "");
-		int brace1Pos = nonew.indexOf(TextModConstants.NEW_INSTANCE_START_CHAR);
-		int brace2Pos = nonew.indexOf(TextModConstants.NEW_INSTANCE_END_CHAR);
+		int brace1Pos = nonew.indexOf(NEW_INSTANCE_START_CHAR);
+		int brace2Pos = nonew.indexOf(NEW_INSTANCE_END_CHAR);
+		if (brace1Pos == -1)
+			brace1Pos = nonew.indexOf(ARRAY_INITIALIZER_START_CHAR);
+		if (brace2Pos == -1)
+			brace2Pos = nonew.indexOf(ARRAY_INITIALIZER_END_CHAR);
 		String type = nonew.substring(0, brace1Pos);
 		String par = nonew.substring(brace1Pos + 1, brace2Pos);
 		String[] par2 = TextModHelper.createParameterList(par, TextModConstants.PARAMETER_SPLIT_CHAR.charAt(0));
