@@ -118,12 +118,17 @@ public class TextModLoader implements TextModConstants
 		return files;
 	}
 	
-	private long loadModClass(File modClass)
+	private void loadModClass(final File modClass)
 	{
 		if (modClass.getName().endsWith(MOD_CLASS_SUFFIX))
 		{
-			return TextMod.load(modClass);
+			new Thread(new Runnable()
+			{
+				public void run()
+				{
+					TextMod.load(modClass);
+				}
+			}).start();
 		}
-		return 0L;
 	}
 }
