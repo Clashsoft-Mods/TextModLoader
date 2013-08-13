@@ -8,7 +8,6 @@ import java.util.Map;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TextModHelper.
  */
@@ -50,7 +49,7 @@ public class TextModHelper implements TextModConstants
 	private static void registerMethodExecuter(String name, MethodExecuter executer)
 	{
 		if (!name.startsWith(TML_CLASS_NAME + "."))
-			name = TML_CLASS_NAME + ".";
+			name = TML_CLASS_NAME + "." + name;
 		methods.put(name, executer);
 	}
 	
@@ -62,8 +61,7 @@ public class TextModHelper implements TextModConstants
 	 */
 	public static MethodExecuter getMethodExecuterFromName(String name)
 	{
-		String changedName = name.replaceFirst(">", "");
-		return methods.get(changedName);
+		return methods.get(name);
 	}
 	
 	/**

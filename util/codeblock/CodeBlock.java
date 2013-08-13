@@ -147,6 +147,8 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			if (line.trim().endsWith("*/"))
 				blockComment = false;
 			
+			System.out.println("  Reading line " + (i + 1) + ": " + line);
+			
 			try
 			{
 				if (cb instanceof HeaderCodeBlock && ((HeaderCodeBlock) cb).getCodeBlockType().isBreakable() && line.equals("break;"))
@@ -177,12 +179,12 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			}
 			catch (ParserException pex)
 			{
-				System.out.println("  Syntax error while executing line " + (i + 1) + ": " + pex.getMessage());
+				System.err.println("  Syntax error while executing line " + (i + 1) + ": " + pex.getMessage());
 				pex.printStackTrace();
 			}
 			catch (Exception ex)
 			{
-				System.out.println("  Exception while executing line " + (i + 1) + ": " + ex.getMessage());
+				System.err.println("  Exception while executing line " + (i + 1) + ": " + ex.getMessage());
 				ex.printStackTrace();
 			}
 		}
@@ -201,7 +203,6 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	{
 		if (TextModHelper.isLineValid(line))
 		{
-			System.out.println("  Reading line: " + line);
 			if (isMethod(line)) // Method invocation
 			{
 				Method method = getMethod(line);
@@ -219,6 +220,8 @@ public class CodeBlock implements IAnnotable, TextModConstants
 				throw new ParserException("Invalid line '" + line + "'");
 			}
 		}
+		else
+			System.out.println("  Invalid line, skipping");
 	}
 	
 	/**

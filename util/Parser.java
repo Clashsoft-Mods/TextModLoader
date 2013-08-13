@@ -79,7 +79,7 @@ public class Parser implements TextModConstants
 	 */
 	public Object parse(String par1) throws ParserException
 	{
-		String[] split = TextModHelper.createParameterList(par1, ' ');
+		String[] split = TextModHelper.createParameterList(par1.trim(), ' ');
 		
 		Object value = null;
 		for (int i = 0; i < split.length; i++)

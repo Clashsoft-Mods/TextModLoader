@@ -21,14 +21,16 @@ public class HeaderCodeBlock extends CodeBlock
 	@Override
 	public Object execute()
 	{
+		CodeBlockType cbt;
 		try
 		{
-			CodeBlockType cbt = getCodeBlockType();
+			cbt = getCodeBlockType();
 			cbt.setup(this, executionLine);
 			return cbt.execute(new CodeBlock(this.superCodeBlock, this.lines));
 		}
 		catch (ParserException ex)
 		{
+			ex.printStackTrace();
 			return null;
 		}
 	}

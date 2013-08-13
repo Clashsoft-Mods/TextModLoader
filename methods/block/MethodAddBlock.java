@@ -55,7 +55,7 @@ public class MethodAddBlock extends MethodExecuter
 	@Override
 	public String getName()
 	{
-		return "addblock";
+		return "addBlock";
 	}
 
 	public String getUsage()
