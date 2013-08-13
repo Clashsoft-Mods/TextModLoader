@@ -37,9 +37,10 @@ public class CBTMethod extends CodeBlockType
 		{
 			aparameters[m] = aparameters[m].trim();
 			String[] split = aparameters[m].split(" ");
-			vars[m] = new Variable(Type.getTypeFromName(split[0]), split[1], null);
+			if (split.length >= 2)
+				vars[m] = new Variable(Type.getTypeFromName(split[0]), split[1], null);
 		}
-		return new CustomMethod(methodName, new Object[] {}, vars, codeblock);
+		return new CustomMethod(methodName, new Object[] {}, vars, new CodeBlock(codeblock.superCodeBlock, codeblock.lines));
 	}
 	
 	@Override

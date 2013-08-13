@@ -61,4 +61,51 @@ public class TextMod extends ClassCodeBlock implements TextModConstants
 			return 0L;
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("TextMod [");
+		if (this.modName != null)
+		{
+			builder.append("modName=");
+			builder.append(this.modName);
+			builder.append(", ");
+		}
+		if (this.author != null)
+		{
+			builder.append("author=");
+			builder.append(this.author);
+			builder.append(", ");
+		}
+		if (this.customMethods != null)
+		{
+			builder.append("customMethods=");
+			builder.append(this.customMethods);
+			builder.append(", ");
+		}
+		if (this.superCodeBlock != null)
+		{
+			builder.append("superCodeBlock=");
+			builder.append(this.superCodeBlock);
+			builder.append(", ");
+		}
+		if (this.variables != null)
+		{
+			builder.append("variables=");
+			builder.append(this.variables);
+			builder.append(", ");
+		}
+		if (this.parser != null)
+		{
+			builder.append("parser=");
+			builder.append(this.parser);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

@@ -28,9 +28,6 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	/** The super code block. */
 	public CodeBlock				superCodeBlock;
 	
-	/** The code blocks. */
-	public List<CodeBlock>			codeBlocks;
-	
 	/** The lines. */
 	public List<String>				lines;
 	
@@ -63,7 +60,6 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	{
 		this.superCodeBlock = superBlock;
 		this.lines = lines;
-		this.codeBlocks = new LinkedList<CodeBlock>();
 		this.parser = new Parser(this);
 	}
 	
@@ -136,18 +132,24 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public Object execute()
 	{
+		System.out.println();
+		System.out.println("Exceuting Code Block: " + this.toString());
+		
 		Annotation nextAnnotation;
 		CodeBlock cb = null;
-		for (int i = 0; i < lines.size(); i++)
+		for (int lineNumber = 0; lineNumber < lines.size(); lineNumber++)
 		{
-			String line = lines.get(i).trim();
+			String line = lines.get(lineNumber).trim();
 			
-			if (line.trim().startsWith("/*"))
+			if (line.startsWith("/*"))
 				blockComment = true;
-			if (line.trim().endsWith("*/"))
+			if (line.endsWith("*/"))
 				blockComment = false;
 			
-			System.out.println("  Reading line " + (i + 1) + ": " + line);
+			System.out.println("  Reading line " + (lineNumber + 1) + ": " + line);
+			
+			if (lineNumber + 1 == 43)
+				System.out.println();
 			
 			try
 			{
@@ -168,9 +170,8 @@ public class CodeBlock implements IAnnotable, TextModConstants
 				
 				else if (isBlockEnd(line))
 				{
-					cb.lines.add(line.replace("}", "").trim());
+					cb.lines.add(line.replace("}", ""));
 					cb.execute();
-					codeBlocks.add(cb);
 					cb = null;
 				}
 				
@@ -179,15 +180,16 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			}
 			catch (ParserException pex)
 			{
-				System.err.println("  Syntax error while executing line " + (i + 1) + ": " + pex.getMessage());
+				System.err.println("  Syntax error while executing line " + (lineNumber + 1) + ": " + pex.getMessage());
 				pex.printStackTrace();
 			}
 			catch (Exception ex)
 			{
-				System.err.println("  Exception while executing line " + (i + 1) + ": " + ex.getMessage());
+				System.err.println("  Exception while executing line " + (lineNumber + 1) + ": " + ex.getMessage());
 				ex.printStackTrace();
 			}
 		}
+		System.out.println();
 		return null;
 	}
 	
@@ -364,9 +366,14 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	public boolean isMethod(String par1)
 	{
 		par1 = par1.replace(";", "");
-		if (par1.contains(TextModConstants.METHOD_PARAMETERS_START_CHAR) && par1.endsWith(TextModConstants.METHOD_PARAMETERS_END_CHAR))
+		if (par1.contains(METHOD_PARAMETERS_START_CHAR) && par1.endsWith(METHOD_PARAMETERS_END_CHAR))
 		{
-			MethodExecuter executer = TextModHelper.getMethodExecuterFromName(par1.substring(0, par1.indexOf(TextModConstants.METHOD_PARAMETERS_START_CHAR)));
+			String methodName = par1.substring(0, par1.indexOf(METHOD_PARAMETERS_START_CHAR));
+			
+			if (getCustomMethod(methodName) != null)
+				return true;
+			
+			MethodExecuter executer = TextModHelper.getMethodExecuterFromName(methodName);
 			return executer != null;
 		}
 		return false;
@@ -408,7 +415,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		return var1;
 	}
 	
-	/**
+	/*
 	 * (non-Javadoc)
 	 * @see
 	 * com.chaosdev.textmodloader.util.annotations.IAnnotable#getAnnotationType
@@ -418,5 +425,120 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	public AnnotationType getAnnotationType()
 	{
 		return AnnotationType.NOTHING;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.blockComment ? 1231 : 1237);
+		result = prime * result + ((this.lines == null) ? 0 : this.lines.hashCode());
+		result = prime * result + ((this.parser == null) ? 0 : this.parser.hashCode());
+		result = prime * result + ((this.superCodeBlock == null) ? 0 : this.superCodeBlock.hashCode());
+		result = prime * result + ((this.variables == null) ? 0 : this.variables.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		if (obj == null)
+		{
+			return false;
+		}
+		if (!(obj instanceof CodeBlock))
+		{
+			return false;
+		}
+		CodeBlock other = (CodeBlock) obj;
+		if (this.blockComment != other.blockComment)
+		{
+			return false;
+		}
+		if (this.lines == null)
+		{
+			if (other.lines != null)
+			{
+				return false;
+			}
+		}
+		else if (!this.lines.equals(other.lines))
+		{
+			return false;
+		}
+		if (this.parser == null)
+		{
+			if (other.parser != null)
+			{
+				return false;
+			}
+		}
+		else if (!this.parser.equals(other.parser))
+		{
+			return false;
+		}
+		if (this.superCodeBlock == null)
+		{
+			if (other.superCodeBlock != null)
+			{
+				return false;
+			}
+		}
+		else if (!this.superCodeBlock.equals(other.superCodeBlock))
+		{
+			return false;
+		}
+		if (this.variables == null)
+		{
+			if (other.variables != null)
+			{
+				return false;
+			}
+		}
+		else if (!this.variables.equals(other.variables))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("CodeBlock [");
+		if (this.superCodeBlock != null)
+		{
+			builder.append("superCodeBlock=");
+			builder.append(this.superCodeBlock);
+			builder.append(", ");
+		}
+		if (this.variables != null)
+		{
+			builder.append("variables=");
+			builder.append(this.variables);
+			builder.append(", ");
+		}
+		if (this.parser != null)
+		{
+			builder.append("parser=");
+			builder.append(this.parser);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 }

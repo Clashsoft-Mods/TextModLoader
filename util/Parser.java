@@ -82,17 +82,37 @@ public class Parser implements TextModConstants
 		String[] split = TextModHelper.createParameterList(par1.trim(), ' ');
 		
 		Object value = null;
+		String s = "";
 		for (int i = 0; i < split.length; i++)
 		{
-			String s = split[i];
-			Operator op = Operator.fromString(s);
-			Object o = directParse(s);
-			if (op == null)
-				value = o;
-			else if (value != null && op.canOperate(Type.getTypeFromClass(value.getClass()), Type.getTypeFromClass(o.getClass())))
-				value = op.operate(value, o);
+			String str = split[i];
+			Operator op = Operator.fromString(str);
+			
+			if (op != null && value != null && i + 1 != split.length)
+			{
+				Object o = directParse(split[i + 1]);
+				
+				if (op.canOperate(Type.getTypeFromClass(value.getClass()), Type.getTypeFromClass(o.getClass())))
+					value = op.operate(value, o);
+			}
 			else
-				throw new ParserException("Invalid operator '" + s + "'");
+			{
+				if (i + 1 != split.length)
+				{
+					if (Operator.fromString(split[i + 1]) == null)
+						s += split[i] + " ";
+					else
+					{
+						s += split[i];
+						value = directParse(s.trim());
+					}
+				}
+				else
+				{
+					s += split[i];
+					value = directParse(s.trim());
+				}
+			}
 		}
 		return value;
 	}
@@ -144,6 +164,9 @@ public class Parser implements TextModConstants
 		
 		else if (lowerCase.endsWith(DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Double
 			return (double) parseNumber(par1);
+		
+		else if (normalCase.equals("null"))
+			return null;
 		
 		else if (codeblock.getVariable(normalCase) != null) // Indicates a variable
 			return codeblock.getVariable(normalCase).value;

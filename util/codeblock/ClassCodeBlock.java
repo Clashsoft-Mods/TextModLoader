@@ -42,8 +42,11 @@ public class ClassCodeBlock extends CodeBlock
 	
 	public void registerMethod(Method method)
 	{
-		this.customMethods.put(method.name, method);
-		this.parser.update(this);
-		System.out.println("  Method \'" + method.name + "\' added.");
+		if (!method.name.equals(""))
+		{
+			this.customMethods.put(method.name, method);
+			this.parser.update(this);
+			System.out.println("  Method \'" + method.name + "\' added.");
+		}
 	}
 }
