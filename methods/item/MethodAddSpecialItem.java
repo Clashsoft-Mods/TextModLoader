@@ -1,25 +1,13 @@
 package com.chaosdev.textmodloader.methods.item;
 
-import net.minecraft.item.EnumArmorMaterial;
-import net.minecraft.item.EnumToolMaterial;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemSpade;
-import net.minecraft.item.ItemSword;
-import clashsoft.clashsoftapi.metatools.ItemMetaAxe;
-import clashsoft.clashsoftapi.metatools.ItemMetaHoe;
-import clashsoft.clashsoftapi.metatools.ItemMetaPickaxe;
-import clashsoft.clashsoftapi.metatools.ItemMetaSpade;
-import clashsoft.clashsoftapi.metatools.ItemMetaSword;
+import clashsoft.clashsoftapi.metatools.*;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
-import com.chaosdev.textmodloader.util.TextModHelper;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+
+import net.minecraft.item.*;
 
 public class MethodAddSpecialItem extends MethodExecuter
 {

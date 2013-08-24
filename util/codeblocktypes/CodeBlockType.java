@@ -4,10 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
-import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.TextModConstants;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import com.chaosdev.textmodloader.util.exceptions.ParserException;
 
 public abstract class CodeBlockType implements TextModConstants
 {
@@ -17,10 +17,10 @@ public abstract class CodeBlockType implements TextModConstants
 	private Class[]						parameters;
 	
 	public static CodeBlockType			IF				= new CBTIf("if");
+	public static CodeBlockType			METHOD			= new CBTMethod();
 	public static CodeBlockType			FOR				= new CBTFor("for");
 	public static CodeBlockType			FOREACH			= new CBTForEach("for");
 	public static CodeBlockType			WHILE			= new CBTWhile("while");
-	public static CodeBlockType			METHOD			= new CBTMethod();
 	
 	public CodeBlockType(String initializer, Class... parameters)
 	{
@@ -55,7 +55,7 @@ public abstract class CodeBlockType implements TextModConstants
 		
 		if (brace1Pos != -1 && brace2Pos != -1)
 		{
-			String init = line.substring(0, brace1Pos);
+			String init = line.substring(0, brace1Pos).trim();
 			String par = line.substring(brace1Pos + 1, brace2Pos);
 			String[] pars = TextModHelper.createParameterList(par, getSplitChar());
 			Object[] pars2 = codeblock.parser.parse(pars);

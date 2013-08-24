@@ -1,11 +1,15 @@
 package com.chaosdev.textmodloader.util;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import clashsoft.clashsoftapi.util.CSUtil;
 
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import com.chaosdev.textmodloader.util.exceptions.ParserException;
 import com.chaosdev.textmodloader.util.operator.Operator;
 import com.chaosdev.textmodloader.util.types.Type;
 
@@ -76,74 +80,79 @@ public class Parser implements TextModConstants
 	 * @throws ParserException the parser exception
 	 */
 	public Object parse(String par1) throws ParserException
-	{
-		Object value = null;
+	{	
+		String[] split = TextModHelper.createCharList(par1);
 		
-		String[] split = TextModHelper.createParameterList(par1, (char)0);
+		ArrayList<Object> list = new ArrayList<Object>();
 		
-		Operator lastOperator = null;
+		String op = "";
+		String string = "";
 		for (int i = 0; i < split.length; i++)
 		{
 			String s = split[i];
-			if (i % 2 == 0) // Value
-			{
-				value = lastOperator == null ? directParse(s) : lastOperator.operate(value, directParse(s));
-			}
-			else //Operator
-			{
-				lastOperator = Operator.fromString(s);
-			}
-		}
-		
-		return value;
-	}
-	
-	public boolean isOperatorStart(char c)
-	{
-		return Operator.fromStartChar(c) != null; 
-	}
-	
-	public Object parse_____(String par1) throws ParserException
-	{
-		String[] split = TextModHelper.createParameterList(par1.trim(), ' ');
-		
-		Object value = null;
-		String s = "";
-		for (int i = 0; i < split.length; i++)
-		{
-			String str = split[i];
-			Operator op = Operator.fromString(str);
 			
-			if (op != null && value != null && i + 1 != split.length)
+			if (Operator.fromStart(s) == null)
 			{
-				Object o = directParse(split[i + 1]);
+				if (op != "" && Operator.fromString(op) != null)
+				{
+					list.add(Operator.fromString(op));
+					op = "";
+				}
+				string += s;
 				
-				if (op.canOperate(Type.getTypeFromClass(value.getClass()), Type.getTypeFromClass(o.getClass())))
-					value = op.operate(value, o);
-				s = "";
+				if (i == split.length - 1)
+					list.add(string.trim());
 			}
 			else
 			{
-				if (i + 1 != split.length)
+				if (string != "")
 				{
-					if (Operator.fromString(split[i + 1]) == null)
-						s += split[i] + " ";
-					else
-					{
-						s += split[i];
-						value = directParse(s.trim());
-					}
+					list.add(string.trim());
+					string = "";
 				}
-				else if (s != "")
-				{
-					s += split[i];
-					value = directParse(s.trim());
-				}
+				op += s;
 			}
 		}
-		return value;
+		return parseSplitOperatorList(list);
 	}
 	
+	public Object parseSplitOperatorList(List<Object> objects) throws ParserException
+	{
+		Object value = null;
+		
+		Operator op = null;
+		
+		for (int i = 0; i < objects.size(); i++)
+		{
+			Object object = objects.get(i);
+			boolean first = i == 0;
+			boolean last = i == objects.size() - 1;
+			
+			if (object instanceof String)
+			{	
+				if (op != null && value != null)
+				{
+					Object value2 = directParse((String)object);
+					
+					if (op.canOperate(Type.getTypeFromClass(value.getClass()), Type.getTypeFromClass(value2.getClass())))
+						value = op.operate(value, value2);
+					else
+						throw new ParserException("Invalid operator " + op + " for operating the types" + value.getClass().getSimpleName() + " and " + value2.getClass().getSimpleName());
+				}
+				else
+					value = directParse((String)object);
+			}
+			else if (object instanceof Operator)
+			{
+				if (first || last)
+					throw new ParserException("Invalid operator " + op + " @ index " + i);
+				op = (Operator)object;
+			}	
+		}
+		
+		return value;
+	}
+
 	/**
 	 * Directly parses a string, ignores operators.
 	 * <p>

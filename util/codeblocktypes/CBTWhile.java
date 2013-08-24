@@ -1,7 +1,7 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
-import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import com.chaosdev.textmodloader.util.exceptions.ParserException;
 import com.chaosdev.textmodloader.util.method.Method;
 
 public class CBTWhile extends CodeBlockType

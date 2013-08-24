@@ -5,7 +5,6 @@ import java.util.HashMap;
 import com.chaosdev.textmodloader.util.operator.bitwise.*;
 import com.chaosdev.textmodloader.util.operator.conditional.OperatorConditionalAnd;
 import com.chaosdev.textmodloader.util.operator.conditional.OperatorConditionalOr;
-import com.chaosdev.textmodloader.util.operator.conditional.OperatorInstanceof;
 import com.chaosdev.textmodloader.util.operator.eqrel.*;
 import com.chaosdev.textmodloader.util.operator.math.*;
 import com.chaosdev.textmodloader.util.types.Type;
@@ -58,11 +57,11 @@ public abstract class Operator
 		return operators.get(op);
 	}
 	
-	public static Operator fromStartChar(char c)
+	public static Operator fromStart(String start)
 	{
 		for (Operator op : operators.values())
 		{
-			if (op.operator.startsWith(String.valueOf(c)))
+			if (op.operator.startsWith(start))
 				return op;
 		}
 		return null;

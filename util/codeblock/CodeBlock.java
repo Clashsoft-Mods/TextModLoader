@@ -1,9 +1,6 @@
 package com.chaosdev.textmodloader.util.codeblock;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
@@ -12,6 +9,7 @@ import com.chaosdev.textmodloader.util.annotations.Annotation;
 import com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationType;
 import com.chaosdev.textmodloader.util.annotations.IAnnotable;
 import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
+import com.chaosdev.textmodloader.util.exceptions.ParserException;
 import com.chaosdev.textmodloader.util.method.Method;
 import com.chaosdev.textmodloader.util.method.PredefinedMethod;
 import com.chaosdev.textmodloader.util.operator.Operator;
@@ -146,10 +144,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			if (line.endsWith("*/"))
 				blockComment = false;
 			
-			System.out.println("  Reading line " + (lineNumber + 1) + ": " + line);
-			
-			if (lineNumber + 1 == 43)
-				System.out.println();
+			System.out.print("  Reading line " + (lineNumber + 1) + ": " + line);
 			
 			try
 			{
@@ -177,6 +172,8 @@ public class CodeBlock implements IAnnotable, TextModConstants
 				
 				if (cb == null && !isBlockEnd(line))
 					this.executeLine(line);
+				else
+					System.out.println();
 			}
 			catch (ParserException pex)
 			{
@@ -189,7 +186,6 @@ public class CodeBlock implements IAnnotable, TextModConstants
 				ex.printStackTrace();
 			}
 		}
-		System.out.println();
 		return null;
 	}
 	
@@ -203,8 +199,15 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public void executeLine(String line) throws ParserException
 	{
+		if (line.equals("@breakpoint"))
+		{
+			System.out.println("--Debugbreak");
+			return;
+		}
+		
 		if (TextModHelper.isLineValid(line))
 		{
+			System.out.println();
 			if (isMethod(line)) // Method invocation
 			{
 				Method method = getMethod(line);
@@ -215,7 +218,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 				Variable v = readVariable(line);
 				this.variables.put(v.name, v);
 				this.parser.setCodeBlock(this);
-				System.out.println("  Variable \'" + v.name + "\' of type \'" + v.type.toString() + "\' added with value \'" + v.value + "\'.");
+				System.out.println("  Variable \'" + v.name + "\' of type \'" + v.type.toString() + "\' added with value \'" + toString(v.value) + "\'.");
 			}
 			else
 			{
@@ -223,9 +226,18 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			}
 		}
 		else
-			System.out.println("  Invalid line, skipping");
+			System.out.println(" Invalid line, skipping");
 	}
 	
+	private String toString(Object value)
+	{
+		if (value == null)
+			return "<null>";
+		if (value.getClass().isArray())
+			return Arrays.toString((Object[])value);
+		return value.toString();
+	}
+
 	/**
 	 * Gets a method from a line.
 	 * 

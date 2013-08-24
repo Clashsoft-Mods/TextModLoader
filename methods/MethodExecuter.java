@@ -19,8 +19,6 @@ public abstract class MethodExecuter
 		{
 			if (i < types.length)
 			{
-				// System.out.println("   Trying to match: Existing type: " +
-				// parameters[i].getClass() + " Required type: " + types[i]);
 				if (!parameters[i].getClass().equals(types[i]))
 				{
 					return false;

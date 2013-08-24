@@ -1,9 +1,6 @@
 package com.chaosdev.textmodloader.util;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
@@ -13,7 +10,6 @@ import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
  */
 public class TextModHelper implements TextModConstants
 {
-	
 	/** The methods. */
 	public static Map<String, MethodExecuter>	methods	= new HashMap<String, MethodExecuter>();
 	
@@ -125,8 +121,45 @@ public class TextModHelper implements TextModConstants
 		return ret;
 	}
 	
+	public static String[] createCharList(String par1)
+	{
+		ArrayList<String> ret = new ArrayList<String>();
+		
+		char[] chars = par1.toCharArray();
+		String curString = "";
+		char block = 0;
+		for (int i = 0; i < chars.length; i++)
+		{
+			char c = chars[i];
+			
+			if (block == 0)
+			{
+				if (TextModHelper.isBlockStartChar(c))
+					block = c;
+				else if (TextModHelper.isValidBlock(block, c))
+					block = 0;
+			}
+			else
+			{
+				if (TextModHelper.isValidBlock(block, c))
+					block = 0;
+			}
+			
+			if (block == 0 || (i == par1.length() - 1))
+			{
+				curString += c;
+				ret.add(curString);
+				curString = "";
+			}
+			else
+				curString += c;
+		}
+		
+		return ret.<String>toArray(new String[ret.size()]);
+	}
+	
 	/**
-	 * Checks if is block start char.
+	 * Checks if the char starts a block
 	 *
 	 * @param c the c
 	 * @return true, if is block start char
@@ -137,7 +170,7 @@ public class TextModHelper implements TextModConstants
 	}
 	
 	/**
-	 * Checks if is valid block.
+	 * Checks if the two chars start and end a block
 	 *
 	 * @param s the s
 	 * @param e the e

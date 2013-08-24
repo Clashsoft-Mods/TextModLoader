@@ -1,9 +1,9 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
-import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.Variable;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import com.chaosdev.textmodloader.util.exceptions.ParserException;
 
 public class CBTFor extends CodeBlockType
 {

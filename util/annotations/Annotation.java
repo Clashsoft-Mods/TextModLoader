@@ -5,9 +5,9 @@ import static com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationT
 import java.util.HashMap;
 import java.util.Map;
 
-import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.codeblock.ClassCodeBlock;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import com.chaosdev.textmodloader.util.exceptions.ParserException;
 import com.chaosdev.textmodloader.util.method.Method;
 
 public abstract class Annotation

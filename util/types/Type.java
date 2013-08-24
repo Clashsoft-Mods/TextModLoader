@@ -74,6 +74,11 @@ public class Type
 		return VOID;
 	}
 	
+	public static Type getTypeFromObject(Object o)
+	{
+		return o != null ? getTypeFromClass(o.getClass()) : VOID;
+	}
+	
 	@Override
 	public String toString()
 	{

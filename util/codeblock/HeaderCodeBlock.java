@@ -1,7 +1,7 @@
 package com.chaosdev.textmodloader.util.codeblock;
 
-import com.chaosdev.textmodloader.util.ParserException;
 import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
+import com.chaosdev.textmodloader.util.exceptions.ParserException;
 
 public class HeaderCodeBlock extends CodeBlock
 {
