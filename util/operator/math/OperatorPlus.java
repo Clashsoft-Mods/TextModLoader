@@ -1,8 +1,9 @@
 package com.chaosdev.textmodloader.util.operator.math;
 
+import com.chaosdev.textmodloader.util.operator.Operator;
 import com.chaosdev.textmodloader.util.types.Type;
 
-public class OperatorPlus extends OperatorMath
+public class OperatorPlus extends Operator
 {
 	public OperatorPlus(String operator)
 	{
@@ -12,7 +13,7 @@ public class OperatorPlus extends OperatorMath
 	@Override
 	public boolean canOperate(Type t1, Type t2)
 	{
-		return super.canOperate(t1, t2) || (t1 == Type.STRING || t2 == Type.STRING);
+		return (Type.isNumeric(t1) && Type.isNumeric(t2)) || (t1 == Type.STRING || t2 == Type.STRING);
 	}
 	
 	@Override

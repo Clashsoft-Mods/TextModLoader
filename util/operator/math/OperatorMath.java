@@ -15,5 +15,4 @@ public abstract class OperatorMath extends Operator
 	{
 		return Type.isNumeric(t1) && Type.isNumeric(t2);
 	}
-	
 }

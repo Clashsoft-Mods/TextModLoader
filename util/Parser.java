@@ -180,6 +180,9 @@ public class Parser implements TextModConstants
 		if (par1.startsWith("(") && par1.endsWith(")"))
 			return parse(par1.substring(par1.indexOf("(") + 1, par1.lastIndexOf(")")).trim());
 		
+		else if (Type.getTypeFromName(par1) != null)
+			return Type.getTypeFromName(par1);
+		
 		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
 			return parseArray(par1);
 		
@@ -220,7 +223,7 @@ public class Parser implements TextModConstants
 	}
 	
 	/**
-	 * Parses a number, using JavaScript for operators.
+	 * Parses a number
 	 *
 	 * @param par1 the par1
 	 * @return the double
@@ -228,11 +231,11 @@ public class Parser implements TextModConstants
 	 */
 	public double parseNumber(String par1) throws ParserException
 	{
-		return CSUtil.calculateFromString(normalize(par1));
+		return Double.parseDouble(normalize(par1));
 	}
 	
 	/**
-	 * Parses a boolean, using JavaScript for operators.
+	 * Parses a boolean value
 	 *
 	 * @param par1 the par1
 	 * @return true, if successful
@@ -240,7 +243,7 @@ public class Parser implements TextModConstants
 	 */
 	public boolean parseBoolean(String par1) throws ParserException
 	{
-		return CSUtil.createBoolean(normalize(par1));
+		return par1.equals("true") ? true : false;
 	}
 	
 	/**

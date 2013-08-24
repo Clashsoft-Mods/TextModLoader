@@ -143,6 +143,8 @@ public class CodeBlock implements IAnnotable, TextModConstants
 				blockComment = true;
 			if (line.endsWith("*/"))
 				blockComment = false;
+			if (blockComment)
+				continue;
 			
 			System.out.print("  Reading line " + (lineNumber + 1) + ": " + line);
 			
