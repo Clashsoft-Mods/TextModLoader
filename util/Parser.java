@@ -11,13 +11,11 @@ import com.chaosdev.textmodloader.util.types.Type;
 
 import net.minecraft.item.ItemStack;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Parser.
  */
 public class Parser implements TextModConstants
 {
-	
 	/** The codeblock. */
 	private CodeBlock	codeblock;
 	
@@ -36,7 +34,7 @@ public class Parser implements TextModConstants
 	 *
 	 * @param codeblock the codeblock
 	 */
-	public void update(CodeBlock codeblock)
+	public void setCodeBlock(CodeBlock codeblock)
 	{
 		this.codeblock = codeblock;
 	}
@@ -44,8 +42,8 @@ public class Parser implements TextModConstants
 	/**
 	 * Parses a list of parsable objects.
 	 *
-	 * @param par the par
-	 * @return the object[]
+	 * @param par the list to parse
+	 * @return the parsed list
 	 * @throws ParserException the parser exception
 	 */
 	public Object[] parse(String... par) throws ParserException
@@ -67,17 +65,45 @@ public class Parser implements TextModConstants
 	 * Object o = parse("\"Hello \" + 1")
 	 * </code>
 	 * <p>
-	 * would be the string
+	 * would return the string
 	 * <p>
 	 * <code>
 	 * "Hello"1
-	 * </code>.
+	 * </code>
 	 *
-	 * @param par1 the par1
-	 * @return the object
+	 * @param par1 the string to parse
+	 * @return the parsed object
 	 * @throws ParserException the parser exception
 	 */
 	public Object parse(String par1) throws ParserException
+	{
+		Object value = null;
+		
+		String[] split = TextModHelper.createParameterList(par1, (char)0);
+		
+		Operator lastOperator = null;
+		for (int i = 0; i < split.length; i++)
+		{
+			String s = split[i];
+			if (i % 2 == 0) // Value
+			{
+				value = lastOperator == null ? directParse(s) : lastOperator.operate(value, directParse(s));
+			}
+			else //Operator
+			{
+				lastOperator = Operator.fromString(s);
+			}
+		}
+		
+		return value;
+	}
+	
+	public boolean isOperatorStart(char c)
+	{
+		return Operator.fromStartChar(c) != null; 
+	}
+	
+	public Object parse_____(String par1) throws ParserException
 	{
 		String[] split = TextModHelper.createParameterList(par1.trim(), ' ');
 		
@@ -94,6 +120,7 @@ public class Parser implements TextModConstants
 				
 				if (op.canOperate(Type.getTypeFromClass(value.getClass()), Type.getTypeFromClass(o.getClass())))
 					value = op.operate(value, o);
+				s = "";
 			}
 			else
 			{
@@ -107,7 +134,7 @@ public class Parser implements TextModConstants
 						value = directParse(s.trim());
 					}
 				}
-				else
+				else if (s != "")
 				{
 					s += split[i];
 					value = directParse(s.trim());

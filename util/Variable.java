@@ -2,7 +2,6 @@ package com.chaosdev.textmodloader.util;
 
 import com.chaosdev.textmodloader.util.types.Type;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Variable.
  */

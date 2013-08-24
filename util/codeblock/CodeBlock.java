@@ -157,7 +157,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 					cb = null;
 				
 				if (line.startsWith("return "))
-					return parser.directParse(line.replaceFirst(Pattern.quote("return "), ""));
+					return parser.parse(line.replaceFirst(Pattern.quote("return "), ""));
 				
 				if (cb != null && !isBlockStart(line) && !line.startsWith("{") && !isBlockEnd(line))
 					cb.lines.add(line);
@@ -214,7 +214,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			{
 				Variable v = readVariable(line);
 				this.variables.put(v.name, v);
-				this.parser.update(this);
+				this.parser.setCodeBlock(this);
 				System.out.println("  Variable \'" + v.name + "\' of type \'" + v.type.toString() + "\' added with value \'" + v.value + "\'.");
 			}
 			else
@@ -314,14 +314,14 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		{
 			Type type = Type.getTypeFromName(split[0]);
 			String name = split[1];
-			Object value = parser.directParse(line.substring(line.indexOf("=") + 1).trim());
+			Object value = parser.parse(line.substring(line.indexOf("=") + 1).trim());
 			var = new Variable(type, name, value);
 		}
 		else // First part is an existing variable name
 		{
 			Variable var1 = getVariable(split[0]);
 			String operator = split[1];
-			Object value = parser.directParse(line.substring(line.indexOf(operator) + operator.length()).trim());
+			Object value = parser.parse(line.substring(line.indexOf(operator) + operator.length()).trim());
 			var = operate(var1, operator, value);
 		}
 		return var;
@@ -461,52 +461,52 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		{
 			return false;
 		}
-		CodeBlock other = (CodeBlock) obj;
-		if (this.blockComment != other.blockComment)
+		CodeBlock that = (CodeBlock) obj;
+		if (this.blockComment != that.blockComment)
 		{
 			return false;
 		}
 		if (this.lines == null)
 		{
-			if (other.lines != null)
+			if (that.lines != null)
 			{
 				return false;
 			}
 		}
-		else if (!this.lines.equals(other.lines))
+		else if (!this.lines.equals(that.lines))
 		{
 			return false;
 		}
 		if (this.parser == null)
 		{
-			if (other.parser != null)
+			if (that.parser != null)
 			{
 				return false;
 			}
 		}
-		else if (!this.parser.equals(other.parser))
+		else if (!this.parser.equals(that.parser))
 		{
 			return false;
 		}
 		if (this.superCodeBlock == null)
 		{
-			if (other.superCodeBlock != null)
+			if (that.superCodeBlock != null)
 			{
 				return false;
 			}
 		}
-		else if (!this.superCodeBlock.equals(other.superCodeBlock))
+		else if (!this.superCodeBlock.equals(that.superCodeBlock))
 		{
 			return false;
 		}
 		if (this.variables == null)
 		{
-			if (other.variables != null)
+			if (that.variables != null)
 			{
 				return false;
 			}
 		}
-		else if (!this.variables.equals(other.variables))
+		else if (!this.variables.equals(that.variables))
 		{
 			return false;
 		}

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.chaosdev.textmodloader.util.operator.bitwise.*;
 import com.chaosdev.textmodloader.util.operator.conditional.OperatorConditionalAnd;
 import com.chaosdev.textmodloader.util.operator.conditional.OperatorConditionalOr;
+import com.chaosdev.textmodloader.util.operator.conditional.OperatorInstanceof;
 import com.chaosdev.textmodloader.util.operator.eqrel.*;
 import com.chaosdev.textmodloader.util.operator.math.*;
 import com.chaosdev.textmodloader.util.types.Type;
@@ -24,7 +25,7 @@ public abstract class Operator
 	public static Operator					BIT_AND						= new OperatorBitAnd("&");
 	public static Operator					BIT_OR						= new OperatorBitOr("|");
 	public static Operator					BIT_XOR						= new OperatorBitXor("^");
-	public static Operator					BIT_INVERT					= new OperatoritInvert("~");
+	public static Operator					BIT_INVERT					= new OperatorBitInvert("~");
 	public static Operator					BIT_SHIFT_LEFT				= new OperatorBitShiftLeft("<<");
 	public static Operator					BIT_SHIFT_RIGHT				= new OperatorBitShiftRight(">>");
 	public static Operator					BIT_SHIFT_RIGHT_UNSIGNED	= new OperatorBitShiftRightUnsigned(">>>");
@@ -42,7 +43,7 @@ public abstract class Operator
 	public static Operator					SMALLER_THAN_OR_EQUALS		= new OperatorSmallerThanOrEquals("<=");
 	
 	/* Type Comparison (instanceof) */
-	public static Operator					INSTANCEOF					= new OperatorInstanceof("instanceof");
+	//public static Operator					INSTANCEOF					= new OperatorInstanceof("instanceof");
 	
 	public String							operator;
 	
@@ -55,6 +56,16 @@ public abstract class Operator
 	public static Operator fromString(String op)
 	{
 		return operators.get(op);
+	}
+	
+	public static Operator fromStartChar(char c)
+	{
+		for (Operator op : operators.values())
+		{
+			if (op.operator.startsWith(String.valueOf(c)))
+				return op;
+		}
+		return null;
 	}
 	
 	public abstract boolean canOperate(Type t1, Type t2);

@@ -87,26 +87,26 @@ public class TextModHelper implements TextModConstants
 		List<String> strings = new LinkedList<String>();
 		
 		String curString = "";
-		char block = ' ';
+		char block = 0;
 		int length = par1.toCharArray().length;
 		
 		for (int i = 0; i < length; i++)
 		{
 			char c = par1.charAt(i);
-			if (block == ' ')
+			if (block == 0)
 			{
 				if (isBlockStartChar(c))
 					block = c;
 				else if (isValidBlock(block, c))
-					block = ' ';
+					block = 0;
 			}
 			else
 			{
 				if (isValidBlock(block, c))
-					block = ' ';
+					block = 0;
 			}
 			
-			if (block == ' ' && (c == splitChar || i == par1.length() - 1))
+			if (block == 0 && (c == splitChar || i == par1.length() - 1))
 			{
 				if (i == par1.length() - 1)
 					curString += c;

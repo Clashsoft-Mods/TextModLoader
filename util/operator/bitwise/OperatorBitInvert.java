@@ -1,9 +1,9 @@
 package com.chaosdev.textmodloader.util.operator.bitwise;
 
-public class OperatoritInvert extends OperatorBitwise
+public class OperatorBitInvert extends OperatorBitwise
 {
 	
-	public OperatoritInvert(String operator)
+	public OperatorBitInvert(String operator)
 	{
 		super(operator);
 	}

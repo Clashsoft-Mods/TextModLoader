@@ -45,7 +45,7 @@ public class ClassCodeBlock extends CodeBlock
 		if (!method.name.equals(""))
 		{
 			this.customMethods.put(method.name, method);
-			this.parser.update(this);
+			this.parser.setCodeBlock(this);
 			System.out.println("  Method \'" + method.name + "\' added.");
 		}
 	}

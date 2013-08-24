@@ -1,5 +1,6 @@
-package com.chaosdev.textmodloader.util.operator;
+package com.chaosdev.textmodloader.util.operator.conditional;
 
+import com.chaosdev.textmodloader.util.operator.Operator;
 import com.chaosdev.textmodloader.util.types.Type;
 
 public class OperatorInstanceof extends Operator

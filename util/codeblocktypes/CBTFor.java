@@ -30,7 +30,7 @@ public class CBTFor extends CodeBlockType
 	public Object execute(CodeBlock codeblock)
 	{
 		int var1 = (Integer) var.value;
-		for (int i = var1; end; i += step) // TODO
+		for (int i = var1; end; i += step)
 		{
 			codeblock.variables.put(var.name, var);
 			codeblock.execute();
