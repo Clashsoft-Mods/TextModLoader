@@ -533,18 +533,6 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append("CodeBlock [");
-		if (this.superCodeBlock != null)
-		{
-			builder.append("superCodeBlock=");
-			builder.append(this.superCodeBlock);
-			builder.append(", ");
-		}
-		if (this.variables != null)
-		{
-			builder.append("variables=");
-			builder.append(this.variables);
-			builder.append(", ");
-		}
 		if (this.parser != null)
 		{
 			builder.append("parser=");

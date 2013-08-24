@@ -63,6 +63,9 @@ public interface TextModConstants
 	/** The Constant DOUBLE_CHAR. */
 	public static final String	DOUBLE_CHAR						= "d";
 	
+	/** The Constant LONG_CHAR. */
+	public static final String	LONG_CHAR						= "l";
+	
 	/** The Constant STRING_START_CHAR. */
 	public static final String	STRING_START_CHAR				= "\"";
 	

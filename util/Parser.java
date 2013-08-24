@@ -145,7 +145,7 @@ public class Parser implements TextModConstants
 			else if (object instanceof Operator)
 			{
 				if (first || last)
-					throw new ParserException("Invalid operator " + op + " @ index " + i);
+					throw new ParserException("Invalid operator " + op + " at index " + i);
 				op = (Operator)object;
 			}	
 		}
@@ -177,7 +177,10 @@ public class Parser implements TextModConstants
 		String normalCase = par1;
 		String lowerCase = par1.toLowerCase();
 		
-		if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
+		if (par1.startsWith("(") && par1.endsWith(")"))
+			return parse(par1.substring(par1.indexOf("(") + 1, par1.lastIndexOf(")")).trim());
+		
+		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
 			return parseArray(par1);
 		
 		else if (par1.startsWith("new ")) // New-Instance-Directives
@@ -195,11 +198,14 @@ public class Parser implements TextModConstants
 		else if (lowerCase.matches("-?\\d+(\\.\\d+)?")) // Integer
 			return (int) parseNumber(par1);
 		
-		else if (lowerCase.endsWith(FLOAT_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Float
+		else if (lowerCase.matches("-?\\d+(\\.\\d+)?f")) // Float
 			return (float) parseNumber(par1);
 		
-		else if (lowerCase.endsWith(DOUBLE_CHAR) && lowerCase.matches("-?\\d+(\\.\\d+)?")) // Double
+		else if (lowerCase.matches("-?\\d+(\\.\\d+)?d")) // Double
 			return (double) parseNumber(par1);
+		
+		else if (lowerCase.matches("-?\\d+(\\.\\d+)?l")) // Long
+			return (long) parseNumber(par1);
 		
 		else if (normalCase.equals("null"))
 			return null;
@@ -249,7 +255,7 @@ public class Parser implements TextModConstants
 		String[] split = TextModHelper.createParameterList(par1, ' ');
 		for (int i = 0; i < split.length; i++)
 		{
-			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").trim(); // Replaces indicator chars
+			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").replace(LONG_CHAR, "").trim(); // Replaces indicator chars
 			if (codeblock.isMethod(split[i]) || codeblock.isVariable(split[i])) // Replaced methods and variables with their values
 				split[i] = directParse(split[i]).toString();
 		}
