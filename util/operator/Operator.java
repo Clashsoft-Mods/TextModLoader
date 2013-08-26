@@ -3,6 +3,7 @@ package com.chaosdev.textmodloader.util.operator;
 import java.util.HashMap;
 
 import com.chaosdev.textmodloader.util.operator.bitwise.*;
+import com.chaosdev.textmodloader.util.operator.conditional.OperatorBooleanInvert;
 import com.chaosdev.textmodloader.util.operator.conditional.OperatorConditionalAnd;
 import com.chaosdev.textmodloader.util.operator.conditional.OperatorConditionalOr;
 import com.chaosdev.textmodloader.util.operator.conditional.OperatorInstanceof;
@@ -33,8 +34,9 @@ public abstract class Operator
 	public static Operator					BIT_SHIFT_RIGHT				= new OperatorBitShiftRight(">>");
 	public static Operator					BIT_SHIFT_RIGHT_UNSIGNED	= new OperatorBitShiftRightUnsigned(">>>");
 	
-	/* ------------------------------------ Conditional operators ------------------------------------ */
+	/* ------------------------------------ Conditional and boolean operators ------------------------------------ */
 	
+	public static Operator					BOOLEAN_INVERT				= new OperatorBooleanInvert("!");
 	public static Operator					CONDITIONAL_AND				= new OperatorConditionalAnd("&&");
 	public static Operator					CONDITIONAL_OR				= new OperatorConditionalOr("||");
 	
@@ -87,5 +89,15 @@ public abstract class Operator
 	public String toString()
 	{
 		return this.getClass().getSimpleName();
+	}
+
+	public boolean isPrefixOperator()
+	{
+		return false;
+	}
+
+	public boolean isPostfixOperator()
+	{
+		return false;
 	}
 }

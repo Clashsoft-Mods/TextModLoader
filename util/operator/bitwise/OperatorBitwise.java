@@ -13,7 +13,7 @@ public abstract class OperatorBitwise extends Operator
 	@Override
 	public boolean canOperate(Type t1, Type t2)
 	{
-		return Type.isInteger(t1) && Type.isInteger(t2);
+		return (Type.isInteger(t1) || isPrefixOperator()) && (Type.isInteger(t2) || isPostfixOperator());
 	}
 	
 }

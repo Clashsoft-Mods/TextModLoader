@@ -130,23 +130,23 @@ public class Parser implements TextModConstants
 			
 			if (object instanceof String)
 			{	
-				if (op != null && value != null)
+				if (op != null && (value != null || op.isPrefixOperator()))
 				{
 					Object value2 = directParse((String)object);
 					
-					if (op.canOperate(Type.getTypeFromClass(value.getClass()), Type.getTypeFromClass(value2.getClass())))
+					if (op.canOperate(Type.getTypeFromObject(value), Type.getTypeFromObject(value2)))
 						value = op.operate(value, value2);
 					else
-						throw new ParserException("Invalid operator " + op + " for operating the types" + value.getClass().getSimpleName() + " and " + value2.getClass().getSimpleName());
+						throw new ParserException("Invalid operator " + op + " for operating the types " + value.getClass().getSimpleName() + " and " + value2.getClass().getSimpleName());
 				}
-				else
+				else if (!((String)object).equals(""))
 					value = directParse((String)object);
 			}
 			else if (object instanceof Operator)
 			{
-				if (first || last)
-					throw new ParserException("Invalid operator " + op + " at index " + i);
 				op = (Operator)object;
+				if ((first && !op.isPrefixOperator()) || (last && !op.isPostfixOperator()))
+					throw new ParserException("Invalid operator " + op + " at index " + i);
 			}	
 		}
 		
@@ -180,7 +180,7 @@ public class Parser implements TextModConstants
 		if (par1.startsWith("(") && par1.endsWith(")"))
 			return parse(par1.substring(par1.indexOf("(") + 1, par1.lastIndexOf(")")).trim());
 		
-		else if (Type.getTypeFromName(par1) != null)
+		else if (Type.getTypeFromName(par1) != Type.VOID)
 			return Type.getTypeFromName(par1);
 		
 		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays

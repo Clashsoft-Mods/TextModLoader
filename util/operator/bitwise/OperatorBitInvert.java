@@ -2,7 +2,6 @@ package com.chaosdev.textmodloader.util.operator.bitwise;
 
 public class OperatorBitInvert extends OperatorBitwise
 {
-	
 	public OperatorBitInvert(String operator)
 	{
 		super(operator);
@@ -11,9 +10,14 @@ public class OperatorBitInvert extends OperatorBitwise
 	@Override
 	public <T, U> Object operate(T par1, U par2)
 	{
-		if (par1 instanceof Number && par2 instanceof Number)
-			return ~((Number)par1).intValue();
-		return par1;
+		if (par2 instanceof Number)
+			return ~((Number)par2).intValue();
+		return par2;
 	}
 	
+	@Override
+	public boolean isPrefixOperator()
+	{
+		return true;
+	}
 }

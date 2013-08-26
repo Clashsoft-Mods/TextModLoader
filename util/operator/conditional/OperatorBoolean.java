@@ -13,6 +13,6 @@ public abstract class OperatorBoolean extends Operator
 	@Override
 	public boolean canOperate(Type t1, Type t2)
 	{
-		return Type.isBoolean(t1) && Type.isBoolean(t2);
+		return (Type.isBoolean(t1) || isPrefixOperator()) && (Type.isBoolean(t2) || isPostfixOperator());
 	}
 }
