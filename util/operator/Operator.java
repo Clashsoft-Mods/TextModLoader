@@ -9,6 +9,8 @@ import com.chaosdev.textmodloader.util.operator.conditional.OperatorConditionalO
 import com.chaosdev.textmodloader.util.operator.conditional.OperatorInstanceof;
 import com.chaosdev.textmodloader.util.operator.eqrel.*;
 import com.chaosdev.textmodloader.util.operator.math.*;
+import com.chaosdev.textmodloader.util.operator.math.unary.OperatorUnaryMinus;
+import com.chaosdev.textmodloader.util.operator.math.unary.OperatorUnaryPlus;
 import com.chaosdev.textmodloader.util.types.Type;
 
 public abstract class Operator
@@ -23,6 +25,11 @@ public abstract class Operator
 	public static Operator					MULTIPLY					= new OperatorMultiply("*");
 	public static Operator					DIVIDE						= new OperatorDivide("/");
 	public static Operator					REMAINDER					= new OperatorRemainder("%");
+	
+	/* ------------------------------------ Unary operatos ------------------------------------ */
+	
+	public static Operator					UNARY_PLUS					= new OperatorUnaryPlus("++");
+	public static Operator					UNARY_MINUS					= new OperatorUnaryMinus("--");
 	
 	/* ------------------------------------ Bitwise operators ------------------------------------ */
 	
