@@ -2,6 +2,7 @@ package com.chaosdev.textmodloader.util;
 
 import java.util.*;
 
+import com.chaosdev.textmodloader.TextModConstants;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
@@ -44,7 +45,7 @@ public class TextModHelper implements TextModConstants
 	 */
 	private static void registerMethodExecuter(String name, MethodExecuter executer)
 	{
-		if (!name.startsWith(TML_CLASS_NAME + "."))
+		if (!name.contains("."))
 			name = TML_CLASS_NAME + "." + name;
 		methods.put(name, executer);
 	}

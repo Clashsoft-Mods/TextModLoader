@@ -3,8 +3,11 @@ package com.chaosdev.textmodloader.util.codeblock;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import com.chaosdev.textmodloader.TextModConstants;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
-import com.chaosdev.textmodloader.util.*;
+import com.chaosdev.textmodloader.util.Parser;
+import com.chaosdev.textmodloader.util.TextModHelper;
+import com.chaosdev.textmodloader.util.Variable;
 import com.chaosdev.textmodloader.util.annotations.Annotation;
 import com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationType;
 import com.chaosdev.textmodloader.util.annotations.IAnnotable;
@@ -131,7 +134,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	public Object execute()
 	{
 		System.out.println();
-		System.out.println("Exceuting Code Block: " + this.toString());
+		System.out.println("Executing Code Block: " + this.toString());
 		
 		Annotation nextAnnotation;
 		CodeBlock cb = null;
@@ -179,12 +182,12 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			}
 			catch (ParserException pex)
 			{
-				System.err.println("  Syntax error while executing line " + (lineNumber + 1) + ": " + pex.getMessage());
+				System.out.println("  Syntax error while executing line " + (lineNumber + 1) + ": " + pex.getMessage());
 				pex.printStackTrace();
 			}
 			catch (Exception ex)
 			{
-				System.err.println("  Exception while executing line " + (lineNumber + 1) + ": " + ex.getMessage());
+				System.out.println("  Exception while executing line " + (lineNumber + 1) + ": " + ex.getMessage());
 				ex.printStackTrace();
 			}
 		}

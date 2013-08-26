@@ -3,11 +3,11 @@ package com.chaosdev.textmodloader.methods.util;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
+
 import net.minecraft.item.ItemStack;
 
 public class MethodAddLocalization extends MethodExecuter
 {
-	
 	@Override
 	public Object execute(Object... parameters)
 	{

@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import com.chaosdev.textmodloader.util.TextModConstants;
 import com.chaosdev.textmodloader.util.codeblock.ClassCodeBlock;
 
 public class TextMod extends ClassCodeBlock implements TextModConstants
@@ -36,14 +35,14 @@ public class TextMod extends ClassCodeBlock implements TextModConstants
 			if (line.startsWith("@author "))
 				tm.author = line.replaceFirst(Pattern.quote("@author "), "");
 			if (line.startsWith("@modname "))
-				tm.modName = line.split("=")[1];
+				tm.modName = line.replaceFirst(Pattern.quote("@modname "), "");
 			tm.lines.add(line);
 		}
 		br.close();
 		return tm;
 	}
 	
-	public static long load(File modClass)
+	public static synchronized long load(File modClass)
 	{
 		try
 		{

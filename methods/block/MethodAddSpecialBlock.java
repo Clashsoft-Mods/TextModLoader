@@ -1,12 +1,14 @@
 package com.chaosdev.textmodloader.methods.block;
 
-import net.minecraft.block.Block;
 import clashsoft.clashsoftapi.ItemCustomBlock;
 import clashsoft.clashsoftapi.specialblocks.BlockSpecialSlab;
 import clashsoft.clashsoftapi.specialblocks.BlockSpecialWorkbench;
 
 import com.chaosdev.textmodloader.methods.MethodExecuter;
+
 import cpw.mods.fml.common.registry.GameRegistry;
+
+import net.minecraft.block.Block;
 
 public class MethodAddSpecialBlock extends MethodExecuter
 {

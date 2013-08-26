@@ -1,8 +1,9 @@
 package com.chaosdev.textmodloader.methods.crafting;
 
+import clashsoft.clashsoftapi.util.CSCrafting;
+
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 
-import clashsoft.clashsoftapi.util.CSCrafting;
 import net.minecraft.item.ItemStack;
 
 public class MethodSmelting extends MethodExecuter

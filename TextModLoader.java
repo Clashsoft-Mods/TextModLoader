@@ -15,7 +15,6 @@ import com.chaosdev.textmodloader.methods.crafting.MethodSmelting;
 import com.chaosdev.textmodloader.methods.item.MethodAddItem;
 import com.chaosdev.textmodloader.methods.item.MethodAddSpecialItem;
 import com.chaosdev.textmodloader.methods.util.*;
-import com.chaosdev.textmodloader.util.TextModConstants;
 import com.chaosdev.textmodloader.util.TextModHelper;
 
 import cpw.mods.fml.common.FMLCommonHandler;

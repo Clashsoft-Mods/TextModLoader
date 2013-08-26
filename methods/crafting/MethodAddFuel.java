@@ -6,6 +6,7 @@ import java.util.Map;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 import cpw.mods.fml.common.IFuelHandler;
+
 import net.minecraft.item.ItemStack;
 
 public class MethodAddFuel extends MethodExecuter implements IFuelHandler

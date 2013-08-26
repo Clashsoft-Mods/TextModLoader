@@ -2,12 +2,10 @@ package com.chaosdev.textmodloader.util;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import clashsoft.clashsoftapi.util.CSUtil;
-
+import com.chaosdev.textmodloader.TextModConstants;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 import com.chaosdev.textmodloader.util.exceptions.ParserException;
 import com.chaosdev.textmodloader.util.operator.Operator;
@@ -100,12 +98,12 @@ public class Parser implements TextModConstants
 				}
 				string += s;
 				
-				if (i == split.length - 1)
+				if (i == split.length - 1 && !string.isEmpty())
 					list.add(string.trim());
 			}
 			else
 			{
-				if (string != "")
+				if (!string.isEmpty())
 				{
 					list.add(string.trim());
 					string = "";
@@ -121,6 +119,8 @@ public class Parser implements TextModConstants
 		Object value = null;
 		
 		Operator op = null;
+		Operator preOp = null;
+		Operator postOp = null;
 		
 		for (int i = 0; i < objects.size(); i++)
 		{
@@ -128,23 +128,56 @@ public class Parser implements TextModConstants
 			boolean first = i == 0;
 			boolean last = i == objects.size() - 1;
 			
-			if (object instanceof String)
+			if (object instanceof String && !((String)object).equals(""))
 			{	
 				if (op != null && (value != null || op.isPrefixOperator()))
 				{
 					Object value2 = directParse((String)object);
+					boolean flag = false;
+					
+					if (preOp != null && preOp.canOperate(Type.VOID, Type.getTypeFromObject(value2)))
+					{
+						value2 = preOp.operate(null, value2);
+						flag = true;
+					}
 					
 					if (op.canOperate(Type.getTypeFromObject(value), Type.getTypeFromObject(value2)))
+					{
 						value = op.operate(value, value2);
-					else
+						flag = true;
+					}
+					
+					if (postOp != null && postOp.canOperate(Type.getTypeFromObject(value), Type.VOID))
+					{
+						value = postOp.operate(value, null);
+						flag = true;
+					}
+					
+					if (!flag)
 						throw new ParserException("Invalid operator " + op + " for operating the types " + value.getClass().getSimpleName() + " and " + value2.getClass().getSimpleName());
 				}
-				else if (!((String)object).equals(""))
+				else
 					value = directParse((String)object);
 			}
 			else if (object instanceof Operator)
-			{
-				op = (Operator)object;
+			{	
+				if (((Operator)object).isPrefixOperator())
+				{
+					preOp = (Operator)object;
+					postOp = null;
+				}
+				else if (((Operator)object).isPostfixOperator())
+				{
+					preOp = null;
+					postOp = (Operator)object;
+				}
+				else
+				{
+					preOp = null;
+					postOp = null;
+					op = (Operator)object;
+				}
+				
 				if ((first && !op.isPrefixOperator()) || (last && !op.isPostfixOperator()))
 					throw new ParserException("Invalid operator " + op + " at index " + i);
 			}	

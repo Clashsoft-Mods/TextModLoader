@@ -1,10 +1,10 @@
 package com.chaosdev.textmodloader.methods.crafting;
 
-import net.minecraft.item.ItemStack;
-
 import com.chaosdev.textmodloader.methods.MethodExecuter;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+
+import net.minecraft.item.ItemStack;
 
 public class MethodCraftingShapeless extends MethodExecuter
 {

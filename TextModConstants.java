@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util;
+package com.chaosdev.textmodloader;
 
 /**
  * The Interface TextModConstants.
@@ -6,7 +6,7 @@ package com.chaosdev.textmodloader.util;
 public interface TextModConstants
 {
 	/** The Constant ENABLE_THREADING **/
-	public static final boolean	ENABLE_THREADING				= false;
+	public static final boolean	ENABLE_THREADING				= true;
 	
 	/** The Constant TML_CLASS_NAME. */
 	public static final String	TML_CLASS_NAME					= "TextModLoader";

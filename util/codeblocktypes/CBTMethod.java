@@ -1,6 +1,6 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
-import com.chaosdev.textmodloader.util.TextModConstants;
+import com.chaosdev.textmodloader.TextModConstants;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.Variable;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;

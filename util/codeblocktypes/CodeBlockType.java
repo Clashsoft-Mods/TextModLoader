@@ -3,8 +3,8 @@ package com.chaosdev.textmodloader.util.codeblocktypes;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.chaosdev.textmodloader.TextModConstants;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
-import com.chaosdev.textmodloader.util.TextModConstants;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 import com.chaosdev.textmodloader.util.exceptions.ParserException;
