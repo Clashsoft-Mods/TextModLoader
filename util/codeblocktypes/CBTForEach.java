@@ -1,9 +1,10 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
+import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.Variable;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
-import com.chaosdev.textmodloader.util.exceptions.ParserException;
+import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
 import com.chaosdev.textmodloader.util.types.Type;
 
 public class CBTForEach extends CodeBlockType
@@ -42,13 +43,13 @@ public class CBTForEach extends CodeBlockType
 	}
 	
 	@Override
-	public void setup(CodeBlock codeblock, String line) throws ParserException
+	public void setup(CodeBlock codeblock, CodeLine line) throws SyntaxException
 	{
-		String[] parts = TextModHelper.createParameterList(line, ' ');
+		String[] parts = TextModHelper.createParameterList(line.line, ' ');
 		
 		type = Type.getTypeFromName(parts[0]);
 		name = parts[1];
-		field = codeblock.parser.directParse(parts[2]);
+		field = codeblock.parser.directParse(line, parts[2]);
 	}
 	
 	@Override

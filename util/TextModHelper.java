@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.chaosdev.textmodloader.TextModConstants;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
-import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
 /**
  * The Class TextModHelper.
@@ -59,17 +58,6 @@ public class TextModHelper implements TextModConstants
 	public static MethodExecuter getMethodExecuterFromName(String name)
 	{
 		return methods.get(name);
-	}
-	
-	/**
-	 * Checks if is line valid.
-	 *
-	 * @param line the line
-	 * @return true, if is line valid
-	 */
-	public static boolean isLineValid(String line)
-	{
-		return line != null && !line.equals("") && !line.equals("\n") && !(new CodeBlock(null)).isComment(line);
 	}
 	
 	/**

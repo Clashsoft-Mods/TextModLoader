@@ -5,9 +5,10 @@ import java.util.List;
 
 import com.chaosdev.textmodloader.TextModConstants;
 import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
-import com.chaosdev.textmodloader.util.exceptions.ParserException;
+import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
 
 public abstract class CodeBlockType implements TextModConstants
 {
@@ -39,7 +40,7 @@ public abstract class CodeBlockType implements TextModConstants
 		return parameters;
 	}
 	
-	public abstract void setup(CodeBlock codeblock, String line) throws ParserException;
+	public abstract void setup(CodeBlock codeblock, CodeLine line) throws SyntaxException;
 	
 	public abstract Object execute(CodeBlock codeblock);
 	
@@ -48,23 +49,23 @@ public abstract class CodeBlockType implements TextModConstants
 		return ',';
 	}
 	
-	public boolean lineMatches(CodeBlock codeblock, String line) throws ParserException
+	public boolean lineMatches(CodeBlock codeblock, CodeLine codeline) throws SyntaxException
 	{
-		int brace1Pos = line.indexOf("(");
-		int brace2Pos = line.indexOf(")");
+		int brace1Pos = codeline.line.indexOf("(");
+		int brace2Pos = codeline.line.indexOf(")");
 		
 		if (brace1Pos != -1 && brace2Pos != -1)
 		{
-			String init = line.substring(0, brace1Pos).trim();
-			String par = line.substring(brace1Pos + 1, brace2Pos);
+			String init = codeline.line.substring(0, brace1Pos).trim();
+			String par = codeline.line.substring(brace1Pos + 1, brace2Pos);
 			String[] pars = TextModHelper.createParameterList(par, getSplitChar());
-			Object[] pars2 = codeblock.parser.parse(pars);
+			Object[] pars2 = codeblock.parser.parse(codeline, pars);
 			return matches(codeblock, init, pars2);
 		}
 		return false;
 	}
 	
-	public boolean matches(CodeBlock codeblock, String init, Object... par) throws ParserException
+	public boolean matches(CodeBlock codeblock, String init, Object... par) throws SyntaxException
 	{
 		return (initMatches(codeblock, init) && parameterMatches(codeblock, par));
 	}
@@ -74,12 +75,12 @@ public abstract class CodeBlockType implements TextModConstants
 		return this.getInitializer().equals(init);
 	}
 	
-	public boolean parameterMatches(CodeBlock codeblock, Object... par) throws ParserException
+	public boolean parameterMatches(CodeBlock codeblock, Object... par) throws SyntaxException
 	{
 		return MethodExecuter.matches(par, this.getParameters());
 	}
 	
-	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, String line) throws ParserException
+	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, CodeLine line) throws SyntaxException
 	{
 		for (CodeBlockType type : codeBlockTypes)
 		{
@@ -89,7 +90,7 @@ public abstract class CodeBlockType implements TextModConstants
 		return null;
 	}
 	
-	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, String init, Object... par) throws ParserException
+	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, String init, Object... par) throws SyntaxException
 	{
 		for (CodeBlockType type : codeBlockTypes)
 		{

@@ -1,21 +1,22 @@
 package com.chaosdev.textmodloader.util.codeblock;
 
+import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
-import com.chaosdev.textmodloader.util.exceptions.ParserException;
+import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
 
 public class HeaderCodeBlock extends CodeBlock
 {
-	public String	executionLine;
+	public CodeLine	executionLine;
 	
-	public HeaderCodeBlock(String executionLine, CodeBlock superBlock)
+	public HeaderCodeBlock(CodeLine executionLine, CodeBlock superBlock)
 	{
 		super(superBlock);
 		this.executionLine = executionLine;
 	}
 	
-	public CodeBlockType getCodeBlockType() throws ParserException
+	public CodeBlockType getCodeBlockType() throws SyntaxException
 	{
-		return CodeBlockType.getCodeBlockType(this, executionLine);
+		return CodeBlockType.getCodeBlockType(this, executionLine.line);
 	}
 	
 	@Override
@@ -28,7 +29,7 @@ public class HeaderCodeBlock extends CodeBlock
 			cbt.setup(this, executionLine);
 			return cbt.execute(new CodeBlock(this.superCodeBlock, this.lines));
 		}
-		catch (ParserException ex)
+		catch (SyntaxException ex)
 		{
 			ex.printStackTrace();
 			return null;

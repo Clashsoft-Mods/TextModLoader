@@ -23,4 +23,9 @@ public abstract class Method
 	 * @return
 	 */
 	public abstract Object execute(CodeBlock superCodeBlock, Object... parameters);
+	
+	public boolean isValid()
+	{
+		return true;
+	}
 }

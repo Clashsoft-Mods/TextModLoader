@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import com.chaosdev.textmodloader.TextModConstants;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
-import com.chaosdev.textmodloader.util.exceptions.ParserException;
+import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
 import com.chaosdev.textmodloader.util.operator.Operator;
 import com.chaosdev.textmodloader.util.types.Type;
 
@@ -46,14 +46,14 @@ public class Parser implements TextModConstants
 	 *
 	 * @param par the list to parse
 	 * @return the parsed list
-	 * @throws ParserException the parser exception
+	 * @throws SyntaxException the parser exception
 	 */
-	public Object[] parse(String... par) throws ParserException
+	public Object[] parse(CodeLine line, String... par) throws SyntaxException
 	{
 		Object[] obj = new Object[par.length];
 		for (int i = 0; i < par.length; i++)
 		{
-			obj[i] = parse(par[i]);
+			obj[i] = parse(line, par[i]);
 		}
 		return obj;
 	}
@@ -75,9 +75,9 @@ public class Parser implements TextModConstants
 	 *
 	 * @param par1 the string to parse
 	 * @return the parsed object
-	 * @throws ParserException the parser exception
+	 * @throws SyntaxException the parser exception
 	 */
-	public Object parse(String par1) throws ParserException
+	public Object parse(CodeLine line, String par1) throws SyntaxException
 	{	
 		String[] split = TextModHelper.createCharList(par1);
 		
@@ -91,9 +91,20 @@ public class Parser implements TextModConstants
 			
 			if (Operator.fromStart(s) == null)
 			{
-				if (op != "" && Operator.fromString(op) != null)
+				if (!op.isEmpty() && Operator.fromString(op) != null)
 				{
+					string = string.trim();
+					if (!string.isEmpty())
+					{
+						list.add(string);
+						string = "";
+					}
 					list.add(Operator.fromString(op));
+					op = "";
+				}
+				else if (!op.isEmpty())
+				{
+					string += op;
 					op = "";
 				}
 				string += s;
@@ -103,18 +114,13 @@ public class Parser implements TextModConstants
 			}
 			else
 			{
-				if (!string.isEmpty())
-				{
-					list.add(string.trim());
-					string = "";
-				}
 				op += s;
 			}
 		}
-		return parseSplitOperatorList(list);
+		return parseSplitOperatorList(line, list);
 	}
 	
-	public Object parseSplitOperatorList(List<Object> objects) throws ParserException
+	public Object parseSplitOperatorList(CodeLine line, List<Object> objects) throws SyntaxException
 	{
 		Object value = null;
 		
@@ -132,7 +138,7 @@ public class Parser implements TextModConstants
 			{	
 				if (op != null && (value != null || op.isPrefixOperator()))
 				{
-					Object value2 = directParse((String)object);
+					Object value2 = directParse(line, (String)object);
 					boolean flag = false;
 					
 					if (preOp != null && preOp.canOperate(Type.VOID, Type.getTypeFromObject(value2)))
@@ -154,10 +160,13 @@ public class Parser implements TextModConstants
 					}
 					
 					if (!flag)
-						throw new ParserException("Invalid operator " + op + " for operating the types " + value.getClass().getSimpleName() + " and " + value2.getClass().getSimpleName());
+					{
+						String message = "Invalid operator " + op + " for operating the types " + value.getClass().getSimpleName() + " and " + value2.getClass().getSimpleName();
+						throw new SyntaxException(message, line, op.operator);
+					}
 				}
 				else
-					value = directParse((String)object);
+					value = directParse(line, (String)object);
 			}
 			else if (object instanceof Operator)
 			{	
@@ -179,13 +188,13 @@ public class Parser implements TextModConstants
 				}
 				
 				if ((first && !op.isPrefixOperator()) || (last && !op.isPostfixOperator()))
-					throw new ParserException("Invalid operator " + op + " at index " + i);
+					throw new SyntaxException("Invalid operator " + op, line, op.operator);
 			}	
 		}
 		
 		return value;
 	}
-
+	
 	/**
 	 * Directly parses a string, ignores operators.
 	 * <p>
@@ -202,25 +211,26 @@ public class Parser implements TextModConstants
 	 *
 	 * @param par1 String to parse
 	 * @return Parsed object
-	 * @throws ParserException the parser exception
+	 * @throws SyntaxException the parser exception
 	 */
-	public Object directParse(String par1) throws ParserException
+	public Object directParse(CodeLine line, String par1) throws SyntaxException
 	{
 		par1 = par1.trim();
 		String normalCase = par1;
 		String lowerCase = par1.toLowerCase();
+		CodeLine cl = new CodeLine(line.lineNumber, normalCase);
 		
 		if (par1.startsWith("(") && par1.endsWith(")"))
-			return parse(par1.substring(par1.indexOf("(") + 1, par1.lastIndexOf(")")).trim());
+			return parse(line, par1.substring(par1.indexOf("(") + 1, par1.lastIndexOf(")")).trim());
 		
 		else if (Type.getTypeFromName(par1) != Type.VOID)
 			return Type.getTypeFromName(par1);
 		
 		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
-			return parseArray(par1);
+			return parseArray(line, par1);
 		
 		else if (par1.startsWith("new ")) // New-Instance-Directives
-			return parseInstance(par1);
+			return parseInstance(line, par1);
 		
 		else if (lowerCase.equals("true") || lowerCase.equals("false")) // Boolean
 			return (boolean) (lowerCase.equals("true") ? true : false);
@@ -232,27 +242,28 @@ public class Parser implements TextModConstants
 			return (char) par1.substring(1, par1.length() - 1).charAt(0);
 		
 		else if (lowerCase.matches("-?\\d+(\\.\\d+)?")) // Integer
-			return (int) parseNumber(par1);
+			return (int) parseNumber(line, par1);
 		
 		else if (lowerCase.matches("-?\\d+(\\.\\d+)?f")) // Float
-			return (float) parseNumber(par1);
+			return (float) parseNumber(line, par1);
 		
 		else if (lowerCase.matches("-?\\d+(\\.\\d+)?d")) // Double
-			return (double) parseNumber(par1);
+			return (double) parseNumber(line, par1);
 		
 		else if (lowerCase.matches("-?\\d+(\\.\\d+)?l")) // Long
-			return (long) parseNumber(par1);
+			return (long) parseNumber(line, par1);
 		
 		else if (normalCase.equals("null"))
 			return null;
 		
-		else if (codeblock.getVariable(normalCase) != null) // Indicates a variable
-			return codeblock.getVariable(normalCase).value;
+		else if (normalCase.contains(METHOD_PARAMETERS_START_CHAR) && normalCase.endsWith(METHOD_PARAMETERS_END_CHAR) && codeblock.isMethod(cl)) // Indicates a method
+			return codeblock.executeMethod(codeblock.getMethod(cl));
 		
-		else if (codeblock.isMethod(normalCase)) // Indicates a method
-			return codeblock.executeMethod(codeblock.getMethod(par1));
+		else if (codeblock.getVariable(line, normalCase) != null) // Indicates a variable
+			return codeblock.getVariable(line, normalCase).value;
 		
-		throw new ParserException("Unable to parse: " + par1);
+		
+		throw new SyntaxException("Unable to parse: " + par1, line, par1);
 	}
 	
 	/**
@@ -260,11 +271,11 @@ public class Parser implements TextModConstants
 	 *
 	 * @param par1 the par1
 	 * @return the double
-	 * @throws ParserException the parser exception
+	 * @throws SyntaxException the parser exception
 	 */
-	public double parseNumber(String par1) throws ParserException
+	public double parseNumber(CodeLine line, String par1) throws SyntaxException
 	{
-		return Double.parseDouble(normalize(par1));
+		return Double.parseDouble(normalize(line, par1));
 	}
 	
 	/**
@@ -272,9 +283,9 @@ public class Parser implements TextModConstants
 	 *
 	 * @param par1 the par1
 	 * @return true, if successful
-	 * @throws ParserException the parser exception
+	 * @throws SyntaxException the parser exception
 	 */
-	public boolean parseBoolean(String par1) throws ParserException
+	public boolean parseBoolean(String par1) throws SyntaxException
 	{
 		return par1.equals("true") ? true : false;
 	}
@@ -284,16 +295,17 @@ public class Parser implements TextModConstants
 	 *
 	 * @param par1 the par1
 	 * @return the string
-	 * @throws ParserException the parser exception
+	 * @throws SyntaxException the parser exception
 	 */
-	public String normalize(String par1) throws ParserException
+	public String normalize(CodeLine line, String par1) throws SyntaxException
 	{
 		String[] split = TextModHelper.createParameterList(par1, ' ');
 		for (int i = 0; i < split.length; i++)
 		{
 			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").replace(LONG_CHAR, "").trim(); // Replaces indicator chars
-			if (codeblock.isMethod(split[i]) || codeblock.isVariable(split[i])) // Replaced methods and variables with their values
-				split[i] = directParse(split[i]).toString();
+			CodeLine cl = new CodeLine(line.lineNumber, split[i]);
+			if (codeblock.isMethod(cl) || codeblock.isVariable(cl)) // Replaced methods and variables with their values
+				split[i] = directParse(line, split[i]).toString();
 		}
 		StringBuilder sb = new StringBuilder();
 		for (String s : split)
@@ -307,9 +319,9 @@ public class Parser implements TextModConstants
 	 *
 	 * @param par1 the par1
 	 * @return the object
-	 * @throws ParserException the parser exception
+	 * @throws SyntaxException the parser exception
 	 */
-	public Object parseArray(String par1) throws ParserException
+	public Object parseArray(CodeLine line, String par1) throws SyntaxException
 	{
 		par1 = par1.replaceFirst(Pattern.quote("new "), "");
 		int brace1Pos = par1.indexOf("{");
@@ -319,7 +331,7 @@ public class Parser implements TextModConstants
 		String type = par1.substring(0, brace1Pos).trim();
 		String parameters = par1.substring(brace1Pos + 1, brace2Pos).trim();
 		String[] aparameters = TextModHelper.createParameterList(parameters, TextModConstants.ARRAY_SPLIT_CHAR.charAt(0));
-		Object[] aparameters2 = parse(aparameters);
+		Object[] aparameters2 = parse(line, aparameters);
 		return arrayWithType(type, aparameters2);
 	}
 	
@@ -332,7 +344,7 @@ public class Parser implements TextModConstants
 	 */
 	public Object arrayWithType(String type, Object... values)
 	{
- 		type = type.trim().replaceAll("\\[\\]", "");
+		type = type.trim().replaceAll("\\[\\]", "");
 		Type type1 = Type.getTypeFromName(type);
 		
 		Object[] array = (Object[]) Array.newInstance(type1.type, values.length);
@@ -349,11 +361,11 @@ public class Parser implements TextModConstants
 	 *
 	 * @param par1 the par1
 	 * @return the object
-	 * @throws ParserException the parser exception
+	 * @throws SyntaxException the parser exception
 	 */
-	public Object parseInstance(String par1) throws ParserException
+	public Object parseInstance(CodeLine line, String par1) throws SyntaxException
 	{
-		String nonew = par1.trim().replaceFirst("new ", "");
+		String nonew = par1.trim().replaceFirst(Pattern.quote("new "), "");
 		int brace1Pos = nonew.indexOf(NEW_INSTANCE_START_CHAR);
 		int brace2Pos = nonew.indexOf(NEW_INSTANCE_END_CHAR);
 		if (brace1Pos == -1)
@@ -363,7 +375,7 @@ public class Parser implements TextModConstants
 		String type = nonew.substring(0, brace1Pos);
 		String par = nonew.substring(brace1Pos + 1, brace2Pos);
 		String[] par2 = TextModHelper.createParameterList(par, TextModConstants.PARAMETER_SPLIT_CHAR.charAt(0));
-		return createInstance(type, parse(par2));
+		return createInstance(type, parse(line, par2));
 	}
 	
 	/**

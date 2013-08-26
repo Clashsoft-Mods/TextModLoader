@@ -1,6 +1,7 @@
 package com.chaosdev.textmodloader.util.codeblocktypes;
 
 import com.chaosdev.textmodloader.TextModConstants;
+import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.Variable;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
@@ -15,13 +16,14 @@ public class CBTMethod extends CodeBlockType
 	}
 	
 	@Override
-	public void setup(CodeBlock codeblock, String line)
+	public void setup(CodeBlock codeblock, CodeLine line)
 	{
 		codeblock.getCodeBlockClass().registerMethod(readMethodSigature(codeblock, line));
 	}
 	
-	public CustomMethod readMethodSigature(CodeBlock codeblock, String line)
+	public CustomMethod readMethodSigature(CodeBlock codeblock, CodeLine codeline)
 	{
+		String line = codeline.line;
 		int h = line.indexOf(" ");
 		int i = line.indexOf(TextModConstants.METHOD_PARAMETERS_START_CHAR);
 		int j = line.lastIndexOf(TextModConstants.METHOD_PARAMETERS_END_CHAR);
