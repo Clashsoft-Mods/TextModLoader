@@ -14,6 +14,9 @@ public interface TextModConstants
 	/** The Constant MOD_CLASS_SUFFIX. */
 	public static final String	MOD_CLASS_SUFFIX				= ".textmod";
 	
+	/** The constant CLASS_DECALARATION */
+	public static final String	CLASS_DECLARATION	= "class";
+	
 	/** The Constant PARAMETER_SPLIT_CHAR. */
 	public static final String	PARAMETER_SPLIT_CHAR			= ",";
 	

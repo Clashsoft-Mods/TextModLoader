@@ -13,7 +13,8 @@ public class SyntaxException extends TextModException
 	public CodeLine				line;
 	
 	private CodeLine			codeline;
-	private int					errorIndex			= -1;
+	private int					errorStart			= -1;
+	private int					errorLength			= 0;
 	
 	/**
 	 * Instantiates a new parser exception.
@@ -29,11 +30,12 @@ public class SyntaxException extends TextModException
 	 * @param message
 	 *            the message
 	 */
-	public SyntaxException(String message, CodeLine line, int errorindex)
+	public SyntaxException(String message, CodeLine line, int errorstart, int errorlength)
 	{
 		super(message);
 		this.codeline = line;
-		this.errorIndex = errorindex;
+		this.errorStart = errorstart;
+		this.errorLength = errorlength;
 	}
 	
 	/**
@@ -44,24 +46,34 @@ public class SyntaxException extends TextModException
 	 */
 	public SyntaxException(String message, CodeLine line, String error)
 	{
-		this(message, line, line.find(error));
+		this(message, line, line.find(error), error.length());
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Throwable#getMessage()
 	 */
 	@Override
 	public String getMessage()
 	{
-		StringBuilder sb = new StringBuilder(super.getMessage().length() + codeline.line.length());
+		StringBuilder sb = new StringBuilder(super.getMessage().length() + codeline.line.length() + 12 + errorStart + errorLength);
 		sb.append(super.getMessage()).append("\n");
 		sb.append("In line #").append(codeline.lineNumber + 1).append(":\n");
 		sb.append(codeline.line).append("\n");
-		for (int i = 0; i < errorIndex; i++)
+		if (errorStart != -1)
 		{
-			sb.append(' ');
+			for (int i = 0; i < errorStart; i++)
+			{
+				sb.append(' ');
+			}
+			sb.append('^');
+			if (errorLength != 0)
+			{
+				for (int i = 0; i < errorLength - 1; i++)
+				{
+					sb.append('^');
+				}
+			}
 		}
-		sb.append('^');
 		return sb.toString();
 	}
 }

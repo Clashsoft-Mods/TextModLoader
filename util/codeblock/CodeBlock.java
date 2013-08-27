@@ -88,6 +88,11 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		return var;
 	}
 	
+	private boolean isClassStart(CodeLine codeline)
+	{
+		return codeline.line.startsWith(CLASS_DECLARATION + " ");
+	}
+	
 	/**
 	 * Checks if the line can start a new code block
 	 * 
@@ -99,7 +104,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public boolean isBlockStart(CodeLine codeline) throws SyntaxException
 	{
-		return !codeline.line.isEmpty() && !codeline.equals("\n") && !isComment(codeline) && !isMethod(codeline) && !isVariable(codeline) && CodeBlockType.getCodeBlockType(this, codeline) != null;
+		return !codeline.line.isEmpty() && !codeline.line.equals("\n") && !isComment(codeline) && !isMethod(codeline) && !isVariable(codeline) && CodeBlockType.getCodeBlockType(this, codeline) != null;
 	}
 	
 	/**
@@ -162,7 +167,10 @@ public class CodeBlock implements IAnnotable, TextModConstants
 				if (cb != null && !isBlockStart(codeline) && !line.startsWith("{") && !isBlockEnd(line))
 					cb.lines.add(line);
 				
-				if (isBlockStart(codeline))
+				if (isClassStart(codeline))
+					cb = new ClassCodeBlock(codeline, this, new ArrayList<String>());
+				
+				else if (isBlockStart(codeline))
 					cb = new HeaderCodeBlock(codeline, this);
 				
 				else if (line.startsWith("{") && cb == null)
@@ -191,7 +199,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Executes a line.
 	 * 
@@ -224,7 +232,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		}
 		else
 		{
-			throw new SyntaxException("Invalid line '" + codeline.line + "'", codeline, 0);
+			throw new SyntaxException("Invalid line '" + codeline.line + "'", codeline, 0, 0);
 		}
 	}
 	
@@ -284,7 +292,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		int parametersStart = codeline.line.indexOf(METHOD_PARAMETERS_START_CHAR);
 		int parametersEnd = codeline.line.lastIndexOf(METHOD_PARAMETERS_END_CHAR);
 		if (parametersStart == -1 || parametersEnd == -1)
-			throw new SyntaxException("Invalid method signature: Missing parameter list", codeline, codeline.line.length() - 1);
+			throw new SyntaxException("Invalid method signature: Missing parameter list", codeline, codeline.line.length() - 1, 1);
 		
 		String methodName = codeline.line.substring(0, parametersStart);
 		String parameters = codeline.line.substring(parametersStart + 1, parametersEnd);
@@ -436,6 +444,11 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	public AnnotationType getAnnotationType()
 	{
 		return AnnotationType.NOTHING;
+	}
+	
+	public void setSuperCodeBlock(CodeBlock superCodeBlock)
+	{
+		this.superCodeBlock = superCodeBlock;
 	}
 	
 	/* (non-Javadoc)

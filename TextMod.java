@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.codeblock.ClassCodeBlock;
+import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
 
 public class TextMod extends ClassCodeBlock implements TextModConstants
 {
@@ -80,29 +82,6 @@ public class TextMod extends ClassCodeBlock implements TextModConstants
 			builder.append("author=");
 			builder.append(this.author);
 			builder.append(", ");
-		}
-		if (this.customMethods != null)
-		{
-			builder.append("customMethods=");
-			builder.append(this.customMethods);
-			builder.append(", ");
-		}
-		if (this.superCodeBlock != null)
-		{
-			builder.append("superCodeBlock=");
-			builder.append(this.superCodeBlock);
-			builder.append(", ");
-		}
-		if (this.variables != null)
-		{
-			builder.append("variables=");
-			builder.append(this.variables);
-			builder.append(", ");
-		}
-		if (this.parser != null)
-		{
-			builder.append("parser=");
-			builder.append(this.parser);
 		}
 		builder.append("]");
 		return builder.toString();

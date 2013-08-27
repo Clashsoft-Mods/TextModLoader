@@ -18,10 +18,10 @@ public class CBTMethod extends CodeBlockType
 	@Override
 	public void setup(CodeBlock codeblock, CodeLine line)
 	{
-		codeblock.getCodeBlockClass().registerMethod(readMethodSigature(codeblock, line));
+		codeblock.getCodeBlockClass().registerMethod(readMethodSignature(codeblock, line));
 	}
 	
-	public CustomMethod readMethodSigature(CodeBlock codeblock, CodeLine codeline)
+	public CustomMethod readMethodSignature(CodeBlock codeblock, CodeLine codeline)
 	{
 		String line = codeline.line;
 		int h = line.indexOf(" ");

@@ -1,5 +1,8 @@
 package com.chaosdev.textmodloader.util.codeblock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
 import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
@@ -8,15 +11,34 @@ public class HeaderCodeBlock extends CodeBlock
 {
 	public CodeLine	executionLine;
 	
-	public HeaderCodeBlock(CodeLine executionLine, CodeBlock superBlock)
+	public HeaderCodeBlock(CodeLine header, CodeBlock superBlock, List<String> lines)
 	{
-		super(superBlock);
-		this.executionLine = executionLine;
+		super(superBlock, lines);
+		this.executionLine = header;
+	}
+	
+	public HeaderCodeBlock(CodeLine header, CodeBlock superBlock)
+	{
+		this(header, superBlock, new ArrayList<String>());
 	}
 	
 	public CodeBlockType getCodeBlockType() throws SyntaxException
 	{
 		return CodeBlockType.getCodeBlockType(this, executionLine.line);
+	}
+	
+	private final class TempCodeBlock extends CodeBlock
+	{
+		public TempCodeBlock(CodeBlock superBlock, List<String> lines)
+		{
+			super(superBlock, lines);
+		}
+		
+		@Override
+		public void setSuperCodeBlock(CodeBlock superCodeBlock)
+		{
+			HeaderCodeBlock.this.setSuperCodeBlock(superCodeBlock);
+		}
 	}
 	
 	@Override
@@ -27,7 +49,7 @@ public class HeaderCodeBlock extends CodeBlock
 		{
 			cbt = getCodeBlockType();
 			cbt.setup(this, executionLine);
-			return cbt.execute(new CodeBlock(this.superCodeBlock, this.lines));
+			return cbt.execute(new TempCodeBlock(this.superCodeBlock, this.lines));
 		}
 		catch (SyntaxException ex)
 		{
