@@ -6,9 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.codeblock.ClassCodeBlock;
-import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
 
 public class TextMod extends ClassCodeBlock implements TextModConstants
 {

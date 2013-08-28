@@ -72,7 +72,7 @@ public class TextModLoader implements TextModConstants
 		TextModHelper.registerMethodExecuter(new MethodGetID());
 		TextModHelper.registerMethodExecuter(new MethodToString());
 		
-		System.out.println(TextModHelper.methods.size() + " Method Executers registered.");
+		System.out.println(TextModHelper.methods.size() + " Method Executors registered.");
 		
 		try
 		{
@@ -82,14 +82,19 @@ public class TextModLoader implements TextModConstants
 			else
 				file = new File(MinecraftServer.getServer().getFolderName(), "mods");
 			List<File> files = getTextModDirectories(file);
-			for (File f : files)
+			
+			synchronized (this)
 			{
-				loadModClass(f);
-				for (File g : f.listFiles())
+				for (File f : files)
 				{
-					loadModClass(g);
+					loadModClass(f);
+					for (File g : f.listFiles())
+					{
+						loadModClass(g);
+					}
 				}
 			}
+			
 			float averageLoadTime = 0L;
 			if (loadedTextMods.size() > 0)
 			{
