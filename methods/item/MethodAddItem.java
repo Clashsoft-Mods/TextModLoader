@@ -2,12 +2,12 @@ package com.chaosdev.textmodloader.methods.item;
 
 import clashsoft.clashsoftapi.CustomItem;
 
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class MethodAddItem extends MethodExecuter
+public class MethodAddItem extends MethodExecutor
 {
 	@Override
 	public Object execute(Object... parameters)
@@ -22,7 +22,7 @@ public class MethodAddItem extends MethodExecuter
 			String icon = (String) parameters[2];
 			String creativetab = (String) parameters[3];
 			
-			item = (CustomItem) new CustomItem(itemID, name, icon).setCreativeTab(MethodExecuter.getCreativeTab(creativetab));
+			item = (CustomItem) new CustomItem(itemID, name, icon).setCreativeTab(MethodExecutor.getCreativeTab(creativetab));
 		}
 		else if (parameters.length >= 5 && parameters[0] instanceof Integer && parameters[1] instanceof String && parameters[2] instanceof String && parameters[3] instanceof String && parameters[4] instanceof String)
 		{
@@ -32,7 +32,7 @@ public class MethodAddItem extends MethodExecuter
 			String desc = (String) parameters[3];
 			String creativetab = (String) parameters[4];
 			
-			item = (CustomItem) new CustomItem(itemID, name, icon, desc).setCreativeTab(MethodExecuter.getCreativeTab(creativetab));
+			item = (CustomItem) new CustomItem(itemID, name, icon, desc).setCreativeTab(MethodExecutor.getCreativeTab(creativetab));
 		}
 		else if (parameters.length >= 4 && parameters[0] instanceof Integer && parameters[1] instanceof String[] && parameters[2] instanceof String[] && parameters[3] instanceof String)
 		{
@@ -42,7 +42,7 @@ public class MethodAddItem extends MethodExecuter
 			String[] icons = (String[]) parameters[2];
 			String creativetab = (String) parameters[3];
 			
-			item = (CustomItem) new CustomItem(itemID, names, icons).setCreativeTab(MethodExecuter.getCreativeTab(creativetab));
+			item = (CustomItem) new CustomItem(itemID, names, icons).setCreativeTab(MethodExecutor.getCreativeTab(creativetab));
 			
 		}
 		else if (parameters.length >= 5 && parameters[0] instanceof Integer && parameters[1] instanceof String[] && parameters[2] instanceof String[] && parameters[3] instanceof String[] && parameters[4] instanceof String)
@@ -54,7 +54,7 @@ public class MethodAddItem extends MethodExecuter
 			String[] descs = (String[]) parameters[3];
 			String creativetab = (String) parameters[4];
 			
-			item = (CustomItem) new CustomItem(itemID, names, icons, descs).setCreativeTab(MethodExecuter.getCreativeTab(creativetab));
+			item = (CustomItem) new CustomItem(itemID, names, icons, descs).setCreativeTab(MethodExecutor.getCreativeTab(creativetab));
 		}
 		
 		if (item != null)

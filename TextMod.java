@@ -32,7 +32,7 @@ public class TextMod extends ClassCodeBlock implements TextModConstants
 		TextMod tm = new TextMod();
 		BufferedReader br = new BufferedReader(new FileReader(modClass));
 		String line;
-		while ((line = br.readLine()) != null)
+		while ((line = br.readLine().trim()) != null)
 		{
 			if (line.startsWith("@author "))
 				tm.author = line.replaceFirst(Pattern.quote("@author "), "");

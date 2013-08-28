@@ -3,13 +3,13 @@ package com.chaosdev.textmodloader.methods.crafting;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 
 import cpw.mods.fml.common.IFuelHandler;
 
 import net.minecraft.item.ItemStack;
 
-public class MethodAddFuel extends MethodExecuter implements IFuelHandler
+public class MethodAddFuel extends MethodExecutor implements IFuelHandler
 {
 	public static Map<ItemStack, Integer> fuelValues = new HashMap<ItemStack, Integer>();
 

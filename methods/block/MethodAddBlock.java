@@ -3,11 +3,11 @@ package com.chaosdev.textmodloader.methods.block;
 import clashsoft.clashsoftapi.CustomBlock;
 import clashsoft.clashsoftapi.ItemCustomBlock;
 
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class MethodAddBlock extends MethodExecuter
+public class MethodAddBlock extends MethodExecutor
 {
 	@Override
 	public Object execute(Object... par1)

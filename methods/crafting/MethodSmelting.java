@@ -2,11 +2,11 @@ package com.chaosdev.textmodloader.methods.crafting;
 
 import clashsoft.clashsoftapi.util.CSCrafting;
 
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 
 import net.minecraft.item.ItemStack;
 
-public class MethodSmelting extends MethodExecuter
+public class MethodSmelting extends MethodExecutor
 {
 	
 	@Override

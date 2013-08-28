@@ -2,14 +2,14 @@ package com.chaosdev.textmodloader.methods.item;
 
 import clashsoft.clashsoftapi.metatools.*;
 
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 import net.minecraft.item.*;
 
-public class MethodAddSpecialItem extends MethodExecuter
+public class MethodAddSpecialItem extends MethodExecutor
 {
 	@Override
 	public Object execute(Object... parameters)

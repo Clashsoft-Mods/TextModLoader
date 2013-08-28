@@ -70,7 +70,6 @@ public class TextModLoader implements TextModConstants
 		TextModHelper.registerMethodExecuter(new MethodAddLocalization());
 		TextModHelper.registerMethodExecuter(new MethodHelp());
 		TextModHelper.registerMethodExecuter(new MethodGetID());
-		TextModHelper.registerMethodExecuter(new MethodMath());
 		TextModHelper.registerMethodExecuter(new MethodToString());
 		
 		System.out.println(TextModHelper.methods.size() + " Method Executers registered.");

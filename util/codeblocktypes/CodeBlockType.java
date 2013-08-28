@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.chaosdev.textmodloader.TextModConstants;
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
@@ -77,7 +77,7 @@ public abstract class CodeBlockType implements TextModConstants
 	
 	public boolean parameterMatches(CodeBlock codeblock, Object... par) throws SyntaxException
 	{
-		return MethodExecuter.matches(par, this.getParameters());
+		return MethodExecutor.matches(par, this.getParameters());
 	}
 	
 	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, CodeLine line) throws SyntaxException

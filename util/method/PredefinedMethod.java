@@ -1,6 +1,6 @@
 package com.chaosdev.textmodloader.util.method;
 
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 import com.chaosdev.textmodloader.util.TextModHelper;
 import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
 
@@ -11,9 +11,9 @@ public class PredefinedMethod extends Method
 		super(name, parameters);
 	}
 	
-	public MethodExecuter getExecuter()
+	public MethodExecutor getExecuter()
 	{
-		return TextModHelper.getMethodExecuterFromName(name);
+		return TextModHelper.getMethodExecutorFromName(name);
 	}
 	
 	@Override

@@ -221,7 +221,7 @@ public class Parser implements TextModConstants
 		CodeLine cl = new CodeLine(line.lineNumber, normalCase);
 		
 		if (par1.startsWith("(") && par1.endsWith(")"))
-			return parse(line, par1.substring(par1.indexOf("(") + 1, par1.lastIndexOf(")")).trim());
+			return parse(line, par1.substring(par1.indexOf("(") + 1, par1.lastIndexOf(")")));
 		
 		else if (Type.getTypeFromName(par1) != Type.VOID)
 			return Type.getTypeFromName(par1);
@@ -302,15 +302,15 @@ public class Parser implements TextModConstants
 		String[] split = TextModHelper.createParameterList(par1, ' ');
 		for (int i = 0; i < split.length; i++)
 		{
-			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").replace(LONG_CHAR, "").trim(); // Replaces indicator chars
+			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").replace(LONG_CHAR, ""); // Replaces indicator chars
 			CodeLine cl = new CodeLine(line.lineNumber, split[i]);
 			if (codeblock.isMethod(cl) || codeblock.isVariable(cl)) // Replaced methods and variables with their values
-				split[i] = directParse(line, split[i]).toString();
+				split[i] = String.valueOf(directParse(line, split[i]));
 		}
 		StringBuilder sb = new StringBuilder();
 		for (String s : split)
 			sb.append(s);
-		return sb.toString().trim();
+		return sb.toString();
 	}
 	
 	/**
@@ -328,8 +328,8 @@ public class Parser implements TextModConstants
 		int brace2Pos = par1.indexOf("}");
 		if (brace1Pos == -1 || brace2Pos == -1)
 			return null;
-		String type = par1.substring(0, brace1Pos).trim();
-		String parameters = par1.substring(brace1Pos + 1, brace2Pos).trim();
+		String type = par1.substring(0, brace1Pos);
+		String parameters = par1.substring(brace1Pos + 1, brace2Pos);
 		String[] aparameters = TextModHelper.createParameterList(parameters, TextModConstants.ARRAY_SPLIT_CHAR.charAt(0));
 		Object[] aparameters2 = parse(line, aparameters);
 		return arrayWithType(type, aparameters2);
@@ -344,7 +344,7 @@ public class Parser implements TextModConstants
 	 */
 	public Object arrayWithType(String type, Object... values)
 	{
-		type = type.trim().replaceAll("\\[\\]", "");
+		type = type.replaceAll("\\[\\]", "");
 		Type type1 = Type.getTypeFromName(type);
 		
 		Object[] array = (Object[]) Array.newInstance(type1.type, values.length);
@@ -365,7 +365,7 @@ public class Parser implements TextModConstants
 	 */
 	public Object parseInstance(CodeLine line, String par1) throws SyntaxException
 	{
-		String nonew = par1.trim().replaceFirst(Pattern.quote("new "), "");
+		String nonew = par1.replaceFirst(Pattern.quote("new "), "");
 		int brace1Pos = nonew.indexOf(NEW_INSTANCE_START_CHAR);
 		int brace2Pos = nonew.indexOf(NEW_INSTANCE_END_CHAR);
 		if (brace1Pos == -1)

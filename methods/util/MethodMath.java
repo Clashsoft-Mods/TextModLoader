@@ -2,9 +2,9 @@ package com.chaosdev.textmodloader.methods.util;
 
 import clashsoft.clashsoftapi.util.CSUtil;
 
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 
-public class MethodMath extends MethodExecuter
+public class MethodMath extends MethodExecutor
 {
 	
 	@Override

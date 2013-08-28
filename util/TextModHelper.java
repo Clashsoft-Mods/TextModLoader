@@ -3,7 +3,7 @@ package com.chaosdev.textmodloader.util;
 import java.util.*;
 
 import com.chaosdev.textmodloader.TextModConstants;
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 
 /**
  * The Class TextModHelper.
@@ -11,28 +11,28 @@ import com.chaosdev.textmodloader.methods.MethodExecuter;
 public class TextModHelper implements TextModConstants
 {
 	/** The methods. */
-	public static Map<String, MethodExecuter>	methods	= new HashMap<String, MethodExecuter>();
+	public static Map<String, MethodExecutor>	methods	= new HashMap<String, MethodExecutor>();
 	
 	/**
 	 * Register method executer.
 	 *
-	 * @param executer the executer
+	 * @param executor the executer
 	 */
-	public static void registerMethodExecuter(MethodExecuter executer)
+	public static void registerMethodExecuter(MethodExecutor executor)
 	{
-		if (executer == null)
-			throw new IllegalArgumentException("Method Executer cant be null!");
-		if (executer.getName().contains("|"))
+		if (executor == null)
+			throw new IllegalArgumentException("Method Executor cant be null!");
+		if (executor.getName().contains("|"))
 		{
-			String[] names = executer.getName().split("|");
+			String[] names = executor.getName().split("|");
 			for (String name : names)
 			{
-				registerMethodExecuter(name, executer);
+				registerMethodExecutor(name, executor);
 			}
 		}
 		else
 		{
-			registerMethodExecuter(executer.getName(), executer);
+			registerMethodExecutor(executor.getName(), executor);
 		}
 	}
 	
@@ -42,11 +42,11 @@ public class TextModHelper implements TextModConstants
 	 * @param name the name
 	 * @param executer the executer
 	 */
-	private static void registerMethodExecuter(String name, MethodExecuter executer)
+	private static void registerMethodExecutor(String name, MethodExecutor executor)
 	{
 		if (!name.contains("."))
 			name = TML_CLASS_NAME + "." + name;
-		methods.put(name, executer);
+		methods.put(name, executor);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class TextModHelper implements TextModConstants
 	 * @param name the name
 	 * @return the method executer from name
 	 */
-	public static MethodExecuter getMethodExecuterFromName(String name)
+	public static MethodExecutor getMethodExecutorFromName(String name)
 	{
 		return methods.get(name);
 	}
@@ -69,7 +69,7 @@ public class TextModHelper implements TextModConstants
 	 */
 	public static String[] createParameterList(String par1, char splitChar)
 	{
-		List<String> strings = new LinkedList<String>();
+		List<String> strings = new ArrayList<String>();
 		
 		String curString = "";
 		char block = 0;
@@ -95,24 +95,18 @@ public class TextModHelper implements TextModConstants
 			{
 				if (i == par1.length() - 1)
 					curString += c;
-				curString = curString.trim();
-				strings.add(curString);
+				strings.add(curString.trim());
 				curString = "";
 			}
 			else
 				curString += c;
 		}
-		String[] ret = new String[strings.size()];
-		for (int i = 0; i < strings.size(); i++)
-		{
-			ret[i] = strings.get(i).trim();
-		}
-		return ret;
+		return strings.<String>toArray(new String[strings.size()]);
 	}
 	
 	public static String[] createCharList(String par1)
 	{
-		ArrayList<String> ret = new ArrayList<String>();
+		ArrayList<String> strings = new ArrayList<String>();
 		
 		char[] chars = par1.toCharArray();
 		String curString = "";
@@ -137,14 +131,14 @@ public class TextModHelper implements TextModConstants
 			if (block == 0 || (i == par1.length() - 1))
 			{
 				curString += c;
-				ret.add(curString);
+				strings.add(curString);
 				curString = "";
 			}
 			else
 				curString += c;
 		}
 		
-		return ret.<String>toArray(new String[ret.size()]);
+		return strings.<String>toArray(new String[strings.size()]);
 	}
 	
 	/**

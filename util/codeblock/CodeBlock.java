@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import com.chaosdev.textmodloader.TextModConstants;
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.Parser;
 import com.chaosdev.textmodloader.util.TextModHelper;
@@ -144,7 +144,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		CodeBlock cb = null;
 		for (int lineNumber = 0; lineNumber < lines.size(); lineNumber++)
 		{
-			String line = lines.get(lineNumber).trim();
+			String line = lines.get(lineNumber);
 			CodeLine codeline = new CodeLine(lineNumber, line);
 			
 			if (line.startsWith("/*"))
@@ -210,7 +210,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public void executeLine(CodeLine codeline) throws SyntaxException
 	{
-		if (codeline.line.trim().isEmpty())
+		if (codeline.line.isEmpty())
 			return;
 		else if (blockComment || isComment(codeline))
 			return;
@@ -324,21 +324,21 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public Variable readVariable(CodeLine codeline) throws SyntaxException
 	{
-		String line = codeline.line.substring(0, codeline.line.indexOf(';')).trim();
+		String line = codeline.line.substring(0, codeline.line.indexOf(';'));
 		String[] split = TextModHelper.createParameterList(line, ' ');
 		Variable var = null;
 		if (isType(split[0])) // First part is a type declaration
 		{
 			Type type = Type.getTypeFromName(split[0]);
 			String name = split[1];
-			Object value = parser.parse(codeline, line.substring(line.indexOf("=") + 1).trim());
+			Object value = parser.parse(codeline, line.substring(line.indexOf("=") + 1));
 			var = new Variable(type, name, value);
 		}
 		else // First part is an existing variable name
 		{
 			Variable var1 = getVariable(codeline, split[0]);
 			String operator = split[1];
-			Object value = parser.parse(codeline, line.substring(line.indexOf(operator) + operator.length()).trim());
+			Object value = parser.parse(codeline, line.substring(line.indexOf(operator) + operator.length()));
 			var = operate(var1, operator, value);
 		}
 		return var;
@@ -392,8 +392,8 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			if (getCustomMethod(methodName) != null)
 				return true;
 			
-			MethodExecuter executer = TextModHelper.getMethodExecuterFromName(methodName);
-			return executer != null;
+			MethodExecutor executor = TextModHelper.getMethodExecutorFromName(methodName);
+			return executor != null;
 		}
 		return false;
 	}

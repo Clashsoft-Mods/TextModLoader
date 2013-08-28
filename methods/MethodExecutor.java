@@ -5,7 +5,7 @@ import net.minecraft.block.StepSound;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 
-public abstract class MethodExecuter
+public abstract class MethodExecutor
 {
 	public abstract Object execute(Object... parameters);
 	

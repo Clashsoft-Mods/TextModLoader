@@ -1,11 +1,11 @@
 package com.chaosdev.textmodloader.methods.util;
 
-import com.chaosdev.textmodloader.methods.MethodExecuter;
+import com.chaosdev.textmodloader.methods.MethodExecutor;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
-public class MethodGetID extends MethodExecuter
+public class MethodGetID extends MethodExecutor
 {
 	@Override
 	public Object execute(Object... parameters)
