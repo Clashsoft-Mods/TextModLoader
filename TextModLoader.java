@@ -136,6 +136,7 @@ public class TextModLoader implements TextModConstants
 			if (ENABLE_THREADING)
 				new Thread(new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						TextMod.load(modClass);

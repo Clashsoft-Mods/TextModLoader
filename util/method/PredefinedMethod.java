@@ -22,6 +22,7 @@ public class PredefinedMethod extends Method
 		return getExecuter().execute(parameters);
 	}
 	
+	@Override
 	public boolean isValid()
 	{
 		return getExecuter() != null;

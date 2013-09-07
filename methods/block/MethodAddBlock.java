@@ -59,6 +59,7 @@ public class MethodAddBlock extends MethodExecutor
 		return "addBlock";
 	}
 
+	@Override
 	public String getUsage()
 	{
 		return "addBlock([blockID]i, \"[blockName]\", \"[iconName]\", [material]i, \"[creativetab]\") OR "
