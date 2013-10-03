@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import clashsoft.clashsoftapi.util.CSUtil;
+import clashsoft.clashsoftapi.util.CSUpdate;
+import clashsoft.clashsoftapi.util.update.ModUpdate;
 
 import com.chaosdev.textmodloader.methods.block.MethodAddBlock;
 import com.chaosdev.textmodloader.methods.block.MethodAddSpecialBlock;
@@ -31,12 +32,19 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
-@Mod(modid = "TextModLoader", name = "TextMod Loader", version = CSUtil.CURRENT_VERION)
+@Mod(modid = "TextModLoader", name = "TextMod Loader", version = TextModLoader.VERSION)
 @NetworkMod(channels = { "TextModLoader" }, serverSideRequired = false, clientSideRequired = true)
 public class TextModLoader implements TextModConstants
 {
+	public static final int REVISION = 0;
+	public static final String VERSION = CSUpdate.CURRENT_VERSION + "-" + REVISION;
+	
 	@Instance("TextModLoader")
 	public static TextModConstants	instance;
 	
@@ -51,8 +59,8 @@ public class TextModLoader implements TextModConstants
 		meta.authorList = Arrays.asList("Clashsoft");
 		
 		meta.modId = "TextModLoader";
-		meta.name = "Text Mod Loader";
-		meta.version = CSUtil.CURRENT_VERION;
+		meta.name = "TextMod Loader";
+		meta.version = VERSION;
 		
 		meta.description = "TextMod Loader is a small mod that loads, parses and executes .textmod files in your mods directory.";
 	}
@@ -116,6 +124,8 @@ public class TextModLoader implements TextModConstants
 		{
 			error.printStackTrace();
 		}
+		
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
 	private List<File> getTextModDirectories(File path)
@@ -144,6 +154,16 @@ public class TextModLoader implements TextModConstants
 				}).start();
 			else
 				TextMod.load(modClass);
+		}
+	}
+	
+	@ForgeSubscribe
+	public void playerJoined(EntityJoinWorldEvent event)
+	{
+		if (event.entity instanceof EntityPlayer)
+		{
+			ModUpdate update = CSUpdate.checkForUpdate("TextMod Loader", "tml", TextModLoader.VERSION);
+			CSUpdate.notifyUpdate((EntityPlayer) event.entity, "TextMod Loader", update);
 		}
 	}
 }

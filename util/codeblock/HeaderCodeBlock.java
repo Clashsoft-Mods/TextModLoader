@@ -7,7 +7,7 @@ import com.chaosdev.textmodloader.util.CodeLine;
 import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
 import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
 
-public class HeaderCodeBlock extends CodeBlock
+public class HeaderCodeBlock extends CodeBlock implements Breakable
 {
 	public CodeLine	executionLine;
 	

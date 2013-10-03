@@ -46,7 +46,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public CodeBlock(CodeBlock superBlock)
 	{
-		this(superBlock, new LinkedList<String>());
+		this(superBlock, new ArrayList<String>());
 	}
 	
 	/**
@@ -158,8 +158,8 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			
 			try
 			{
-				if (cb instanceof HeaderCodeBlock && ((HeaderCodeBlock) cb).getCodeBlockType().isBreakable() && line.equals("break;"))
-					cb = null;
+				if (cb instanceof HeaderCodeBlock && ((HeaderCodeBlock) cb).getCodeBlockType().isBreakable() && line.startsWith("break"))
+					throw new Break();
 				
 				if (line.startsWith("return "))
 					return parser.parse(codeline, line.replaceFirst(Pattern.quote("return "), ""));
