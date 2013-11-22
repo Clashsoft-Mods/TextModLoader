@@ -1,7 +1,7 @@
 package com.chaosdev.textmodloader.methods.block;
 
-import clashsoft.clashsoftapi.CustomBlock;
-import clashsoft.clashsoftapi.ItemCustomBlock;
+import clashsoft.cslib.minecraft.CustomBlock;
+import clashsoft.cslib.minecraft.ItemCustomBlock;
 
 import com.chaosdev.textmodloader.methods.MethodExecutor;
 

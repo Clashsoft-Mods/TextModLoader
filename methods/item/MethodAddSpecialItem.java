@@ -1,6 +1,6 @@
 package com.chaosdev.textmodloader.methods.item;
 
-import clashsoft.clashsoftapi.metatools.*;
+import clashsoft.cslib.minecraft.item.metatools.*;
 
 import com.chaosdev.textmodloader.methods.MethodExecutor;
 

@@ -1,6 +1,6 @@
 package com.chaosdev.textmodloader.methods.item;
 
-import clashsoft.clashsoftapi.CustomItem;
+import clashsoft.cslib.minecraft.CustomItem;
 
 import com.chaosdev.textmodloader.methods.MethodExecutor;
 
@@ -22,7 +22,7 @@ public class MethodAddItem extends MethodExecutor
 			String icon = (String) parameters[2];
 			String creativetab = (String) parameters[3];
 			
-			item = (CustomItem) new CustomItem(itemID, name, icon).setCreativeTab(MethodExecutor.getCreativeTab(creativetab));
+			item = (CustomItem) new CustomItem(itemID, name, icon, MethodExecutor.getCreativeTab(creativetab));
 		}
 		else if (parameters.length >= 5 && parameters[0] instanceof Integer && parameters[1] instanceof String && parameters[2] instanceof String && parameters[3] instanceof String && parameters[4] instanceof String)
 		{
@@ -32,7 +32,7 @@ public class MethodAddItem extends MethodExecutor
 			String desc = (String) parameters[3];
 			String creativetab = (String) parameters[4];
 			
-			item = (CustomItem) new CustomItem(itemID, name, icon, desc).setCreativeTab(MethodExecutor.getCreativeTab(creativetab));
+			item = (CustomItem) new CustomItem(itemID, name, icon, desc, MethodExecutor.getCreativeTab(creativetab));
 		}
 		else if (parameters.length >= 4 && parameters[0] instanceof Integer && parameters[1] instanceof String[] && parameters[2] instanceof String[] && parameters[3] instanceof String)
 		{

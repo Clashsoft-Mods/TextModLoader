@@ -1,6 +1,6 @@
 package com.chaosdev.textmodloader.methods.crafting;
 
-import clashsoft.clashsoftapi.util.CSCrafting;
+import clashsoft.cslib.minecraft.util.CSCrafting;
 
 import com.chaosdev.textmodloader.methods.MethodExecutor;
 

@@ -1,8 +1,8 @@
 package com.chaosdev.textmodloader.methods.block;
 
-import clashsoft.clashsoftapi.ItemCustomBlock;
-import clashsoft.clashsoftapi.specialblocks.BlockSpecialSlab;
-import clashsoft.clashsoftapi.specialblocks.BlockSpecialWorkbench;
+import clashsoft.cslib.minecraft.ItemCustomBlock;
+import clashsoft.cslib.minecraft.block.BlockCustomSlab;
+import clashsoft.cslib.minecraft.block.BlockCustomWorkbench;
 
 import com.chaosdev.textmodloader.methods.MethodExecutor;
 
@@ -30,9 +30,9 @@ public class MethodAddSpecialBlock extends MethodExecutor
 				String[] sideIcons = (String[]) parameters[4];
 				String[] side2Icons = (String[]) parameters[5];
 				String[] bottomIcons = (String[]) parameters[6];
-				block = new BlockSpecialWorkbench(blockID, names, topIcons, sideIcons, side2Icons, bottomIcons);
+				block = new BlockCustomWorkbench(blockID, names, topIcons, sideIcons, side2Icons, bottomIcons);
 				GameRegistry.registerBlock(block, ItemCustomBlock.class, name.toUpperCase().replace(" ", ""));
-				((BlockSpecialWorkbench) block).addNames();
+				((BlockCustomWorkbench) block).addNames();
 			}
 			if (type.equals("slab") && matches(parameters, String.class, Integer.class, String[].class, String[].class, String[].class, Integer.class, Boolean.class))
 			{
@@ -43,9 +43,9 @@ public class MethodAddSpecialBlock extends MethodExecutor
 				int singleSlabID = (Integer) parameters[5];
 				boolean doubleSlab = (Boolean) parameters[6];
 				
-				block = new BlockSpecialSlab(blockID, names, topIcons, sideIcons, singleSlabID, doubleSlab);
+				block = new BlockCustomSlab(blockID, names, topIcons, sideIcons, singleSlabID, doubleSlab);
 				GameRegistry.registerBlock(block, ItemCustomBlock.class, name.toUpperCase().replace(" ", ""));
-				((BlockSpecialSlab) block).addNames();
+				((BlockCustomSlab) block).addNames();
 			}
 		}
 		if (block != null)

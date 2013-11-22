@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import clashsoft.clashsoftapi.util.CSUpdate;
-import clashsoft.clashsoftapi.util.update.ModUpdate;
+import clashsoft.cslib.minecraft.update.CSUpdate;
+import clashsoft.cslib.minecraft.update.ModUpdate;
 
 import com.chaosdev.textmodloader.methods.block.MethodAddBlock;
 import com.chaosdev.textmodloader.methods.block.MethodAddSpecialBlock;
