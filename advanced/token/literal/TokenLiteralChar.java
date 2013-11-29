@@ -5,11 +5,11 @@ import com.chaosdev.textmodloader.advanced.token.Token;
 
 import clashsoft.cslib.util.CSSource;
 
-public class TokenLiteralString extends Token
+public class TokenLiteralChar extends Token
 {
-	public TokenLiteralString(String string)
+	public TokenLiteralChar(String string)
 	{
-		super(Token.TYPE_STRING, 0, string);
+		super(Token.TYPE_CHAR, 0, string);
 	}
 	
 	@Override

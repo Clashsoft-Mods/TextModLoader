@@ -11,8 +11,8 @@ public class TokenClass extends Token
 	}
 	
 	@Override
-	public Class parse(ClassData data)
+	public ClassData parse(ClassData data)
 	{
-		return ClassReader.getCurrent().getClass(data.getClass(string));
+		return ClassReader.getCurrent().getClass(data.getFullClassName(string));
 	}
 }

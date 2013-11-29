@@ -1,13 +1,11 @@
 package com.chaosdev.textmodloader.advanced;
 
-import java.util.Map;
 
 public abstract class ClassReader
 {
 	private static ClassReader current;
 	
 	public String source;
-	public Map<String, Class> classes;
 	
 	public ClassReader(String source)
 	{
@@ -29,8 +27,8 @@ public abstract class ClassReader
 	public abstract void read();
 	public abstract void run();
 	
-	public Class getClass(String name)
+	public ClassData getClass(String name)
 	{
-		return classes.get(name);
+		return ClassData.classes.get(name);
 	}
 }

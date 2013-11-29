@@ -1,9 +1,13 @@
 package com.chaosdev.textmodloader.advanced.token;
 
+import java.util.List;
+
 import com.chaosdev.textmodloader.advanced.ClassData;
 
 public class Token
 {
+	public static final long	TYPE_ANY			= 0x7fffffffffffffffL;
+	
 	public static final long	TYPE_BRACKET		= 0b1L;
 	public static final long	TYPE_PUNCTUATION	= 0b10L;
 	
@@ -17,7 +21,7 @@ public class Token
 	public static final long	TYPE_METHOD			= 0b100000000L;
 	public static final long	TYPE_CONSTRUCTOR	= 0b1000000000L;
 	public static final long	TYPE_ENUMDEF		= 0b10000000000L;
-	public static final long	TYPE_VARIABLE		= 0b100000000000L;
+	public static final long	TYPE_FIELD			= 0b100000000000L;
 	
 	public static final long	TYPE_STRING			= 0b1000000000000L;
 	public static final long	TYPE_CHAR			= 0b10000000000000L;
@@ -45,11 +49,15 @@ public class Token
 		return null;
 	}
 	
-	public static Token get(String string)
+	public long expected(List<Token> metadata)
 	{
-		if (TokenBracket.getTypeFromString(string) != -1)
-			return new TokenBracket(string);
-		else
-			return null;
+		return TYPE_ANY;
+	}
+	
+	public static Token get(String string, List<Token> metadata)
+	{
+		Token prev = metadata.get(metadata.size() - 1);
+		long expected = prev.expected(metadata);
+		return null;
 	}
 }

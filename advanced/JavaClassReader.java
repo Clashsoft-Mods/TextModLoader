@@ -1,30 +1,59 @@
 package com.chaosdev.textmodloader.advanced;
 
 import java.util.ArrayList;
-
-import com.chaosdev.textmodloader.advanced.token.Token;
+import java.util.List;
 
 import clashsoft.cslib.util.CSSource;
 
+import com.chaosdev.textmodloader.advanced.token.Token;
+
 public class JavaClassReader extends ClassReader
 {
-	public ArrayList<Token> tokens;
+	public List<Token> tokens;
+	public List<String> primitives;
 	
 	public ClassData theClassData;
 	
 	public JavaClassReader(String source)
 	{
 		super(source);
-		tokens = new ArrayList<Token>(source.length() / 10);
+		
+		int length = this.source.length() / 10;
+		this.tokens = new ArrayList<Token>(length);
+		this.primitives = new ArrayList<String>(length);
 	}
 
 	@Override
 	public void read()
 	{
 		// We do not need comments at all
-		this.source = CSSource.stripComments(source);
+		this.source = CSSource.stripComments(this.source);
 		
+		for (int i = 0; i < primitives.size(); i++)
+		{
+			String primitive = primitives.get(i);
+			
+			Token token = Token.get(primitive, tokens);
+			tokens.add(token);
+		}
+	}
+	
+	public void readPrimitives()
+	{
+		StringBuilder current = new StringBuilder(20);
 		
+		for (int i = 0; i < this.source.length(); i++)
+		{
+			 char c = this.source.charAt(i);
+			 
+			 if (Character.isWhitespace(c) && current.length() > 0)
+			 {
+				 primitives.add(current.toString());
+				 current.delete(0, current.length());
+			 }
+			 else
+				 current.append(c);
+		}
 	}
 
 	@Override
