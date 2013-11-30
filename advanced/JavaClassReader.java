@@ -26,6 +26,8 @@ public class JavaClassReader extends ClassReader
 	@Override
 	public void read()
 	{
+		Token.language = "Java";
+		
 		// We do not need comments at all
 		this.source = CSSource.stripComments(this.source);
 		

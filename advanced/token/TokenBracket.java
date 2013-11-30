@@ -1,5 +1,6 @@
 package com.chaosdev.textmodloader.advanced.token;
 
+
 public class TokenBracket extends Token
 {
 	public static long	BRACE_OPEN				= 0b1L;
@@ -18,7 +19,7 @@ public class TokenBracket extends Token
 	
 	public static long getTypeFromString(String string)
 	{
-		switch (string.intern())
+		switch (string)
 		{
 		case "(":
 			return BRACE_OPEN;

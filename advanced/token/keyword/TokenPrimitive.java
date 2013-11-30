@@ -16,7 +16,7 @@ public class TokenPrimitive extends Token
 	
 	public TokenPrimitive(String string)
 	{
-		super(Token.TYPE_PRIMITVE, getTypeFromString(string), string);
+		super(Token.TYPE_PRIMITIVE, getTypeFromString(string), string);
 	}
 	
 	public static long getTypeFromString(String string)

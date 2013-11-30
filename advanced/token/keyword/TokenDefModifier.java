@@ -14,7 +14,7 @@ public class TokenDefModifier extends Token
 	
 	public TokenDefModifier(String string)
 	{
-		super(Token.TYPE_DEF, getTypeFromString(string), string);
+		super(Token.TYPE_DEFMODIFIER, getTypeFromString(string), string);
 	}
 	
 	public static long getTypeFromString(String string)
