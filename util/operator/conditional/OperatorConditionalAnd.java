@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util.operator.conditional;
+package clashsoft.mods.tml.util.operator.conditional;
 
 public class OperatorConditionalAnd extends OperatorBoolean
 {

@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util;
+package clashsoft.mods.tml.util;
 
 public class CodeLine
 {

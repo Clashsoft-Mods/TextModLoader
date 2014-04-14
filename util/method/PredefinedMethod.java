@@ -1,8 +1,8 @@
-package com.chaosdev.textmodloader.util.method;
+package clashsoft.mods.tml.util.method;
 
-import com.chaosdev.textmodloader.methods.MethodExecutor;
-import com.chaosdev.textmodloader.util.TextModHelper;
-import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.util.TextModHelper;
+import clashsoft.mods.tml.util.codeblock.CodeBlock;
 
 public class PredefinedMethod extends Method
 {

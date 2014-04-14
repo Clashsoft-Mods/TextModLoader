@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util.operator.eqrel;
+package clashsoft.mods.tml.util.operator.eqrel;
 
 public class OperatorGreaterThanOrEquals extends OperatorGreaterThan
 {

@@ -1,7 +1,7 @@
-package com.chaosdev.textmodloader.methods.util;
+package clashsoft.mods.tml.methods.util;
 
-import com.chaosdev.textmodloader.methods.MethodExecutor;
-import com.chaosdev.textmodloader.util.TextModHelper;
+import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.util.TextModHelper;
 
 public class MethodHelp extends MethodExecutor
 {

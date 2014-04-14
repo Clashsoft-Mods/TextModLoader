@@ -1,6 +1,6 @@
-package com.chaosdev.textmodloader.util.operator.eqrel;
+package clashsoft.mods.tml.util.operator.eqrel;
 
-import com.chaosdev.textmodloader.util.operator.math.OperatorMath;
+import clashsoft.mods.tml.util.operator.math.OperatorMath;
 
 public class OperatorGreaterThan extends OperatorMath
 {

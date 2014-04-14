@@ -1,17 +1,17 @@
-package com.chaosdev.textmodloader.util.operator;
+package clashsoft.mods.tml.util.operator;
 
 import java.util.HashMap;
 
-import com.chaosdev.textmodloader.util.operator.bitwise.*;
-import com.chaosdev.textmodloader.util.operator.conditional.OperatorBooleanInvert;
-import com.chaosdev.textmodloader.util.operator.conditional.OperatorConditionalAnd;
-import com.chaosdev.textmodloader.util.operator.conditional.OperatorConditionalOr;
-import com.chaosdev.textmodloader.util.operator.conditional.OperatorInstanceof;
-import com.chaosdev.textmodloader.util.operator.eqrel.*;
-import com.chaosdev.textmodloader.util.operator.math.*;
-import com.chaosdev.textmodloader.util.operator.math.unary.OperatorUnaryMinus;
-import com.chaosdev.textmodloader.util.operator.math.unary.OperatorUnaryPlus;
-import com.chaosdev.textmodloader.util.types.Type;
+import clashsoft.mods.tml.util.operator.bitwise.*;
+import clashsoft.mods.tml.util.operator.conditional.OperatorBooleanInvert;
+import clashsoft.mods.tml.util.operator.conditional.OperatorConditionalAnd;
+import clashsoft.mods.tml.util.operator.conditional.OperatorConditionalOr;
+import clashsoft.mods.tml.util.operator.conditional.OperatorInstanceof;
+import clashsoft.mods.tml.util.operator.eqrel.*;
+import clashsoft.mods.tml.util.operator.math.*;
+import clashsoft.mods.tml.util.operator.math.unary.OperatorUnaryMinus;
+import clashsoft.mods.tml.util.operator.math.unary.OperatorUnaryPlus;
+import clashsoft.mods.tml.util.types.Type;
 
 public abstract class Operator
 {
@@ -89,9 +89,6 @@ public abstract class Operator
 	
 	public abstract <T, U> Object operate(T par1, U par2);
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString()
 	{

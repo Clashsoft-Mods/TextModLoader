@@ -1,6 +1,6 @@
-package com.chaosdev.textmodloader.util.exceptions;
+package clashsoft.mods.tml.util.exceptions;
 
-import com.chaosdev.textmodloader.util.CodeLine;
+import clashsoft.mods.tml.util.CodeLine;
 
 /**
  * The Class ParserException.

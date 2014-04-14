@@ -1,15 +1,13 @@
-package com.chaosdev.textmodloader.util.annotations;
-
-import static com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationType.NOTHING;
+package clashsoft.mods.tml.util.annotations;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.chaosdev.textmodloader.util.CodeLine;
-import com.chaosdev.textmodloader.util.codeblock.ClassCodeBlock;
-import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
-import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
-import com.chaosdev.textmodloader.util.method.Method;
+import clashsoft.mods.tml.util.CodeLine;
+import clashsoft.mods.tml.util.codeblock.ClassCodeBlock;
+import clashsoft.mods.tml.util.codeblock.CodeBlock;
+import clashsoft.mods.tml.util.exceptions.SyntaxException;
+import clashsoft.mods.tml.util.method.Method;
 
 public abstract class Annotation
 {
@@ -20,7 +18,7 @@ public abstract class Annotation
 	
 	public static Map<String, Annotation>	annotations	= new HashMap<String, Annotation>();
 	
-	public static Annotation				AUTHOR		= new Annotation("author", NOTHING)
+	public static Annotation				AUTHOR		= new Annotation("author", AnnotationType.NOTHING)
 														{
 															@Override
 															public void apply(String annotLine, CodeBlock codeblock, IAnnotable object)

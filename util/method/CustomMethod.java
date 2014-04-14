@@ -1,7 +1,7 @@
-package com.chaosdev.textmodloader.util.method;
+package clashsoft.mods.tml.util.method;
 
-import com.chaosdev.textmodloader.util.Variable;
-import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import clashsoft.mods.tml.util.Variable;
+import clashsoft.mods.tml.util.codeblock.CodeBlock;
 
 public class CustomMethod extends Method
 {
@@ -20,8 +20,9 @@ public class CustomMethod extends Method
 	{
 		for (int i = 0; i < parameters.length; i++)
 		{
-			Variable var = new Variable(variables[i].type, variables[i].name, parameters[i]);
-			codeBlock.variables.put(var.name, var);
+			Variable var = this.variables[i];
+			var.value = parameters[i];
+			this.codeBlock.variables.put(var.name, var);
 		}
 		return codeBlock.execute();
 	}

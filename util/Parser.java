@@ -1,16 +1,17 @@
-package com.chaosdev.textmodloader.util;
+package clashsoft.mods.tml.util;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.chaosdev.textmodloader.TextModConstants;
-import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
-import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
-import com.chaosdev.textmodloader.util.operator.Operator;
-import com.chaosdev.textmodloader.util.types.Type;
+import clashsoft.mods.tml.TextModConstants;
+import clashsoft.mods.tml.util.codeblock.CodeBlock;
+import clashsoft.mods.tml.util.exceptions.SyntaxException;
+import clashsoft.mods.tml.util.operator.Operator;
+import clashsoft.mods.tml.util.types.Type;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -402,7 +403,7 @@ public class Parser implements TextModConstants
 			{
 				damage = (Integer) parameters[2];
 			}
-			return new ItemStack(id, amount, damage);
+			return new ItemStack(Item.getItemById(id), amount, damage);
 		}
 		return null;
 	}

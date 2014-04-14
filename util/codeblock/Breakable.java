@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util.codeblock;
+package clashsoft.mods.tml.util.codeblock;
 
 public interface Breakable
 {

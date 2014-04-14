@@ -1,7 +1,7 @@
-package com.chaosdev.textmodloader.util.operator.bitwise;
+package clashsoft.mods.tml.util.operator.bitwise;
 
-import com.chaosdev.textmodloader.util.operator.Operator;
-import com.chaosdev.textmodloader.util.types.Type;
+import clashsoft.mods.tml.util.operator.Operator;
+import clashsoft.mods.tml.util.types.Type;
 
 public abstract class OperatorBitwise extends Operator
 {

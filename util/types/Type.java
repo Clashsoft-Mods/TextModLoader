@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util.types;
+package clashsoft.mods.tml.util.types;
 
 import java.util.Arrays;
 import java.util.LinkedList;

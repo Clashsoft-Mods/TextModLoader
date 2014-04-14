@@ -1,11 +1,9 @@
-package com.chaosdev.textmodloader.methods.block;
+package clashsoft.mods.tml.methods.block;
 
-import clashsoft.cslib.minecraft.ItemCustomBlock;
 import clashsoft.cslib.minecraft.block.BlockCustomSlab;
 import clashsoft.cslib.minecraft.block.BlockCustomWorkbench;
-
-import com.chaosdev.textmodloader.methods.MethodExecutor;
-
+import clashsoft.cslib.minecraft.item.block.ItemCustomBlock;
+import clashsoft.mods.tml.methods.MethodExecutor;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.block.Block;

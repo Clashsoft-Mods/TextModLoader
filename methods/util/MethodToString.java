@@ -1,6 +1,6 @@
-package com.chaosdev.textmodloader.methods.util;
+package clashsoft.mods.tml.methods.util;
 
-import com.chaosdev.textmodloader.methods.MethodExecutor;
+import clashsoft.mods.tml.methods.MethodExecutor;
 
 public class MethodToString extends MethodExecutor
 {

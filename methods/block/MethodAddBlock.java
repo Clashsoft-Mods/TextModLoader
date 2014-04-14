@@ -1,10 +1,8 @@
-package com.chaosdev.textmodloader.methods.block;
+package clashsoft.mods.tml.methods.block;
 
-import clashsoft.cslib.minecraft.CustomBlock;
-import clashsoft.cslib.minecraft.ItemCustomBlock;
-
-import com.chaosdev.textmodloader.methods.MethodExecutor;
-
+import clashsoft.cslib.minecraft.block.CustomBlock;
+import clashsoft.cslib.minecraft.item.block.ItemCustomBlock;
+import clashsoft.mods.tml.methods.MethodExecutor;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MethodAddBlock extends MethodExecutor

@@ -1,7 +1,7 @@
-package com.chaosdev.textmodloader.methods;
+package clashsoft.mods.tml.methods;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.StepSound;
+import net.minecraft.block.Block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 
@@ -47,23 +47,23 @@ public abstract class MethodExecutor
 		return Material.rock;
 	}
 	
-	public static StepSound getStepSound(int id)
+	public static SoundType getStepSound(int id)
 	{
 		if (id == 0)
-			return Block.soundPowderFootstep;
+			return Block.soundTypeSand;
 		if (id == 1)
-			return Block.soundGravelFootstep;
+			return Block.soundTypeGravel;
 		if (id == 2)
-			return Block.soundStoneFootstep;
+			return Block.soundTypeStone;
 		if (id == 3)
-			return Block.soundGrassFootstep;
+			return Block.soundTypeGrass;
 		if (id == 4)
-			return Block.soundWoodFootstep;
+			return Block.soundTypeWood;
 		if (id == 5)
-			return Block.soundClothFootstep;
+			return Block.soundTypeCloth;
 		if (id == 6)
-			return Block.soundMetalFootstep;
-		return Block.soundStoneFootstep;
+			return Block.soundTypeMetal;
+		return Block.soundTypeStone;
 	}
 	
 	public static CreativeTabs getCreativeTab(String name)

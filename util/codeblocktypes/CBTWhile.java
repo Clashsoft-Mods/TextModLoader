@@ -1,11 +1,11 @@
-package com.chaosdev.textmodloader.util.codeblocktypes;
+package clashsoft.mods.tml.util.codeblocktypes;
 
-import com.chaosdev.textmodloader.util.CodeLine;
-import com.chaosdev.textmodloader.util.codeblock.Break;
-import com.chaosdev.textmodloader.util.codeblock.Breakable;
-import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
-import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
-import com.chaosdev.textmodloader.util.method.Method;
+import clashsoft.mods.tml.util.CodeLine;
+import clashsoft.mods.tml.util.codeblock.Break;
+import clashsoft.mods.tml.util.codeblock.Breakable;
+import clashsoft.mods.tml.util.codeblock.CodeBlock;
+import clashsoft.mods.tml.util.exceptions.SyntaxException;
+import clashsoft.mods.tml.util.method.Method;
 
 public class CBTWhile extends CodeBlockType
 {

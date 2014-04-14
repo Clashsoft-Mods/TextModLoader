@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader;
+package clashsoft.mods.tml;
 
 import java.io.File;
 import java.util.Arrays;
@@ -6,40 +6,31 @@ import java.util.LinkedList;
 import java.util.List;
 
 import clashsoft.cslib.minecraft.update.CSUpdate;
-import clashsoft.cslib.minecraft.update.ModUpdate;
-
-import com.chaosdev.textmodloader.methods.block.MethodAddBlock;
-import com.chaosdev.textmodloader.methods.block.MethodAddSpecialBlock;
-import com.chaosdev.textmodloader.methods.crafting.MethodAddFuel;
-import com.chaosdev.textmodloader.methods.crafting.MethodCrafting;
-import com.chaosdev.textmodloader.methods.crafting.MethodCraftingShapeless;
-import com.chaosdev.textmodloader.methods.crafting.MethodSmelting;
-import com.chaosdev.textmodloader.methods.item.MethodAddItem;
-import com.chaosdev.textmodloader.methods.item.MethodAddSpecialItem;
-import com.chaosdev.textmodloader.methods.util.MethodAddLocalization;
-import com.chaosdev.textmodloader.methods.util.MethodGetID;
-import com.chaosdev.textmodloader.methods.util.MethodHelp;
-import com.chaosdev.textmodloader.methods.util.MethodToString;
-import com.chaosdev.textmodloader.util.TextModHelper;
-
+import clashsoft.mods.tml.methods.block.MethodAddBlock;
+import clashsoft.mods.tml.methods.block.MethodAddSpecialBlock;
+import clashsoft.mods.tml.methods.crafting.MethodAddFuel;
+import clashsoft.mods.tml.methods.crafting.MethodCrafting;
+import clashsoft.mods.tml.methods.crafting.MethodCraftingShapeless;
+import clashsoft.mods.tml.methods.crafting.MethodSmelting;
+import clashsoft.mods.tml.methods.item.MethodAddItem;
+import clashsoft.mods.tml.methods.item.MethodAddSpecialItem;
+import clashsoft.mods.tml.methods.util.MethodGetID;
+import clashsoft.mods.tml.methods.util.MethodHelp;
+import clashsoft.mods.tml.methods.util.MethodToString;
+import clashsoft.mods.tml.util.TextModHelper;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 @Mod(modid = "TextModLoader", name = "TextMod Loader", version = TextModLoader.VERSION)
-@NetworkMod(channels = { "TextModLoader" }, serverSideRequired = false, clientSideRequired = true)
 public class TextModLoader implements TextModConstants
 {
 	public static final int REVISION = 0;
@@ -83,7 +74,6 @@ public class TextModLoader implements TextModConstants
 		TextModHelper.registerMethodExecuter(new MethodSmelting());
 		TextModHelper.registerMethodExecuter(new MethodAddFuel());
 		
-		TextModHelper.registerMethodExecuter(new MethodAddLocalization());
 		TextModHelper.registerMethodExecuter(new MethodHelp());
 		TextModHelper.registerMethodExecuter(new MethodGetID());
 		TextModHelper.registerMethodExecuter(new MethodToString());
@@ -154,16 +144,6 @@ public class TextModLoader implements TextModConstants
 				}).start();
 			else
 				TextMod.load(modClass);
-		}
-	}
-	
-	@ForgeSubscribe
-	public void playerJoined(EntityJoinWorldEvent event)
-	{
-		if (event.entity instanceof EntityPlayer)
-		{
-			ModUpdate update = CSUpdate.checkForUpdate("TextMod Loader", "tml", TextModLoader.VERSION);
-			CSUpdate.notifyUpdate((EntityPlayer) event.entity, "TextMod Loader", update);
 		}
 	}
 }

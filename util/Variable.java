@@ -1,13 +1,9 @@
-package com.chaosdev.textmodloader.util;
+package clashsoft.mods.tml.util;
 
-import com.chaosdev.textmodloader.util.types.Type;
+import clashsoft.mods.tml.util.types.Type;
 
-/**
- * The Class Variable.
- */
 public class Variable
 {
-	
 	/** The type. */
 	public Type		type;
 	

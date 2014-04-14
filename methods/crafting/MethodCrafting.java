@@ -1,7 +1,6 @@
-package com.chaosdev.textmodloader.methods.crafting;
+package clashsoft.mods.tml.methods.crafting;
 
-import com.chaosdev.textmodloader.methods.MethodExecutor;
-
+import clashsoft.mods.tml.methods.MethodExecutor;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.item.ItemStack;

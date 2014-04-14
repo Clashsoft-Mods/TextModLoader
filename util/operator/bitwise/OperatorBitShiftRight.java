@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util.operator.bitwise;
+package clashsoft.mods.tml.util.operator.bitwise;
 
 public class OperatorBitShiftRight extends OperatorBitwise
 {

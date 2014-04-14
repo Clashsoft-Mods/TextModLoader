@@ -1,6 +1,6 @@
-package com.chaosdev.textmodloader.util.method;
+package clashsoft.mods.tml.util.method;
 
-import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
+import clashsoft.mods.tml.util.codeblock.CodeBlock;
 
 public abstract class Method
 {

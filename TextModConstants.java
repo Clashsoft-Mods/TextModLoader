@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader;
+package clashsoft.mods.tml;
 
 /**
  * The Interface TextModConstants.

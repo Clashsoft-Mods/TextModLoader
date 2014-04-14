@@ -1,7 +1,7 @@
-package com.chaosdev.textmodloader.util.operator.math;
+package clashsoft.mods.tml.util.operator.math;
 
-import com.chaosdev.textmodloader.util.operator.Operator;
-import com.chaosdev.textmodloader.util.types.Type;
+import clashsoft.mods.tml.util.operator.Operator;
+import clashsoft.mods.tml.util.types.Type;
 
 public abstract class OperatorMath extends Operator
 {

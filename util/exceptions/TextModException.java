@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util.exceptions;
+package clashsoft.mods.tml.util.exceptions;
 
 public class TextModException extends Exception
 {

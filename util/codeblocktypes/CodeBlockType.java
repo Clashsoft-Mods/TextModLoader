@@ -1,14 +1,14 @@
-package com.chaosdev.textmodloader.util.codeblocktypes;
+package clashsoft.mods.tml.util.codeblocktypes;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import com.chaosdev.textmodloader.TextModConstants;
-import com.chaosdev.textmodloader.methods.MethodExecutor;
-import com.chaosdev.textmodloader.util.CodeLine;
-import com.chaosdev.textmodloader.util.TextModHelper;
-import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
-import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
+import clashsoft.mods.tml.TextModConstants;
+import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.util.CodeLine;
+import clashsoft.mods.tml.util.TextModHelper;
+import clashsoft.mods.tml.util.codeblock.CodeBlock;
+import clashsoft.mods.tml.util.exceptions.SyntaxException;
 
 public abstract class CodeBlockType implements TextModConstants
 {

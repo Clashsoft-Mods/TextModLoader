@@ -1,14 +1,14 @@
-package com.chaosdev.textmodloader.util.codeblock;
+package clashsoft.mods.tml.util.codeblock;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.chaosdev.textmodloader.util.CodeLine;
-import com.chaosdev.textmodloader.util.TextModHelper;
-import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
-import com.chaosdev.textmodloader.util.method.Method;
+import clashsoft.mods.tml.util.CodeLine;
+import clashsoft.mods.tml.util.TextModHelper;
+import clashsoft.mods.tml.util.exceptions.SyntaxException;
+import clashsoft.mods.tml.util.method.Method;
 
 public class ClassCodeBlock extends CodeBlock
 {

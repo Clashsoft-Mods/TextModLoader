@@ -1,6 +1,6 @@
-package com.chaosdev.textmodloader.util.operator.math.unary;
+package clashsoft.mods.tml.util.operator.math.unary;
 
-import com.chaosdev.textmodloader.util.operator.math.OperatorMath;
+import clashsoft.mods.tml.util.operator.math.OperatorMath;
 
 public class OperatorUnaryMinus extends OperatorMath
 {	

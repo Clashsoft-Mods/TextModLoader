@@ -1,26 +1,23 @@
-package com.chaosdev.textmodloader.util.codeblock;
+package clashsoft.mods.tml.util.codeblock;
 
 import java.util.*;
 import java.util.regex.Pattern;
 
-import com.chaosdev.textmodloader.TextModConstants;
-import com.chaosdev.textmodloader.methods.MethodExecutor;
-import com.chaosdev.textmodloader.util.CodeLine;
-import com.chaosdev.textmodloader.util.Parser;
-import com.chaosdev.textmodloader.util.TextModHelper;
-import com.chaosdev.textmodloader.util.Variable;
-import com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationType;
-import com.chaosdev.textmodloader.util.annotations.IAnnotable;
-import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
-import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
-import com.chaosdev.textmodloader.util.method.Method;
-import com.chaosdev.textmodloader.util.method.PredefinedMethod;
-import com.chaosdev.textmodloader.util.operator.Operator;
-import com.chaosdev.textmodloader.util.types.Type;
+import clashsoft.mods.tml.TextModConstants;
+import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.util.CodeLine;
+import clashsoft.mods.tml.util.Parser;
+import clashsoft.mods.tml.util.TextModHelper;
+import clashsoft.mods.tml.util.Variable;
+import clashsoft.mods.tml.util.annotations.Annotation.AnnotationType;
+import clashsoft.mods.tml.util.annotations.IAnnotable;
+import clashsoft.mods.tml.util.codeblocktypes.CodeBlockType;
+import clashsoft.mods.tml.util.exceptions.SyntaxException;
+import clashsoft.mods.tml.util.method.Method;
+import clashsoft.mods.tml.util.method.PredefinedMethod;
+import clashsoft.mods.tml.util.operator.Operator;
+import clashsoft.mods.tml.util.types.Type;
 
-/**
- * The Class CodeBlock.
- */
 public class CodeBlock implements IAnnotable, TextModConstants
 {
 	/** The block comment flag. */
@@ -176,7 +173,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 				else if (line.startsWith("{") && cb == null)
 					cb = new CodeBlock(this);
 				
-				else if (isBlockEnd(line))
+				else if (isBlockEnd(line) && cb != null)
 				{
 					cb.lines.add(line.replace("}", ""));
 					cb.execute();

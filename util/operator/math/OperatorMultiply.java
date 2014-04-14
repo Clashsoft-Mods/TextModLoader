@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader.util.operator.math;
+package clashsoft.mods.tml.util.operator.math;
 
 public class OperatorMultiply extends OperatorMath
 {

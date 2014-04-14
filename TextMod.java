@@ -1,4 +1,4 @@
-package com.chaosdev.textmodloader;
+package clashsoft.mods.tml;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import com.chaosdev.textmodloader.util.codeblock.ClassCodeBlock;
+import clashsoft.mods.tml.util.codeblock.ClassCodeBlock;
 
 public class TextMod extends ClassCodeBlock implements TextModConstants
 {
@@ -47,7 +47,7 @@ public class TextMod extends ClassCodeBlock implements TextModConstants
 		try
 		{
 			TextMod tm = fromFile(modClass);
-			System.out.println(" Loading TextMod: " + tm.modName != null ? tm.modName : modClass + (tm.author != null ? " by " + tm.author : ""));
+			System.out.println(" Loading TextMod: " + (tm.modName != null ? tm.modName : modClass) + (tm.author != null ? " by " + tm.author : ""));
 			tm.execute();
 			tm.executedTime = System.currentTimeMillis();
 			System.out.println(" TextMod " + modClass + " loaded. (" + tm.getTotalLoadingTime() + " Milliseconds)");

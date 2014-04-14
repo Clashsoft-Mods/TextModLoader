@@ -1,11 +1,11 @@
-package com.chaosdev.textmodloader.util.codeblock;
+package clashsoft.mods.tml.util.codeblock;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.chaosdev.textmodloader.util.CodeLine;
-import com.chaosdev.textmodloader.util.codeblocktypes.CodeBlockType;
-import com.chaosdev.textmodloader.util.exceptions.SyntaxException;
+import clashsoft.mods.tml.util.CodeLine;
+import clashsoft.mods.tml.util.codeblocktypes.CodeBlockType;
+import clashsoft.mods.tml.util.exceptions.SyntaxException;
 
 public class HeaderCodeBlock extends CodeBlock implements Breakable
 {

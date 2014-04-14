@@ -1,12 +1,12 @@
-package com.chaosdev.textmodloader.util.codeblocktypes;
+package clashsoft.mods.tml.util.codeblocktypes;
 
-import com.chaosdev.textmodloader.TextModConstants;
-import com.chaosdev.textmodloader.util.CodeLine;
-import com.chaosdev.textmodloader.util.TextModHelper;
-import com.chaosdev.textmodloader.util.Variable;
-import com.chaosdev.textmodloader.util.codeblock.CodeBlock;
-import com.chaosdev.textmodloader.util.method.CustomMethod;
-import com.chaosdev.textmodloader.util.types.Type;
+import clashsoft.mods.tml.TextModConstants;
+import clashsoft.mods.tml.util.CodeLine;
+import clashsoft.mods.tml.util.TextModHelper;
+import clashsoft.mods.tml.util.Variable;
+import clashsoft.mods.tml.util.codeblock.CodeBlock;
+import clashsoft.mods.tml.util.method.CustomMethod;
+import clashsoft.mods.tml.util.types.Type;
 
 public class CBTMethod extends CodeBlockType
 {

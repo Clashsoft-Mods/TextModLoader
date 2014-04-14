@@ -1,7 +1,7 @@
-package com.chaosdev.textmodloader.util.operator.eqrel;
+package clashsoft.mods.tml.util.operator.eqrel;
 
-import com.chaosdev.textmodloader.util.operator.Operator;
-import com.chaosdev.textmodloader.util.types.Type;
+import clashsoft.mods.tml.util.operator.Operator;
+import clashsoft.mods.tml.util.types.Type;
 
 public class OperatorEquals extends Operator
 {

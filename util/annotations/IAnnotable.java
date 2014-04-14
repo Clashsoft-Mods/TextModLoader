@@ -1,6 +1,6 @@
-package com.chaosdev.textmodloader.util.annotations;
+package clashsoft.mods.tml.util.annotations;
 
-import com.chaosdev.textmodloader.util.annotations.Annotation.AnnotationType;
+import clashsoft.mods.tml.util.annotations.Annotation.AnnotationType;
 
 public interface IAnnotable
 {

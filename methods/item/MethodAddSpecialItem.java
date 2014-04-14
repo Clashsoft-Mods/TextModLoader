@@ -1,9 +1,6 @@
-package com.chaosdev.textmodloader.methods.item;
+package clashsoft.mods.tml.methods.item;
 
-import clashsoft.cslib.minecraft.item.metatools.*;
-
-import com.chaosdev.textmodloader.methods.MethodExecutor;
-
+import clashsoft.mods.tml.methods.MethodExecutor;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
