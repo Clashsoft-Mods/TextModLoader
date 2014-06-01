@@ -1,28 +1,28 @@
 package clashsoft.mods.tml.methods.crafting;
 
-import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.methods.TMLMethod;
 import cpw.mods.fml.common.registry.GameRegistry;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class MethodCraftingShapeless extends MethodExecutor
+public class MethodCraftingShapeless extends TMLMethod
 {
-	
 	@Override
-	public Object execute(Object... parameters)
+	public Object call(Object... args)
 	{
-		if (matches(parameters, ItemStack.class, Object[].class))
+		if (matches(args, ItemStack.class, Object[].class))
 		{
-			ItemStack output = (ItemStack) parameters[0];
+			ItemStack output = (ItemStack) args[0];
 			
-			Object[] inputs = (Object[]) parameters[1];
+			Object[] inputs = (Object[]) args[1];
 			
 			GameRegistry.addShapelessRecipe(output, inputs);
 			
 			System.out.println("  Shapeless Recipe added");
 			return output;
 		}
-		return new ItemStack(0, 0, 0);
+		return new ItemStack((Item) null, 0, 0);
 	}
 	
 	@Override

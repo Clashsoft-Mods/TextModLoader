@@ -1,6 +1,6 @@
 package clashsoft.mods.tml.util.method;
 
-import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.methods.TMLMethod;
 import clashsoft.mods.tml.util.TextModHelper;
 import clashsoft.mods.tml.util.codeblock.CodeBlock;
 
@@ -11,15 +11,15 @@ public class PredefinedMethod extends Method
 		super(name, parameters);
 	}
 	
-	public MethodExecutor getExecuter()
+	private final TMLMethod getExecuter()
 	{
-		return TextModHelper.getMethodExecutorFromName(name);
+		return TextModHelper.getMethodExecutorFromName(this.name);
 	}
 	
 	@Override
 	public Object execute(CodeBlock superCodeBlock, Object... parameters)
 	{
-		return getExecuter().execute(parameters);
+		return this.getExecuter().call(parameters);
 	}
 	
 	@Override

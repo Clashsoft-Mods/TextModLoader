@@ -3,12 +3,12 @@ package clashsoft.mods.tml.methods.crafting;
 import java.util.HashMap;
 import java.util.Map;
 
-import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.methods.TMLMethod;
 import cpw.mods.fml.common.IFuelHandler;
 
 import net.minecraft.item.ItemStack;
 
-public class MethodAddFuel extends MethodExecutor implements IFuelHandler
+public class MethodAddFuel extends TMLMethod implements IFuelHandler
 {
 	public static Map<ItemStack, Integer> fuelValues = new HashMap<ItemStack, Integer>();
 
@@ -19,12 +19,12 @@ public class MethodAddFuel extends MethodExecutor implements IFuelHandler
 	}
 	
 	@Override
-	public Object execute(Object... parameters)
+	public Object call(Object... args)
 	{
-		if (parameters.length >= 2 && parameters[0] instanceof ItemStack && parameters[1] instanceof Integer)
+		if (matches(args, ItemStack.class, int.class))
 		{
-			ItemStack fuel = (ItemStack) parameters[0];
-			int ticks = (Integer) parameters[1];
+			ItemStack fuel = (ItemStack) args[0];
+			int ticks = (Integer) args[1];
 			
 			fuelValues.put(fuel, ticks);
 			System.out.println("  Fuel added.");

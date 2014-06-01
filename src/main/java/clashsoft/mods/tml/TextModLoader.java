@@ -13,8 +13,6 @@ import clashsoft.mods.tml.methods.crafting.MethodCrafting;
 import clashsoft.mods.tml.methods.crafting.MethodCraftingShapeless;
 import clashsoft.mods.tml.methods.crafting.MethodSmelting;
 import clashsoft.mods.tml.methods.item.MethodAddItem;
-import clashsoft.mods.tml.methods.item.MethodAddSpecialItem;
-import clashsoft.mods.tml.methods.util.MethodGetID;
 import clashsoft.mods.tml.methods.util.MethodHelp;
 import clashsoft.mods.tml.methods.util.MethodToString;
 import clashsoft.mods.tml.util.TextModHelper;
@@ -30,13 +28,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "TextModLoader", name = "TextMod Loader", version = TextModLoader.VERSION)
+@Mod(modid = TextModLoader.MODID, name = TextModLoader.NAME, version = TextModLoader.VERSION)
 public class TextModLoader implements TextModConstants
 {
-	public static final int REVISION = 0;
-	public static final String VERSION = CSUpdate.CURRENT_VERSION + "-" + REVISION;
+	public static final String MODID = "textmodloader";
+	public static final String NAME = "Text Mod Loader";
+	public static final String VERSION = CSUpdate.CURRENT_VERSION + "-0.0.0";
 	
-	@Instance("TextModLoader")
+	@Instance(MODID)
 	public static TextModConstants	instance;
 	
 	public static List<TextMod>	loadedTextMods		= new LinkedList<TextMod>();
@@ -67,7 +66,6 @@ public class TextModLoader implements TextModConstants
 		TextModHelper.registerMethodExecuter(new MethodAddBlock());
 		TextModHelper.registerMethodExecuter(new MethodAddSpecialBlock());
 		TextModHelper.registerMethodExecuter(new MethodAddItem());
-		TextModHelper.registerMethodExecuter(new MethodAddSpecialItem());
 		
 		TextModHelper.registerMethodExecuter(new MethodCrafting());
 		TextModHelper.registerMethodExecuter(new MethodCraftingShapeless());
@@ -75,7 +73,6 @@ public class TextModLoader implements TextModConstants
 		TextModHelper.registerMethodExecuter(new MethodAddFuel());
 		
 		TextModHelper.registerMethodExecuter(new MethodHelp());
-		TextModHelper.registerMethodExecuter(new MethodGetID());
 		TextModHelper.registerMethodExecuter(new MethodToString());
 		
 		System.out.println(TextModHelper.methods.size() + " Method Executors registered.");

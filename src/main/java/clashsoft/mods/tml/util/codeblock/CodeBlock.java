@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import clashsoft.mods.tml.TextModConstants;
-import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.methods.TMLMethod;
 import clashsoft.mods.tml.util.CodeLine;
 import clashsoft.mods.tml.util.Parser;
 import clashsoft.mods.tml.util.TextModHelper;
@@ -389,7 +389,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 			if (getCustomMethod(methodName) != null)
 				return true;
 			
-			MethodExecutor executor = TextModHelper.getMethodExecutorFromName(methodName);
+			TMLMethod executor = TextModHelper.getMethodExecutorFromName(methodName);
 			return executor != null;
 		}
 		return false;

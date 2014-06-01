@@ -1,12 +1,12 @@
 package clashsoft.mods.tml.methods.util;
 
-import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.methods.TMLMethod;
 import clashsoft.mods.tml.util.TextModHelper;
 
-public class MethodHelp extends MethodExecutor
+public class MethodHelp extends TMLMethod
 {
 	@Override
-	public Object execute(Object... parameters)
+	public Object call(Object... parameters)
 	{
 		String methodname = (String) parameters[0];
 		String usage = TextModHelper.getMethodExecutorFromName(methodname).getUsage();

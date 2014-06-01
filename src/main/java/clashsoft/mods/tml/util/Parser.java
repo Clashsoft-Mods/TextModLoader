@@ -135,7 +135,7 @@ public class Parser implements TextModConstants
 			boolean first = i == 0;
 			boolean last = i == objects.size() - 1;
 			
-			if (object instanceof String && !((String)object).equals(""))
+			if (object instanceof String)
 			{	
 				if (op != null && (value != null || op.isPrefixOperator()))
 				{
@@ -188,7 +188,7 @@ public class Parser implements TextModConstants
 					op = (Operator)object;
 				}
 				
-				if ((first && !op.isPrefixOperator()) || (last && !op.isPostfixOperator()))
+				if (op != null && ((first && !op.isPrefixOperator()) || (last && !op.isPostfixOperator())))
 					throw new SyntaxException("Invalid operator " + op, line, op.operator);
 			}	
 		}

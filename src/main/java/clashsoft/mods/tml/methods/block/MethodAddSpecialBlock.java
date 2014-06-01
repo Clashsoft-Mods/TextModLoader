@@ -2,56 +2,45 @@ package clashsoft.mods.tml.methods.block;
 
 import clashsoft.cslib.minecraft.block.BlockCustomSlab;
 import clashsoft.cslib.minecraft.block.BlockCustomWorkbench;
-import clashsoft.cslib.minecraft.item.block.ItemCustomBlock;
-import clashsoft.mods.tml.methods.MethodExecutor;
-import cpw.mods.fml.common.registry.GameRegistry;
+import clashsoft.mods.tml.methods.TMLMethod;
 
 import net.minecraft.block.Block;
 
-public class MethodAddSpecialBlock extends MethodExecutor
+public class MethodAddSpecialBlock extends TMLMethod
 {
 	@Override
-	public Object execute(Object... parameters)
+	public Object call(Object... args)
 	{
 		Block block = null;
 		String name = "";
-		if (matches(parameters, String.class, Integer.class))
+		
+		if (matches(args, int.class, String.class, String[].class, String[].class, String[].class, String[].class, String[].class))
 		{
-			String type = (String) parameters[0];
-			int blockID = (Integer) parameters[1];
+			name = (String) args[0];
+			String[] names = (String[]) args[1];
+			String[] topIcons = (String[]) args[2];
+			String[] sideIcons = (String[]) args[3];
+			String[] side2Icons = (String[]) args[4];
+			String[] bottomIcons = (String[]) args[5];
+			block = new BlockCustomWorkbench(0, names, topIcons, sideIcons, side2Icons, bottomIcons);
+		}
+		else if (matches(args, int.class, String.class, String[].class, String[].class, String[].class, String.class, Boolean.class))
+		{
+			name = (String) args[0];
+			String[] names = (String[]) args[1];
+			String[] topIcons = (String[]) args[2];
+			String[] sideIcons = (String[]) args[3];
+			String singleSlabID = (String) args[4];
+			boolean doubleSlab = (Boolean) args[5];
 			
-			if (type.equals("workbench") && matches(parameters, String.class, Integer.class, String[].class, String[].class, String[].class, String[].class, String[].class))
-			{
-				String[] names = (String[]) parameters[2];
-				name = names[0];
-				String[] topIcons = (String[]) parameters[3];
-				String[] sideIcons = (String[]) parameters[4];
-				String[] side2Icons = (String[]) parameters[5];
-				String[] bottomIcons = (String[]) parameters[6];
-				block = new BlockCustomWorkbench(blockID, names, topIcons, sideIcons, side2Icons, bottomIcons);
-				GameRegistry.registerBlock(block, ItemCustomBlock.class, name.toUpperCase().replace(" ", ""));
-				((BlockCustomWorkbench) block).addNames();
-			}
-			if (type.equals("slab") && matches(parameters, String.class, Integer.class, String[].class, String[].class, String[].class, Integer.class, Boolean.class))
-			{
-				String[] names = (String[]) parameters[2];
-				name = names[0];
-				String[] topIcons = (String[]) parameters[3];
-				String[] sideIcons = (String[]) parameters[4];
-				int singleSlabID = (Integer) parameters[5];
-				boolean doubleSlab = (Boolean) parameters[6];
-				
-				block = new BlockCustomSlab(blockID, names, topIcons, sideIcons, singleSlabID, doubleSlab);
-				GameRegistry.registerBlock(block, ItemCustomBlock.class, name.toUpperCase().replace(" ", ""));
-				((BlockCustomSlab) block).addNames();
-			}
+			block = new BlockCustomSlab(names, topIcons, sideIcons, Block.getBlockFromName(name), doubleSlab);
 		}
 		if (block != null)
 		{
 			System.out.println("  Special block added.");
-			return block.blockID;
+			return true;
 		}
-		return -1;
+		return false;
 	}
 	
 	@Override

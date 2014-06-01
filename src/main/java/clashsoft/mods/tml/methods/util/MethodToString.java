@@ -1,13 +1,13 @@
 package clashsoft.mods.tml.methods.util;
 
-import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.methods.TMLMethod;
 
-public class MethodToString extends MethodExecutor
+public class MethodToString extends TMLMethod
 {
 	@Override
-	public Object execute(Object... parameters)
+	public Object call(Object... args)
 	{
-		return parameters[0].toString();
+		return args[0].toString();
 	}
 	
 	@Override

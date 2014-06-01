@@ -5,9 +5,9 @@ import net.minecraft.block.Block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 
-public abstract class MethodExecutor
+public abstract class TMLMethod
 {
-	public abstract Object execute(Object... parameters);
+	public abstract Object call(Object... args);
 	
 	public abstract String getName();
 	
@@ -15,14 +15,14 @@ public abstract class MethodExecutor
 	
 	public static boolean matches(Object[] parameters, Class... types)
 	{
+		if (parameters.length != types.length)
+			return false;
+		
 		for (int i = 0; i < parameters.length; i++)
 		{
-			if (i < types.length)
+			if (!parameters[i].getClass().equals(types[i]))
 			{
-				if (!parameters[i].getClass().equals(types[i]))
-				{
-					return false;
-				}
+				return false;
 			}
 		}
 		return true;

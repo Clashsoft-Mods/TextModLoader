@@ -1,68 +1,44 @@
 package clashsoft.mods.tml.methods.item;
 
+import clashsoft.cslib.minecraft.item.CSItems;
 import clashsoft.cslib.minecraft.item.CustomItem;
-import clashsoft.mods.tml.methods.MethodExecutor;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import clashsoft.mods.tml.methods.TMLMethod;
 
-public class MethodAddItem extends MethodExecutor
+import net.minecraft.item.Item;
+
+public class MethodAddItem extends TMLMethod
 {
 	@Override
-	public Object execute(Object... parameters)
+	public Object call(Object... args)
 	{
-		CustomItem item = null;
+		Item item = null;
 		String name = "";
-		int itemID = -1;
-		if (parameters.length >= 4 && parameters[0] instanceof Integer && parameters[1] instanceof String && parameters[2] instanceof String && parameters[3] instanceof String)
+		
+		if (matches(args, String.class, String.class, String.class))
 		{
-			itemID = (Integer) parameters[0];
-			name = (String) parameters[1];
-			String icon = (String) parameters[2];
-			String creativetab = (String) parameters[3];
+			name = (String) args[0];
+			String icon = (String) args[1];
+			String creativetab = (String) args[2];
 			
-			item = (CustomItem) new CustomItem(itemID, name, icon, MethodExecutor.getCreativeTab(creativetab));
+			item = new CustomItem(name, icon, null).setCreativeTab(getCreativeTab(creativetab));
 		}
-		else if (parameters.length >= 5 && parameters[0] instanceof Integer && parameters[1] instanceof String && parameters[2] instanceof String && parameters[3] instanceof String && parameters[4] instanceof String)
+		else if (matches(args, String.class, String[].class, String[].class, String.class))
 		{
-			itemID = (Integer) parameters[0];
-			name = (String) parameters[1];
-			String icon = (String) parameters[2];
-			String desc = (String) parameters[3];
-			String creativetab = (String) parameters[4];
+			name = (String) args[0];
+			String[] names = (String[]) args[1];
+			String[] icons = (String[]) args[2];
+			String creativetab = (String) args[3];
 			
-			item = (CustomItem) new CustomItem(itemID, name, icon, desc, MethodExecutor.getCreativeTab(creativetab));
-		}
-		else if (parameters.length >= 4 && parameters[0] instanceof Integer && parameters[1] instanceof String[] && parameters[2] instanceof String[] && parameters[3] instanceof String)
-		{
-			itemID = (Integer) parameters[0];
-			String[] names = (String[]) parameters[1];
-			name = names[0];
-			String[] icons = (String[]) parameters[2];
-			String creativetab = (String) parameters[3];
-			
-			item = (CustomItem) new CustomItem(itemID, names, icons).setCreativeTab(MethodExecutor.getCreativeTab(creativetab));
-			
-		}
-		else if (parameters.length >= 5 && parameters[0] instanceof Integer && parameters[1] instanceof String[] && parameters[2] instanceof String[] && parameters[3] instanceof String[] && parameters[4] instanceof String)
-		{
-			itemID = (Integer) parameters[0];
-			String[] names = (String[]) parameters[1];
-			name = names[0];
-			String[] icons = (String[]) parameters[2];
-			String[] descs = (String[]) parameters[3];
-			String creativetab = (String) parameters[4];
-			
-			item = (CustomItem) new CustomItem(itemID, names, icons, descs).setCreativeTab(MethodExecutor.getCreativeTab(creativetab));
+			item = new CustomItem(names, icons).setCreativeTab(getCreativeTab(creativetab));
 		}
 		
 		if (item != null)
 		{
-			GameRegistry.registerItem(item, name.toUpperCase().replace(" ", ""));
-			LanguageRegistry.addName(item, name);
+			CSItems.addItem(item, name);
 			System.out.println("  Item added.");
-			return item.itemID;
+			return true;
 		}
-		return -1;
+		return false;
 	}
 	
 	@Override

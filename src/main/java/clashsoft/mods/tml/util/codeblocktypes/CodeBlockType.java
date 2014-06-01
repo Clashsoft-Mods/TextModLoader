@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import clashsoft.mods.tml.TextModConstants;
-import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.methods.TMLMethod;
 import clashsoft.mods.tml.util.CodeLine;
 import clashsoft.mods.tml.util.TextModHelper;
 import clashsoft.mods.tml.util.codeblock.CodeBlock;
@@ -77,7 +77,7 @@ public abstract class CodeBlockType implements TextModConstants
 	
 	public boolean parameterMatches(CodeBlock codeblock, Object... par) throws SyntaxException
 	{
-		return MethodExecutor.matches(par, this.getParameters());
+		return TMLMethod.matches(par, this.getParameters());
 	}
 	
 	public static CodeBlockType getCodeBlockType(CodeBlock codeblock, CodeLine line) throws SyntaxException

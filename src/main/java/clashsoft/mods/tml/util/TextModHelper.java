@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import clashsoft.mods.tml.TextModConstants;
-import clashsoft.mods.tml.methods.MethodExecutor;
+import clashsoft.mods.tml.methods.TMLMethod;
 
 public class TextModHelper implements TextModConstants
 {
-	public static Map<String, MethodExecutor>	methods	= new HashMap<String, MethodExecutor>();
+	public static Map<String, TMLMethod>	methods	= new HashMap<String, TMLMethod>();
 	
-	public static void registerMethodExecuter(MethodExecutor executor)
+	public static void registerMethodExecuter(TMLMethod executor)
 	{
 		if (executor == null)
 			throw new IllegalArgumentException("Method Executor cant be null!");
@@ -30,14 +30,14 @@ public class TextModHelper implements TextModConstants
 		}
 	}
 	
-	private static void registerMethodExecutor(String name, MethodExecutor executor)
+	private static void registerMethodExecutor(String name, TMLMethod executor)
 	{
 		if (!name.contains("."))
 			name = TML_CLASS_NAME + "." + name;
 		methods.put(name, executor);
 	}
 	
-	public static MethodExecutor getMethodExecutorFromName(String name)
+	public static TMLMethod getMethodExecutorFromName(String name)
 	{
 		return methods.get(name);
 	}
