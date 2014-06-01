@@ -8,6 +8,20 @@ MyMod
     const
     {
         BLUE_GRASS_HARDNESS = 0.3
+        
+        # Creates a new ItemStack instance
+        CUSTOM_ITEM_STACK = stack
+        {
+            item = "stick"
+        }
+        
+        # 2 Podzol
+        CUSTOM_BLOCK_STACK = stack
+        {
+            block = "dirt"
+            count = 2
+            metadata = 1
+        }
     }
     
     # Block section. Place all your blocks here.
