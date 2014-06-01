@@ -1,0 +1,88 @@
+MyMod
+{
+    version = "1.7.2-1.0.0"
+    name = "My Text Mod"
+    modid = "mytm"
+    
+    # Constant section. Place your constants here.
+    const
+    {
+        BLUE_GRASS_HARDNESS = 0.3
+    }
+    
+    # Block section. Place all your blocks here.
+    blocks
+    {
+        _const
+        {
+            # You can create constant sections in other sections if you name them '_const'.
+            
+            GREEN_DIRT_LIGHT_VALUE = 7
+        }
+        
+        yellowStone
+        {
+            name = "Yellow Stone"
+            texture = "mytm:yellow_stone"
+            hardness = 2
+        }
+    
+        # The name after the colon represents the block this block extends
+        greenDirt : dirt
+        {
+            name = "Green Dirt"
+            texture = "mytm:green_dirt"
+            hardness = 0.3
+            lightvalue = 7
+        }
+        
+        blueGrass : grass
+        {
+            name = "Blue Grass"
+            texture
+            {
+                # You can set top, side of bottom textures
+                top = "blue_grass_top"
+                side = "blue_grass_side"
+                bottom = "blue_dirt"
+                
+                # Or by side
+                texture_0 = "blue_dirt"
+                texture_1 = "blue_grass_top"
+                texture_2 = "blue_grass_side"
+                texture_3 = "blue_grass_side"
+                texture_4 = "blue_grass_side"
+                texture_5 = "blue_grass_side"
+            }
+            type = "grass"
+            lightvalue = 2
+            
+            # You can set values either directly ...
+            hardness = 0.4
+            
+            # ... with constants or variables
+            hardness = BLUE_GRASS_HARDNESS
+            
+            # Or with operators.
+            hardness = blocks.greenDirt.hardness + 0.1
+            
+            # You can access nested constants like this:
+            lightvalue = blocks.GREEN_DIRT_LIGHT_VALUE - 5
+        }
+    }
+    
+    items
+    {
+        metalStick : stick
+        {
+            name = "Metal Stick"
+            desc = "A stick made of metal"
+            texture
+            {
+                # The number after the '_' represents the render pass
+                texture_1 = "metal_stick"
+                texture_2 = "metal_stick_overlay"
+            }
+        }
+    }
+}
