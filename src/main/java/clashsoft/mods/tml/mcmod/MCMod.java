@@ -3,6 +3,7 @@ package clashsoft.mods.tml.mcmod;
 import java.io.File;
 
 import clashsoft.cslib.io.CSFiles;
+import clashsoft.cslib.src.parser.ParserManager;
 import clashsoft.mods.tml.IMod;
 
 public class MCMod implements IMod
@@ -44,9 +45,9 @@ public class MCMod implements IMod
 			this.start = System.currentTimeMillis();
 			
 			String fileContent = CSFiles.read(file);
-			JModParser parser = new JModParser();
-			JModParserManager jmpm = new JModParserManager(parser);
-			jmpm.parse(fileContent);
+			MCModParser parser = new MCModParser(this);
+			ParserManager pm = new ParserManager(parser);
+			pm.parse(fileContent);
 			
 			this.end = System.currentTimeMillis();
 			return true;
