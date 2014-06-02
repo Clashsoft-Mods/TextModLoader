@@ -10,14 +10,15 @@ import clashsoft.mods.tml.jmod.util.codeblock.ClassCodeBlock;
 
 public class JavaTextMod extends ClassCodeBlock implements TextModConstants, IMod
 {
-	public String	modName		= "";
-	public long		startTime	= -1L;
-	public long		endTime		= -1L;
+	public String	modName;
+	public String modID;
+	public String version;
+	
+	public long		start;
+	public long		end;
 	
 	public JavaTextMod()
 	{
-		super();
-		this.startTime = System.currentTimeMillis();
 	}
 	
 	@Override
@@ -27,9 +28,21 @@ public class JavaTextMod extends ClassCodeBlock implements TextModConstants, IMo
 	}
 	
 	@Override
+	public String getModID()
+	{
+		return this.modID;
+	}
+	
+	@Override
+	public String getVersion()
+	{
+		return this.version;
+	}
+	
+	@Override
 	public long getLoadTime()
 	{
-		return this.endTime - this.startTime;
+		return this.end - this.start;
 	}
 	
 	@Override
@@ -37,6 +50,8 @@ public class JavaTextMod extends ClassCodeBlock implements TextModConstants, IMo
 	{
 		try
 		{
+			this.start = System.currentTimeMillis();
+			
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line;
 			while ((line = br.readLine().trim()) != null)
@@ -45,23 +60,26 @@ public class JavaTextMod extends ClassCodeBlock implements TextModConstants, IMo
 					this.author = line.substring(8);
 				else if (line.startsWith("@modname "))
 					this.modName = line.substring(9);
+				else if (line.startsWith("@modid "))
+					this.modID = line.substring(7);
+				else if (line.startsWith("@version "))
+					this.version = line.substring(9);
 				else
 					this.lines.add(line);
 			}
 			br.close();
 			
-			System.out.println(" Loading TextMod: " + (this.modName != null ? this.modName : file) + (this.author != null ? " by " + this.author : ""));
 			this.execute();
-			this.endTime = System.currentTimeMillis();
-			System.out.println(" TextMod " + file + " loaded. (" + this.getLoadTime() + " Milliseconds)");
+			this.end = System.currentTimeMillis();
+			
 			return true;
 			
 		}
 		catch (Exception ex)
 		{
 			System.out.println(" Unable to load TextMod: " + ex.getMessage());
-			return false;
 		}
+		return false;
 	}
 	
 	@Override

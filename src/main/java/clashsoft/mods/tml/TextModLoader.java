@@ -17,6 +17,7 @@ import clashsoft.mods.tml.jmod.methods.item.MethodAddItem;
 import clashsoft.mods.tml.jmod.methods.util.MethodHelp;
 import clashsoft.mods.tml.jmod.methods.util.MethodToString;
 import clashsoft.mods.tml.jmod.util.TextModHelper;
+import clashsoft.mods.tml.mcmod.MCMod;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -140,6 +141,24 @@ public class TextModLoader extends BaseMod implements TextModConstants
 	
 	public static void doLoadMod(File modClass)
 	{
+		String name = modClass.getName();
+		IMod mod = null;
+		if (name.endsWith(JAVA_MOD_SUFFIX))
+		{
+			mod = new JavaTextMod();
+		}
+		else if (name.endsWith(MC_MOD_SUFFIX))
+		{
+			mod = new MCMod();
+		}
+		else
+		{
+			return;
+		}
 		
+		if (mod.load(modClass))
+		{
+			loadedTextMods.add(mod);
+		}
 	}
 }
