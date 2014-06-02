@@ -1,0 +1,70 @@
+# MCMod Language Examples.
+
+ModName1
+{
+    modname = "Example Mod"
+    author = "Clashsoft"
+    version = "1.7.2-1.0.0"
+}
+
+ModName2
+{
+    modname = "Mod Name"
+    author = "Author"
+    version = "1.0.0"
+
+    section1
+    {
+        subsection1
+        {
+            var1 = "test"
+        }
+        
+        property1 = "String"
+        property2 = 15                  # Integer
+        property3 = 1.5                 # Floating Point 
+        property4 = subsection1.var1    # Variable
+        
+        property5 = propery2 + 2        # Operators. Evaluates to 17
+        property6 = propery2 + property3
+    }
+    
+    recipes
+    {
+        # Constructs a new ItemStack instance with properties
+        stack1 = ItemStack
+        {
+            item = "dirt"
+            metadata = 2
+            count = 7
+        }
+        
+        # Directly constructs a new ItemStack instance
+        stack2 = ItemStack("dirt", 2, 7)
+        
+        # Adds a Smelting Recipe
+        stack1 ~> stack2
+        
+        # Adds a Smelting Recipe with XP
+        stack1 ~> stack2 : xp
+        
+        # Adds a shapeless crafting recipe
+        { stack1, stack1, stack1 } -> stack2
+        
+        # Constructs a new ItemStack instance that extends stack2
+        stack3 = ItemStack : stack2
+        {
+            count = 2
+        }
+        
+        # Adds a shaped crafting recipe
+        { [aaa]
+          [aba]
+          [aaa] } with (a = stack1, b = stack2) -> stack3
+          
+        # Adds a shaped crafting recipe
+        { [stack1 stack1 stack1]
+          [stack1 stack2 stack1]
+          [stack1 stack1 stack1] } -> stack3
+    }
+}

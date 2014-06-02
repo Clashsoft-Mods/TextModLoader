@@ -10,13 +10,13 @@ MyMod
         BLUE_GRASS_HARDNESS = 0.3
         
         # Creates a new ItemStack instance
-        CUSTOM_ITEM_STACK = stack
+        CUSTOM_ITEM_STACK = ItemStack
         {
             item = "stick"
         }
         
         # 2 Podzol
-        CUSTOM_BLOCK_STACK = stack
+        CUSTOM_BLOCK_STACK = ItemStack
         {
             block = "dirt"
             count = 2
@@ -45,6 +45,7 @@ MyMod
         greenDirt : dirt
         {
             name = "Green Dirt"
+            material = dirt
             texture = "mytm:green_dirt"
             hardness = 0.3
             lightvalue = 7
@@ -53,6 +54,22 @@ MyMod
         blueGrass : grass
         {
             name = "Blue Grass"
+            material = Material : grass
+            {
+                mapColor = MapColor
+                {
+                    # Sets the color directly
+                    color = 0xFFFFFF
+                    
+                    # Creates a new color
+                    color = Color
+                    {
+                        red = 0.1
+                        green = 0.2
+                        blue = 0.3
+                    }
+                }
+            }
             texture
             {
                 # You can set top, side of bottom textures
@@ -74,10 +91,10 @@ MyMod
             # You can set values either directly ...
             hardness = 0.4
             
-            # ... with constants or variables
+            # ... with constants or variables ...
             hardness = BLUE_GRASS_HARDNESS
             
-            # Or with operators.
+            #  ... or using operators.
             hardness = blocks.greenDirt.hardness + 0.1
             
             # You can access nested constants like this:
