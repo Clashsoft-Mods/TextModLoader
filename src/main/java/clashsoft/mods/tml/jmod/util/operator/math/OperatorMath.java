@@ -13,6 +13,6 @@ public abstract class OperatorMath extends Operator
 	@Override
 	public boolean canOperate(Type t1, Type t2)
 	{
-		return (Type.isNumeric(t1) || isPrefixOperator()) && (Type.isNumeric(t2) || isPostfixOperator());
+		return (Type.isNumeric(t1) || this.isPrefixOperator()) && (Type.isNumeric(t2) || this.isPostfixOperator());
 	}
 }

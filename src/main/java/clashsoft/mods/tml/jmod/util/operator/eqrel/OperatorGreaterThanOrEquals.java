@@ -10,6 +10,6 @@ public class OperatorGreaterThanOrEquals extends OperatorGreaterThan
 	@Override
 	public <T, U> Boolean operate(T par1, U par2)
 	{
-		return (super.<T, U>operate(par1, par2)) || par1 == par2;
+		return super.<T, U>operate(par1, par2) || par1 == par2;
 	}
 }

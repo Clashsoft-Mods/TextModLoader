@@ -33,6 +33,6 @@ public class Variable
 	@Override
 	public String toString()
 	{
-		return "Variable[type=" + type + ", name=" + name + ", value=" + value + "]";
+		return "Variable[type=" + this.type + ", name=" + this.name + ", value=" + this.value + "]";
 	}
 }

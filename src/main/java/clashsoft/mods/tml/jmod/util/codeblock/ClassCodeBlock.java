@@ -50,20 +50,30 @@ public class ClassCodeBlock extends CodeBlock
 		String[] split = TextModHelper.createParameterList(header.line, ' ');
 		
 		if (!split[0].equals(CLASS_DECLARATION))
+		{
 			throw new SyntaxException("Invalid class syntax, missing 'class'", header, 0, 0);
-		className = split[1];
+		}
+		this.className = split[1];
 		if (split.length > 2)
 		{
 			if (split[2].equals("extends"))
+			{
 				if (split.length == 4)
-					this.extendedClass = getClass(split[3]);
+				{
+					this.extendedClass = this.getClass(split[3]);
+				}
 				else
+				{
 					throw new SyntaxException("Invalid class syntax, class name expected after 'extends'", header, "extends");
+				}
+			}
 			else
+			{
 				throw new SyntaxException("Invalid token in class syntax", header, split[2]);
+			}
 		}
 		
-		classCodeBlocks.put(className, this);
+		classCodeBlocks.put(this.className, this);
 	}
 
 	public ClassCodeBlock getClass(String string)
@@ -81,7 +91,7 @@ public class ClassCodeBlock extends CodeBlock
 	@Override
 	public Method getCustomMethod(String name)
 	{
-		return customMethods.get(name);
+		return this.customMethods.get(name);
 	}
 	
 	public void registerMethod(Method method)
@@ -99,7 +109,7 @@ public class ClassCodeBlock extends CodeBlock
 	{
 		try
 		{
-			analyseHeader(header);
+			this.analyseHeader(this.header);
 		}
 		catch (SyntaxException ex)
 		{

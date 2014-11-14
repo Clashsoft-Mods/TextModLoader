@@ -58,7 +58,9 @@ public class Type
 			for (String s : t.names)
 			{
 				if (s.trim().equals(name.trim()))
+				{
 					return t;
+				}
 			}
 		}
 		return VOID;
@@ -69,7 +71,9 @@ public class Type
 		for (Type t : types)
 		{
 			if (t.type != null && t.type.equals(c))
+			{
 				return t;
+			}
 		}
 		return VOID;
 	}
@@ -82,6 +86,6 @@ public class Type
 	@Override
 	public String toString()
 	{
-		return "Type[names=" + Arrays.toString(names) + ", type=" + type + "]";
+		return "Type[names=" + Arrays.toString(this.names) + ", type=" + this.type + "]";
 	}
 }

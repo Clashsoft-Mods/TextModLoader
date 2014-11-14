@@ -55,20 +55,20 @@ public class SyntaxException extends TextModException
 	@Override
 	public String getMessage()
 	{
-		StringBuilder sb = new StringBuilder(super.getMessage().length() + codeline.line.length() + 12 + errorStart + errorLength);
+		StringBuilder sb = new StringBuilder(super.getMessage().length() + this.codeline.line.length() + 12 + this.errorStart + this.errorLength);
 		sb.append(super.getMessage()).append("\n");
-		sb.append("In line #").append(codeline.lineNumber + 1).append(":\n");
-		sb.append(codeline.line).append("\n");
-		if (errorStart != -1)
+		sb.append("In line #").append(this.codeline.lineNumber + 1).append(":\n");
+		sb.append(this.codeline.line).append("\n");
+		if (this.errorStart != -1)
 		{
-			for (int i = 0; i < errorStart; i++)
+			for (int i = 0; i < this.errorStart; i++)
 			{
 				sb.append(' ');
 			}
 			sb.append('^');
-			if (errorLength != 0)
+			if (this.errorLength != 0)
 			{
-				for (int i = 0; i < errorLength - 1; i++)
+				for (int i = 0; i < this.errorLength - 1; i++)
 				{
 					sb.append('^');
 				}

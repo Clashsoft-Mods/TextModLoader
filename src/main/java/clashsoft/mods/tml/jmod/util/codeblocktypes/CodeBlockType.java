@@ -32,12 +32,12 @@ public abstract class CodeBlockType implements TextModConstants
 	
 	public String getInitializer()
 	{
-		return initializer;
+		return this.initializer;
 	}
 	
 	public Class[] getParameters()
 	{
-		return parameters;
+		return this.parameters;
 	}
 	
 	public abstract void setup(CodeBlock codeblock, CodeLine line) throws SyntaxException;
@@ -58,16 +58,16 @@ public abstract class CodeBlockType implements TextModConstants
 		{
 			String init = codeline.line.substring(0, brace1Pos).trim();
 			String par = codeline.line.substring(brace1Pos + 1, brace2Pos);
-			String[] pars = TextModHelper.createParameterList(par, getSplitChar());
+			String[] pars = TextModHelper.createParameterList(par, this.getSplitChar());
 			Object[] pars2 = codeblock.parser.parse(codeline, pars);
-			return matches(codeblock, init, pars2);
+			return this.matches(codeblock, init, pars2);
 		}
 		return false;
 	}
 	
 	public boolean matches(CodeBlock codeblock, String init, Object... par) throws SyntaxException
 	{
-		return (initMatches(codeblock, init) && parameterMatches(codeblock, par));
+		return this.initMatches(codeblock, init) && this.parameterMatches(codeblock, par);
 	}
 	
 	public boolean initMatches(CodeBlock codeblock, String init)
@@ -85,7 +85,9 @@ public abstract class CodeBlockType implements TextModConstants
 		for (CodeBlockType type : codeBlockTypes)
 		{
 			if (type.lineMatches(codeblock, line))
+			{
 				return type;
+			}
 		}
 		return null;
 	}
@@ -95,7 +97,9 @@ public abstract class CodeBlockType implements TextModConstants
 		for (CodeBlockType type : codeBlockTypes)
 		{
 			if (type.matches(codeblock, init, par))
+			{
 				return type;
+			}
 		}
 		return null;
 	}

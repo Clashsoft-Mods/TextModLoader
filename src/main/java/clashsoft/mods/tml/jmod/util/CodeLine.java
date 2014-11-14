@@ -13,6 +13,6 @@ public class CodeLine
 	
 	public int find(String s)
 	{
-		return line.indexOf(s);
+		return this.line.indexOf(s);
 	}
 }

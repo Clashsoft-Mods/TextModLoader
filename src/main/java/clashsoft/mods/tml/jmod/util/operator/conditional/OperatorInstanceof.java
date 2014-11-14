@@ -20,7 +20,9 @@ public class OperatorInstanceof extends Operator
 	public <T, U> Object operate(T par1, U par2)
 	{
 		if (par2 instanceof Type)
+		{
 			return ((Type) par2).type.isInstance(par1);
+		}
 		return false;
 	}
 }

@@ -21,23 +21,23 @@ public class CBTForEach extends CodeBlockType
 	@Override
 	public Object execute(CodeBlock codeblock)
 	{
-		if (field.getClass().isArray())
+		if (this.field.getClass().isArray())
 		{
-			for (Object o : (Object[]) field)
+			for (Object o : (Object[]) this.field)
 			{
-				codeblock.variables.put(name, new Variable(type, name, o));
+				codeblock.variables.put(this.name, new Variable(this.type, this.name, o));
 				codeblock.execute();
 			}
-			codeblock.variables.remove(name);
+			codeblock.variables.remove(this.name);
 		}
-		else if (field instanceof Iterable)
+		else if (this.field instanceof Iterable)
 		{
-			for (Object o : (Iterable) field)
+			for (Object o : (Iterable) this.field)
 			{
-				codeblock.variables.put(name, new Variable(type, name, o));
+				codeblock.variables.put(this.name, new Variable(this.type, this.name, o));
 				codeblock.execute();
 			}
-			codeblock.variables.remove(name);
+			codeblock.variables.remove(this.name);
 		}
 		return null;
 	}
@@ -47,9 +47,9 @@ public class CBTForEach extends CodeBlockType
 	{
 		String[] parts = TextModHelper.createParameterList(line.line, ' ');
 		
-		type = Type.getTypeFromName(parts[0]);
-		name = parts[1];
-		field = codeblock.parser.directParse(line, parts[2]);
+		this.type = Type.getTypeFromName(parts[0]);
+		this.name = parts[1];
+		this.field = codeblock.parser.directParse(line, parts[2]);
 	}
 	
 	@Override

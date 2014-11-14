@@ -25,6 +25,6 @@ public class PredefinedMethod extends Method
 	@Override
 	public boolean isValid()
 	{
-		return getExecuter() != null;
+		return this.getExecuter() != null;
 	}
 }

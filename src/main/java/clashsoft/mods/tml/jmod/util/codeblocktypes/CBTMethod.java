@@ -18,7 +18,7 @@ public class CBTMethod extends CodeBlockType
 	@Override
 	public void setup(CodeBlock codeblock, CodeLine line)
 	{
-		codeblock.getCodeBlockClass().registerMethod(readMethodSignature(codeblock, line));
+		codeblock.getCodeBlockClass().registerMethod(this.readMethodSignature(codeblock, line));
 	}
 	
 	public CustomMethod readMethodSignature(CodeBlock codeblock, CodeLine codeline)
@@ -28,7 +28,9 @@ public class CBTMethod extends CodeBlockType
 		int i = line.indexOf(TextModConstants.METHOD_PARAMETERS_START_CHAR);
 		int j = line.lastIndexOf(TextModConstants.METHOD_PARAMETERS_END_CHAR);
 		if (i == -1 || j == -1)
+		{
 			return null;
+		}
 		Type type = Type.getTypeFromName(line.substring(0, h).trim());
 		String methodName = line.substring(h + 1, i).trim();
 		String parameters = line.substring(i + 1, j).trim();
@@ -40,7 +42,9 @@ public class CBTMethod extends CodeBlockType
 			aparameters[m] = aparameters[m].trim();
 			String[] split = aparameters[m].split(" ");
 			if (split.length >= 2)
+			{
 				vars[m] = new Variable(Type.getTypeFromName(split[0]), split[1], null);
+			}
 		}
 		return new CustomMethod(methodName, new Object[] {}, vars, new CodeBlock(codeblock.superCodeBlock, codeblock.lines));
 	}

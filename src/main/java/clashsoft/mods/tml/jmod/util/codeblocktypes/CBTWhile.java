@@ -21,13 +21,13 @@ public class CBTWhile extends CodeBlockType
 	@Override
 	public Object execute(CodeBlock codeblock)
 	{
-		System.out.println("  Processing WHILE code block, boolean value is " + String.valueOf(value).toUpperCase());
-		while (value)
+		System.out.println("  Processing WHILE code block, boolean value is " + String.valueOf(this.value).toUpperCase());
+		while (this.value)
 		{
 			try
 			{
 				((Breakable)codeblock).execute();
-				updateValue();
+				this.updateValue();
 			}
 			catch (Break b)
 			{
@@ -35,26 +35,26 @@ public class CBTWhile extends CodeBlockType
 			}
 		}
 		
-		return value;
+		return this.value;
 	}
 	
 	@Override
 	public void setup(CodeBlock codeblock, CodeLine line) throws SyntaxException
 	{
-		superCodeBlock = codeblock;
-		header = line;
+		this.superCodeBlock = codeblock;
+		this.header = line;
 	}
 	
 	public void updateValue()
 	{
 		try
 		{
-		Method m = superCodeBlock.readMethod(header);
-		value = (Boolean) m.parameters[0];
+		Method m = this.superCodeBlock.readMethod(this.header);
+		this.value = (Boolean) m.parameters[0];
 		}
 		catch (SyntaxException ex)
 		{
-			System.err.println("  Syntax error while executing line " + (header.lineNumber + 1) + ": ");
+			System.err.println("  Syntax error while executing line " + (this.header.lineNumber + 1) + ": ");
 			System.err.println(ex.getMessage());
 		}
 	}

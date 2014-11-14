@@ -17,17 +17,19 @@ public class CBTIf extends CodeBlockType
 	@Override
 	public Object execute(CodeBlock codeblock)
 	{
-		System.out.println("  Processing IF code block, boolean value is " + String.valueOf(value).toUpperCase());
-		if (value)
+		System.out.println("  Processing IF code block, boolean value is " + String.valueOf(this.value).toUpperCase());
+		if (this.value)
+		{
 			codeblock.execute();
+		}
 		
-		return value;
+		return this.value;
 	}
 	
 	@Override
 	public void setup(CodeBlock codeblock, CodeLine line) throws SyntaxException
 	{
 		Method m = codeblock.readMethod(line);
-		value = (Boolean) m.parameters[0];
+		this.value = (Boolean) m.parameters[0];
 	}
 }

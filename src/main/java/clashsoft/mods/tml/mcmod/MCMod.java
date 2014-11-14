@@ -5,15 +5,19 @@ import java.io.File;
 import clashsoft.cslib.io.CSFiles;
 import clashsoft.cslib.src.parser.ParserManager;
 import clashsoft.mods.tml.IMod;
+import clashsoft.mods.tml.mcmod.ast.ModSection;
+import clashsoft.mods.tml.mcmod.parser.MCModParser;
 
 public class MCMod implements IMod
 {
-	public String	name;
-	public String	modid;
-	public String	version;
+	public String		name;
+	public String		modid;
+	public String		version;
 	
-	private long	start;
-	private long	end;
+	private long		start;
+	private long		end;
+	
+	public ModSection	theSection;
 	
 	public MCMod()
 	{

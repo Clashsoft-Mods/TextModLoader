@@ -11,7 +11,9 @@ public class OperatorBitInvert extends OperatorBitwise
 	public <T, U> Object operate(T par1, U par2)
 	{
 		if (par2 instanceof Number)
+		{
 			return ~((Number)par2).intValue();
+		}
 		return par2;
 	}
 	

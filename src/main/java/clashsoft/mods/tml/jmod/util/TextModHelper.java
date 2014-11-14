@@ -15,7 +15,9 @@ public class TextModHelper implements TextModConstants
 	public static void registerMethodExecuter(TMLMethod executor)
 	{
 		if (executor == null)
+		{
 			throw new IllegalArgumentException("Method Executor cant be null!");
+		}
 		if (executor.getName().contains("|"))
 		{
 			String[] names = executor.getName().split("|");
@@ -33,7 +35,9 @@ public class TextModHelper implements TextModConstants
 	private static void registerMethodExecutor(String name, TMLMethod executor)
 	{
 		if (!name.contains("."))
+		{
 			name = TML_CLASS_NAME + "." + name;
+		}
 		methods.put(name, executor);
 	}
 	
@@ -56,25 +60,35 @@ public class TextModHelper implements TextModConstants
 			if (block == 0)
 			{
 				if (isBlockStartChar(c))
+				{
 					block = c;
+				}
 				else if (isValidBlock(block, c))
+				{
 					block = 0;
+				}
 			}
 			else
 			{
 				if (isValidBlock(block, c))
+				{
 					block = 0;
+				}
 			}
 			
 			if (block == 0 && (c == splitChar || i == par1.length() - 1))
 			{
 				if (i == par1.length() - 1)
+				{
 					curString += c;
+				}
 				strings.add(curString.trim());
 				curString = "";
 			}
 			else
+			{
 				curString += c;
+			}
 		}
 		return strings.<String>toArray(new String[strings.size()]);
 	}
@@ -93,24 +107,32 @@ public class TextModHelper implements TextModConstants
 			if (block == 0)
 			{
 				if (TextModHelper.isBlockStartChar(c))
+				{
 					block = c;
+				}
 				else if (TextModHelper.isValidBlock(block, c))
+				{
 					block = 0;
+				}
 			}
 			else
 			{
 				if (TextModHelper.isValidBlock(block, c))
+				{
 					block = 0;
+				}
 			}
 			
-			if (block == 0 || (i == par1.length() - 1))
+			if (block == 0 || i == par1.length() - 1)
 			{
 				curString += c;
 				strings.add(curString);
 				curString = "";
 			}
 			else
+			{
 				curString += c;
+			}
 		}
 		
 		return strings.<String>toArray(new String[strings.size()]);
@@ -123,6 +145,6 @@ public class TextModHelper implements TextModConstants
 	
 	public static boolean isValidBlock(char s, char e)
 	{
-		return (s == CHAR_START_CHAR.charAt(0) && e == CHAR_END_CHAR.charAt(0)) || (s == STRING_START_CHAR.charAt(0) && e == STRING_END_CHAR.charAt(0)) || (s == METHOD_INVOCATION_START_CHAR.charAt(0) && e == METHOD_INVOCATION_END_CHAR.charAt(0)) || (s == ARRAY_START_CHAR.charAt(0) && e == ARRAY_END_CHAR.charAt(0)) || (s == NEW_INSTANCE_START_CHAR.charAt(0) && e == NEW_INSTANCE_END_CHAR.charAt(0));
+		return s == CHAR_START_CHAR.charAt(0) && e == CHAR_END_CHAR.charAt(0) || s == STRING_START_CHAR.charAt(0) && e == STRING_END_CHAR.charAt(0) || s == METHOD_INVOCATION_START_CHAR.charAt(0) && e == METHOD_INVOCATION_END_CHAR.charAt(0) || s == ARRAY_START_CHAR.charAt(0) && e == ARRAY_END_CHAR.charAt(0) || s == NEW_INSTANCE_START_CHAR.charAt(0) && e == NEW_INSTANCE_END_CHAR.charAt(0);
 	}
 }

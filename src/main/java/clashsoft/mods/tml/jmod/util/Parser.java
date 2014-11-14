@@ -54,7 +54,7 @@ public class Parser implements TextModConstants
 		Object[] obj = new Object[par.length];
 		for (int i = 0; i < par.length; i++)
 		{
-			obj[i] = parse(line, par[i]);
+			obj[i] = this.parse(line, par[i]);
 		}
 		return obj;
 	}
@@ -111,14 +111,16 @@ public class Parser implements TextModConstants
 				string += s;
 				
 				if (i == split.length - 1 && !string.isEmpty())
+				{
 					list.add(string.trim());
+				}
 			}
 			else
 			{
 				op += s;
 			}
 		}
-		return parseSplitOperatorList(line, list);
+		return this.parseSplitOperatorList(line, list);
 	}
 	
 	public Object parseSplitOperatorList(CodeLine line, List<Object> objects) throws SyntaxException
@@ -139,7 +141,7 @@ public class Parser implements TextModConstants
 			{	
 				if (op != null && (value != null || op.isPrefixOperator()))
 				{
-					Object value2 = directParse(line, (String)object);
+					Object value2 = this.directParse(line, (String)object);
 					boolean flag = false;
 					
 					if (preOp != null && preOp.canOperate(Type.VOID, Type.getTypeFromObject(value2)))
@@ -167,7 +169,9 @@ public class Parser implements TextModConstants
 					}
 				}
 				else
-					value = directParse(line, (String)object);
+				{
+					value = this.directParse(line, (String)object);
+				}
 			}
 			else if (object instanceof Operator)
 			{	
@@ -188,8 +192,10 @@ public class Parser implements TextModConstants
 					op = (Operator)object;
 				}
 				
-				if (op != null && ((first && !op.isPrefixOperator()) || (last && !op.isPostfixOperator())))
+				if (op != null && (first && !op.isPrefixOperator() || last && !op.isPostfixOperator()))
+				{
 					throw new SyntaxException("Invalid operator " + op, line, op.operator);
+				}
 			}	
 		}
 		
@@ -222,46 +228,61 @@ public class Parser implements TextModConstants
 		CodeLine cl = new CodeLine(line.lineNumber, normalCase);
 		
 		if (par1.startsWith("(") && par1.endsWith(")"))
-			return parse(line, par1.substring(par1.indexOf("(") + 1, par1.lastIndexOf(")")));
-		
+		{
+			return this.parse(line, par1.substring(par1.indexOf("(") + 1, par1.lastIndexOf(")")));
+		}
 		else if (Type.getTypeFromName(par1) != Type.VOID)
+		{
 			return Type.getTypeFromName(par1);
-		
-		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR)) // Arrays
-			return parseArray(line, par1);
-		
-		else if (par1.startsWith("new ")) // New-Instance-Directives
-			return parseInstance(line, par1);
-		
-		else if (lowerCase.equals("true") || lowerCase.equals("false")) // Boolean
+		}
+		else if (par1.startsWith("new ") && par1.contains(ARRAY_START_CHAR) && par1.endsWith(ARRAY_END_CHAR))
+		{
+			return this.parseArray(line, par1);
+		}
+		else if (par1.startsWith("new "))
+		{
+			return this.parseInstance(line, par1);
+		}
+		else if (lowerCase.equals("true") || lowerCase.equals("false"))
+		{
 			return (boolean) (lowerCase.equals("true") ? true : false);
-		
-		else if (par1.startsWith(STRING_START_CHAR) && par1.endsWith(STRING_END_CHAR)) // String
+		}
+		else if (par1.startsWith(STRING_START_CHAR) && par1.endsWith(STRING_END_CHAR))
+		{
 			return par1.substring(1, par1.length() - 1);
-		
-		else if (par1.startsWith(CHAR_START_CHAR) && par1.endsWith(CHAR_END_CHAR) && par1.length() <= 3) // Character
+		}
+		else if (par1.startsWith(CHAR_START_CHAR) && par1.endsWith(CHAR_END_CHAR) && par1.length() <= 3)
+		{
 			return (char) par1.substring(1, par1.length() - 1).charAt(0);
-		
-		else if (lowerCase.matches("-?\\d+(\\.\\d+)?")) // Integer
-			return (int) parseNumber(line, par1);
-		
-		else if (lowerCase.matches("-?\\d+(\\.\\d+)?f")) // Float
-			return (float) parseNumber(line, par1);
-		
-		else if (lowerCase.matches("-?\\d+(\\.\\d+)?d")) // Double
-			return (double) parseNumber(line, par1);
-		
-		else if (lowerCase.matches("-?\\d+(\\.\\d+)?l")) // Long
-			return (long) parseNumber(line, par1);
-		
+		}
+		else if (lowerCase.matches("-?\\d+(\\.\\d+)?"))
+		{
+			return (int) this.parseNumber(line, par1);
+		}
+		else if (lowerCase.matches("-?\\d+(\\.\\d+)?f"))
+		{
+			return (float) this.parseNumber(line, par1);
+		}
+		else if (lowerCase.matches("-?\\d+(\\.\\d+)?d"))
+		{
+			return (double) this.parseNumber(line, par1);
+		}
+		else if (lowerCase.matches("-?\\d+(\\.\\d+)?l"))
+		{
+			return (long) this.parseNumber(line, par1);
+		}
 		else if (normalCase.equals("null"))
+		{
 			return null;
-		
-		else if (normalCase.contains(METHOD_PARAMETERS_START_CHAR) && normalCase.endsWith(METHOD_PARAMETERS_END_CHAR) && codeblock.isMethod(cl)) // Indicates a method
-			return codeblock.executeMethod(codeblock.getMethod(cl));
-		
-		else if (codeblock.getVariable(line, normalCase) != null) // Indicates a variable
-			return codeblock.getVariable(line, normalCase).value;
+		}
+		else if (normalCase.contains(METHOD_PARAMETERS_START_CHAR) && normalCase.endsWith(METHOD_PARAMETERS_END_CHAR) && this.codeblock.isMethod(cl))
+		{
+			return this.codeblock.executeMethod(this.codeblock.getMethod(cl));
+		}
+		else if (this.codeblock.getVariable(line, normalCase) != null)
+		{
+			return this.codeblock.getVariable(line, normalCase).value;
+		}
 		
 		
 		throw new SyntaxException("Unable to parse: " + par1, line, par1);
@@ -276,7 +297,7 @@ public class Parser implements TextModConstants
 	 */
 	public double parseNumber(CodeLine line, String par1) throws SyntaxException
 	{
-		return Double.parseDouble(normalize(line, par1));
+		return Double.parseDouble(this.normalize(line, par1));
 	}
 	
 	/**
@@ -305,12 +326,16 @@ public class Parser implements TextModConstants
 		{
 			split[i] = split[i].replace(INTEGER_CHAR, "").replace(FLOAT_CHAR, "").replace(DOUBLE_CHAR, "").replace(LONG_CHAR, ""); // Replaces indicator chars
 			CodeLine cl = new CodeLine(line.lineNumber, split[i]);
-			if (codeblock.isMethod(cl) || codeblock.isVariable(cl)) // Replaced methods and variables with their values
-				split[i] = String.valueOf(directParse(line, split[i]));
+			if (this.codeblock.isMethod(cl) || this.codeblock.isVariable(cl))
+			{
+				split[i] = String.valueOf(this.directParse(line, split[i]));
+			}
 		}
 		StringBuilder sb = new StringBuilder();
 		for (String s : split)
+		{
 			sb.append(s);
+		}
 		return sb.toString();
 	}
 	
@@ -328,12 +353,14 @@ public class Parser implements TextModConstants
 		int brace1Pos = par1.indexOf("{");
 		int brace2Pos = par1.indexOf("}");
 		if (brace1Pos == -1 || brace2Pos == -1)
+		{
 			return null;
+		}
 		String type = par1.substring(0, brace1Pos);
 		String parameters = par1.substring(brace1Pos + 1, brace2Pos);
 		String[] aparameters = TextModHelper.createParameterList(parameters, TextModConstants.ARRAY_SPLIT_CHAR.charAt(0));
-		Object[] aparameters2 = parse(line, aparameters);
-		return arrayWithType(type, aparameters2);
+		Object[] aparameters2 = this.parse(line, aparameters);
+		return this.arrayWithType(type, aparameters2);
 	}
 	
 	/**
@@ -370,13 +397,17 @@ public class Parser implements TextModConstants
 		int brace1Pos = nonew.indexOf(NEW_INSTANCE_START_CHAR);
 		int brace2Pos = nonew.indexOf(NEW_INSTANCE_END_CHAR);
 		if (brace1Pos == -1)
+		{
 			brace1Pos = nonew.indexOf(ARRAY_INITIALIZER_START_CHAR);
+		}
 		if (brace2Pos == -1)
+		{
 			brace2Pos = nonew.indexOf(ARRAY_INITIALIZER_END_CHAR);
+		}
 		String type = nonew.substring(0, brace1Pos);
 		String par = nonew.substring(brace1Pos + 1, brace2Pos);
 		String[] par2 = TextModHelper.createParameterList(par, TextModConstants.PARAMETER_SPLIT_CHAR.charAt(0));
-		return createInstance(type, parse(line, par2));
+		return this.createInstance(type, this.parse(line, par2));
 	}
 	
 	/**

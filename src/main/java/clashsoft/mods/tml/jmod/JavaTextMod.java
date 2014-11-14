@@ -5,10 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 
 import clashsoft.mods.tml.IMod;
-import clashsoft.mods.tml.TextModConstants;
 import clashsoft.mods.tml.jmod.util.codeblock.ClassCodeBlock;
 
-public class JavaTextMod extends ClassCodeBlock implements TextModConstants, IMod
+public class JavaTextMod extends ClassCodeBlock implements IMod
 {
 	public String	modName;
 	public String modID;
@@ -57,15 +56,25 @@ public class JavaTextMod extends ClassCodeBlock implements TextModConstants, IMo
 			while ((line = br.readLine().trim()) != null)
 			{
 				if (line.startsWith("@author "))
+				{
 					this.author = line.substring(8);
+				}
 				else if (line.startsWith("@modname "))
+				{
 					this.modName = line.substring(9);
+				}
 				else if (line.startsWith("@modid "))
+				{
 					this.modID = line.substring(7);
+				}
 				else if (line.startsWith("@version "))
+				{
 					this.version = line.substring(9);
+				}
 				else
+				{
 					this.lines.add(line);
+				}
 			}
 			br.close();
 			

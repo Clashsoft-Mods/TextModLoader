@@ -24,6 +24,6 @@ public class CustomMethod extends Method
 			var.value = parameters[i];
 			this.codeBlock.variables.put(var.name, var);
 		}
-		return codeBlock.execute();
+		return this.codeBlock.execute();
 	}
 }

@@ -24,7 +24,7 @@ public class HeaderCodeBlock extends CodeBlock implements Breakable
 	
 	public CodeBlockType getCodeBlockType() throws SyntaxException
 	{
-		return CodeBlockType.getCodeBlockType(this, executionLine.line);
+		return CodeBlockType.getCodeBlockType(this, this.executionLine.line);
 	}
 	
 	private final class TempCodeBlock extends CodeBlock
@@ -47,8 +47,8 @@ public class HeaderCodeBlock extends CodeBlock implements Breakable
 		CodeBlockType cbt;
 		try
 		{
-			cbt = getCodeBlockType();
-			cbt.setup(this, executionLine);
+			cbt = this.getCodeBlockType();
+			cbt.setup(this, this.executionLine);
 			return cbt.execute(new TempCodeBlock(this.superCodeBlock, this.lines));
 		}
 		catch (SyntaxException ex)

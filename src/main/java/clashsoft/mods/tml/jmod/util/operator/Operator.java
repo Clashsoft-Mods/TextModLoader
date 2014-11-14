@@ -80,7 +80,9 @@ public abstract class Operator
 		for (Operator op : operators.values())
 		{
 			if (op.operator.startsWith(start))
+			{
 				return op;
+			}
 		}
 		return null;
 	}

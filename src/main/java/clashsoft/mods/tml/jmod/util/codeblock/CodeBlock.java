@@ -68,7 +68,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public ClassCodeBlock getCodeBlockClass()
 	{
-		return superCodeBlock != null ? superCodeBlock.getCodeBlockClass() : null;
+		return this.superCodeBlock != null ? this.superCodeBlock.getCodeBlockClass() : null;
 	}
 	
 	/**
@@ -79,9 +79,11 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	public Map<String, Variable> getVariables()
 	{
 		Map<String, Variable> var = new HashMap<String, Variable>();
-		var.putAll(variables);
-		if (superCodeBlock != null)
-			var.putAll(superCodeBlock.getVariables());
+		var.putAll(this.variables);
+		if (this.superCodeBlock != null)
+		{
+			var.putAll(this.superCodeBlock.getVariables());
+		}
 		return var;
 	}
 	
@@ -101,7 +103,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public boolean isBlockStart(CodeLine codeline) throws SyntaxException
 	{
-		return !codeline.line.isEmpty() && !codeline.line.equals("\n") && !isComment(codeline) && !isMethod(codeline) && !isVariable(codeline) && CodeBlockType.getCodeBlockType(this, codeline) != null;
+		return !codeline.line.isEmpty() && !codeline.line.equals("\n") && !this.isComment(codeline) && !this.isMethod(codeline) && !this.isVariable(codeline) && CodeBlockType.getCodeBlockType(this, codeline) != null;
 	}
 	
 	/**
@@ -125,7 +127,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public boolean isComment(CodeLine codeline)
 	{
-		return blockComment || codeline.line.startsWith("//");
+		return this.blockComment || codeline.line.startsWith("//");
 	}
 	
 	/**
@@ -139,49 +141,66 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		System.out.println("Executing Code Block: " + this.toString());
 		
 		CodeBlock cb = null;
-		for (int lineNumber = 0; lineNumber < lines.size(); lineNumber++)
+		for (int lineNumber = 0; lineNumber < this.lines.size(); lineNumber++)
 		{
-			String line = lines.get(lineNumber);
+			String line = this.lines.get(lineNumber);
 			CodeLine codeline = new CodeLine(lineNumber, line);
 			
 			if (line.startsWith("/*"))
-				blockComment = true;
+			{
+				this.blockComment = true;
+			}
 			if (line.endsWith("*/"))
-				blockComment = false;
-			if (blockComment || line.isEmpty())
+			{
+				this.blockComment = false;
+			}
+			if (this.blockComment || line.isEmpty())
+			{
 				continue;
+			}
 			
 			System.out.println("  Reading line " + (lineNumber + 1) + ": " + line);
 			
 			try
 			{
 				if (cb instanceof HeaderCodeBlock && ((HeaderCodeBlock) cb).getCodeBlockType().isBreakable() && line.startsWith("break"))
+				{
 					throw new Break();
+				}
 				
 				if (line.startsWith("return "))
-					return parser.parse(codeline, line.replaceFirst(Pattern.quote("return "), ""));
+				{
+					return this.parser.parse(codeline, line.replaceFirst(Pattern.quote("return "), ""));
+				}
 				
-				if (cb != null && !isBlockStart(codeline) && !line.startsWith("{") && !isBlockEnd(line))
+				if (cb != null && !this.isBlockStart(codeline) && !line.startsWith("{") && !this.isBlockEnd(line))
+				{
 					cb.lines.add(line);
+				}
 				
-				if (isClassStart(codeline))
+				if (this.isClassStart(codeline))
+				{
 					cb = new ClassCodeBlock(codeline, this, new ArrayList<String>());
-				
-				else if (isBlockStart(codeline))
+				}
+				else if (this.isBlockStart(codeline))
+				{
 					cb = new HeaderCodeBlock(codeline, this);
-				
+				}
 				else if (line.startsWith("{") && cb == null)
+				{
 					cb = new CodeBlock(this);
-				
-				else if (isBlockEnd(line) && cb != null)
+				}
+				else if (this.isBlockEnd(line) && cb != null)
 				{
 					cb.lines.add(line.replace("}", ""));
 					cb.execute();
 					cb = null;
 				}
 				
-				if (cb == null && !isBlockEnd(line))
+				if (cb == null && !this.isBlockEnd(line))
+				{
 					this.executeLine(codeline);
+				}
 			}
 			catch (SyntaxException pex)
 			{
@@ -208,24 +227,28 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	public void executeLine(CodeLine codeline) throws SyntaxException
 	{
 		if (codeline.line.isEmpty())
+		{
 			return;
-		else if (blockComment || isComment(codeline))
+		}
+		else if (this.blockComment || this.isComment(codeline))
+		{
 			return;
+		}
 		else if (codeline.line.equals("@breakpoint"))
 		{
 			System.out.println("--Debugbreak");
 		}
-		else if (isMethod(codeline)) // Method invocation
+		else if (this.isMethod(codeline)) // Method invocation
 		{
-			Method method = getMethod(codeline);
-			executeMethod(method);
+			Method method = this.getMethod(codeline);
+			this.executeMethod(method);
 		}
-		else if (isVariable(codeline)) // Variables
+		else if (this.isVariable(codeline)) // Variables
 		{
-			Variable v = readVariable(codeline);
+			Variable v = this.readVariable(codeline);
 			this.variables.put(v.name, v);
 			this.parser.setCodeBlock(this);
-			System.out.println("  Variable \'" + v.name + "\' of type \'" + v.type.toString() + "\' added with value \'" + toString(v.value) + "\'.");
+			System.out.println("  Variable \'" + v.name + "\' of type \'" + v.type.toString() + "\' added with value \'" + this.toString(v.value) + "\'.");
 		}
 		else
 		{
@@ -236,9 +259,13 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	private String toString(Object value)
 	{
 		if (value == null)
+		{
 			return "<null>";
+		}
 		if (value.getClass().isArray())
+		{
 			return Arrays.toString((Object[])value);
+		}
 		return value.toString();
 	}
 	
@@ -253,12 +280,16 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public Method getMethod(CodeLine codeline) throws SyntaxException
 	{
-		Method read = readMethod(codeline);
+		Method read = this.readMethod(codeline);
 		Method method = read;
 		if (!method.isValid())
-			method = getCustomMethod(method.name);
+		{
+			method = this.getCustomMethod(method.name);
+		}
 		if (method == null)
+		{
 			throw new SyntaxException("Unknown method name '" + read.name + "'", codeline, read.name);
+		}
 		return method;
 	}
 	
@@ -271,7 +302,7 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	 */
 	public Method getCustomMethod(String name)
 	{
-		return getCodeBlockClass().getCustomMethod(name);
+		return this.getCodeBlockClass().getCustomMethod(name);
 	}
 	
 	/**
@@ -289,12 +320,14 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		int parametersStart = codeline.line.indexOf(METHOD_PARAMETERS_START_CHAR);
 		int parametersEnd = codeline.line.lastIndexOf(METHOD_PARAMETERS_END_CHAR);
 		if (parametersStart == -1 || parametersEnd == -1)
+		{
 			throw new SyntaxException("Invalid method signature: Missing parameter list", codeline, codeline.line.length() - 1, 1);
+		}
 		
 		String methodName = codeline.line.substring(0, parametersStart);
 		String parameters = codeline.line.substring(parametersStart + 1, parametersEnd);
 		String[] aparameters = TextModHelper.createParameterList(parameters, PARAMETER_SPLIT_CHAR.charAt(0));
-		Object[] aparameters2 = parser.parse(codeline, aparameters);
+		Object[] aparameters2 = this.parser.parse(codeline, aparameters);
 		return new PredefinedMethod(methodName, aparameters2);
 	}
 	
@@ -324,32 +357,36 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		String line = codeline.line.substring(0, codeline.line.indexOf(';'));
 		String[] split = TextModHelper.createParameterList(line, ' ');
 		Variable var = null;
-		if (isType(split[0])) // First part is a type declaration
+		if (this.isType(split[0])) // First part is a type declaration
 		{
 			Type type = Type.getTypeFromName(split[0]);
 			String name = split[1];
-			Object value = parser.parse(codeline, line.substring(line.indexOf("=") + 1));
+			Object value = this.parser.parse(codeline, line.substring(line.indexOf("=") + 1));
 			var = new Variable(type, name, value);
 		}
 		else // First part is an existing variable name
 		{
-			Variable var1 = getVariable(codeline, split[0]);
+			Variable var1 = this.getVariable(codeline, split[0]);
 			String operator = split[1];
-			Object value = parser.parse(codeline, line.substring(line.indexOf(operator) + operator.length()));
-			var = operate(var1, operator, value);
+			Object value = this.parser.parse(codeline, line.substring(line.indexOf(operator) + operator.length()));
+			var = this.operate(var1, operator, value);
 		}
 		return var;
 	}
 	
 	public Variable getVariable(CodeLine codeline, String name) throws SyntaxException
 	{
-		Variable v = variables.get(name);
+		Variable v = this.variables.get(name);
 		
-		if (v == null && superCodeBlock != null)
-			v = superCodeBlock.getVariable(codeline, name);
+		if (v == null && this.superCodeBlock != null)
+		{
+			v = this.superCodeBlock.getVariable(codeline, name);
+		}
 		
 		if (v == null)
+		{
 			throw new SyntaxException("Unknown variable name '" + name + "'", codeline, name);
+		}
 		return v;
 	}
 	
@@ -364,11 +401,17 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	{
 		String line = codeline.line;
 		if (line.contains(" "))
+		{
 			line = line.substring(0, line.indexOf(" "));
-		if (variables.get(line) != null) // Already existing Variable
+		}
+		if (this.variables.get(line) != null)
+		{
 			return true;
-		else if (isType(line))
+		}
+		else if (this.isType(line))
+		{
 			return true;
+		}
 		return false;
 	}
 	
@@ -386,8 +429,10 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		{
 			String methodName = line.substring(0, line.indexOf(METHOD_PARAMETERS_START_CHAR));
 			
-			if (getCustomMethod(methodName) != null)
+			if (this.getCustomMethod(methodName) != null)
+			{
 				return true;
+			}
 			
 			TMLMethod executor = TextModHelper.getMethodExecutorFromName(methodName);
 			return executor != null;
@@ -421,12 +466,16 @@ public class CodeBlock implements IAnnotable, TextModConstants
 	public Variable operate(Variable var1, String operator, Object value)
 	{
 		if (operator.equals("="))
+		{
 			var1.value = value;
+		}
 		else
 		{
 			Operator op = Operator.fromString(operator);
 			if (op.canOperate(var1.type, Type.getTypeFromClass(value.getClass())))
+			{
 				var1.value = op.operate(var1.value, value);
+			}
 		}
 		return var1;
 	}
@@ -457,9 +506,9 @@ public class CodeBlock implements IAnnotable, TextModConstants
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (this.blockComment ? 1231 : 1237);
-		result = prime * result + ((this.lines == null) ? 0 : this.lines.hashCode());
-		result = prime * result + ((this.parser == null) ? 0 : this.parser.hashCode());
-		result = prime * result + ((this.variables == null) ? 0 : this.variables.hashCode());
+		result = prime * result + (this.lines == null ? 0 : this.lines.hashCode());
+		result = prime * result + (this.parser == null ? 0 : this.parser.hashCode());
+		result = prime * result + (this.variables == null ? 0 : this.variables.hashCode());
 		return result;
 	}
 	
